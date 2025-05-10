@@ -1,14 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
-    <title>DreamAbode</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body>
+<?php
 
-    <?php include '../app/views/auth/login.php'?>
+require_once '../routes/route.php';
 
-</body>
-</html>
+// define the controller and method from the route
+$controllerName = ucfirst($route['controller']) . 'Controller';
+$method         = $route['method'];
+
+$controllerFile = '../app/controllers/' . $controllerName . '.php';
+
+if (file_exists($controllerFile)) {
+    require_once $controllerFile;
+    $controller = new $controllerName();
+
+    if (method_exists($controller, $method)) {
+        $controller->$method();
+    } else {
+        echo "Method '$method' not found in controller '$controllerName'";
+    }
+} else {
+    echo "Controller '$controllerName' not found";
+}
