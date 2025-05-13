@@ -74,10 +74,10 @@
 
             <div class="flex items-center justify-around space-x-4 ">
                 <a href="#" class="rounded-full shadow-md">
-                    <img src="./images/Favourite.png" alt="Favourite" class="w-8 h-8">
+                    <img src="/DreamAbode/public/images/Favourite.png" alt="Favourite" class="w-8 h-8">
                 </a>
                 <a href="./login" class="rounded-full shadow-md">
-                    <img src="./images/User.png" alt="Favourite" class="w-8 h-8">
+                    <img src="/DreamAbode/public/images/User.png" alt="Favourite" class="w-8 h-8">
                 </a>
             </div>
 

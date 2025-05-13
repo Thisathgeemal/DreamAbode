@@ -1,51 +1,75 @@
 <?php
-require_once '../../models/MemberModel.php';
+require_once __DIR__ . '/../models/MemberModel.php';
+require_once __DIR__ . '/../../config/database.php';
 
 class MemberController
 {
     private $conn;
+    private $member;
 
-    public function __construct($conn)
+    public function __construct()
     {
-        $this->conn = $conn;
+        $database     = new Database();
+        $this->conn   = $database->connection();
+        $this->member = new Member($this->conn);
     }
 
     public function signupMember()
     {
-        $massage = "";
+        session_start();
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $username        = $_POST['username'];
-            $email           = $_POST['email'];
-            $mobile          = $_POST['mobile'];
-            $password        = $_POST['password'];
-            $confirmPassword = $_POST['confirmPassword'];
+            $username        = trim($_POST['username']);
+            $email           = trim($_POST['email']);
+            $mobile          = trim($_POST['mobile']);
+            $password        = trim($_POST['password']);
+            $confirmPassword = trim($_POST['confirmPassword']);
+
+            $this->member->username = $username;
+            $this->member->password = $password;
+            $this->member->email    = $email;
+            $this->member->mobile   = $mobile;
+
+            $_SESSION['form_data'] = [
+                'username'        => $username,
+                'email'           => $email,
+                'mobile'          => $mobile,
+                'password'        => $password,
+                'confirmPassword' => $confirmPassword,
+            ];
 
             if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                return 'Invalid email format!';
-            }
-
-            if (! preg_match('/^[0-9]{10}$/', $mobile)) {
-                return 'Invalid mobile number!';
-            }
-
-            if ($password !== $confirmPassword) {
-                $massage = 'Passwords do not match!';
+                $_SESSION['msg']      = "Invalid email format!";
+                $_SESSION['redirect'] = "/DreamAbode/public/registration";
+            } elseif (! preg_match('/^[0-9]{10}$/', $mobile)) {
+                $_SESSION['msg']      = "Invalid mobile number!";
+                $_SESSION['redirect'] = "/DreamAbode/public/registration";
+            } elseif ($password !== $confirmPassword) {
+                $_SESSION['msg']      = "Passwords do not match!";
+                $_SESSION['redirect'] = "/DreamAbode/public/registration";
+            } elseif ($this->member->isUsernameExists() && $this->member->isEmailExists()) {
+                $_SESSION['msg']      = "Username and email already exist!";
+                $_SESSION['redirect'] = "/DreamAbode/public/registration";
+            } elseif ($this->member->isUsernameExists()) {
+                $_SESSION['msg']      = "Username already exists!";
+                $_SESSION['redirect'] = "/DreamAbode/public/registration";
+            } elseif ($this->member->isEmailExists()) {
+                $_SESSION['msg']      = "Email already exists!";
+                $_SESSION['redirect'] = "/DreamAbode/public/registration";
             } else {
-                $member           = new Member($this->conn);
-                $member->username = $username;
-                $member->password = $password;
-                $member->email    = $email;
-                $member->mobile   = $mobile;
-
-                if ($member->signup()) {
-                    $massage = "Member registered successfully!";
+                if ($this->member->signup()) {
+                    $_SESSION['msg']      = "Member registered successfully!";
+                    $_SESSION['redirect'] = "/DreamAbode/public/login";
+                    unset($_SESSION['form_data']);
                 } else {
-                    $massage = "Member registration failed.";
+                    $_SESSION['msg']      = "Member registration failed.";
+                    $_SESSION['redirect'] = "/DreamAbode/public/registration";
                 }
             }
         }
 
-        return $massage;
+        require_once __DIR__ . '/../views/pages/registration.php';
+        exit();
+
     }
 }

@@ -5,5 +5,4 @@ class registrationController
     {
         require_once '../app/views/pages/registration.php';
     }
-
 }

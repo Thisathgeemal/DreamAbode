@@ -1,1 +1,5 @@
 @import 'tailwindcss';
+
+.tailwind-confirm-btn {
+    @apply text-black bg-blue-500 hover:bg-blue-400 font-medium py-2 px-4 rounded;
+}

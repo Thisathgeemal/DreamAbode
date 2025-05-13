@@ -17,6 +17,26 @@ class Member
         $this->conn = $db;
     }
 
+    public function isUsernameExists()
+    {
+        $query = "SELECT 1 FROM " . $this->table . " WHERE Username = :username LIMIT 1";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function isEmailExists()
+    {
+        $query = "SELECT 1 FROM " . $this->table . " WHERE Email = :email LIMIT 1";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    }
+
     public function signup()
     {
         $query = "INSERT INTO " . $this->table . "(Username, Password, Email, Mobile, created_at) VALUES (:username, :password, :email, :mobile, NOW())";
