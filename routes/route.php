@@ -9,7 +9,6 @@ $scriptName = dirname($_SERVER['SCRIPT_NAME']);
 $request    = str_replace($scriptName, '', $request);
 $request    = strtok($request, '?');
 
-// break into parts
 $segments = explode('/', trim($request, '/'));
 
 $controller = ! empty($segments[0]) ? $segments[0] : 'home';

@@ -26,8 +26,8 @@
     <!-- hero section 1 -->
     <section>
         <div class="bg-white p-8 rounded shadow-md w-96 text-center">
-            <h2 class="text-2xl font-bold text-green-700 mb-4">Welcome, Member!</h2>
-            <p class="text-gray-700">You have successfully logged in as a member.</p>
+            <h2 class="text-2xl font-bold text-green-700 mb-4">Welcome, Agent!</h2>
+            <p class="text-gray-700">You have successfully logged in as an agent.</p>
         </div>
     </section>
 

@@ -39,30 +39,45 @@ class MemberController
             ];
 
             if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $_SESSION['msg']      = "Invalid email format!";
+                $_SESSION['message']  = "Invalid email format!";
                 $_SESSION['redirect'] = "/DreamAbode/public/registration";
             } elseif (! preg_match('/^[0-9]{10}$/', $mobile)) {
-                $_SESSION['msg']      = "Invalid mobile number!";
+                $_SESSION['message']  = "Invalid mobile number!";
                 $_SESSION['redirect'] = "/DreamAbode/public/registration";
             } elseif ($password !== $confirmPassword) {
-                $_SESSION['msg']      = "Passwords do not match!";
+                $_SESSION['message']  = "Passwords do not match!";
                 $_SESSION['redirect'] = "/DreamAbode/public/registration";
             } elseif ($this->member->isUsernameExists() && $this->member->isEmailExists()) {
-                $_SESSION['msg']      = "Username and email already exist!";
+                $_SESSION['message']  = "Username and email already exist!";
                 $_SESSION['redirect'] = "/DreamAbode/public/registration";
             } elseif ($this->member->isUsernameExists()) {
-                $_SESSION['msg']      = "Username already exists!";
+                $_SESSION['message']  = "Username already exists!";
                 $_SESSION['redirect'] = "/DreamAbode/public/registration";
             } elseif ($this->member->isEmailExists()) {
-                $_SESSION['msg']      = "Email already exists!";
+                $_SESSION['message']  = "Email already exists!";
                 $_SESSION['redirect'] = "/DreamAbode/public/registration";
             } else {
-                if ($this->member->signup()) {
-                    $_SESSION['msg']      = "Member registered successfully!";
-                    $_SESSION['redirect'] = "/DreamAbode/public/login";
-                    unset($_SESSION['form_data']);
-                } else {
-                    $_SESSION['msg']      = "Member registration failed.";
+                try {
+                    if ($this->member->signup()) {
+                        $_SESSION['message']  = "Member registered successfully!";
+                        $_SESSION['redirect'] = "/DreamAbode/public/login";
+                        unset($_SESSION['form_data']);
+                    } else {
+                        $_SESSION['message']  = "Member registration failed. Please try again.";
+                        $_SESSION['redirect'] = "/DreamAbode/public/registration";
+                    }
+                } catch (PDOException $e) {
+                    if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                        if (strpos($e->getMessage(), 'MobileNumber') !== false) {
+                            $_SESSION['message'] = "Mobile number already registered!";
+                        } elseif (strpos($e->getMessage(), 'Email') !== false) {
+                            $_SESSION['message'] = "Email address already registered!";
+                        } else {
+                            $_SESSION['message'] = "A duplicate entry was detected!";
+                        }
+                    } else {
+                        $_SESSION['message'] = "An error occurred during registration. Please try again.";
+                    }
                     $_SESSION['redirect'] = "/DreamAbode/public/registration";
                 }
             }
@@ -70,44 +85,6 @@ class MemberController
 
         require_once __DIR__ . '/../views/pages/registration.php';
         exit();
-
-    }
-
-    public function loginMember()
-    {
-        session_start();
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username   = htmlspecialchars(trim($_POST['username']));
-            $password   = trim($_POST['password']);
-            $rememberMe = isset($_POST['remember']);
-
-            $_SESSION['form_data'] = [
-                'username' => $username,
-            ];
-
-            $this->member->username = $username;
-            $this->member->password = $password;
-
-            $user = $this->member->login();
-
-            if ($user) {
-                $_SESSION['msg']      = "Login successfully!";
-                $_SESSION['user']     = $user;
-                $_SESSION['redirect'] = "/DreamAbode/public/memberProfile";
-
-                if ($rememberMe) {
-                    setcookie('remember_username', $username, time() + (30 * 24 * 60 * 60), "/");
-                    setcookie('remember_token', hash('sha256', $user['id'] . $username), time() + (30 * 24 * 60 * 60), "/");
-                }
-
-                unset($_SESSION['form_data']);
-
-            } else {
-                $_SESSION['msg']      = "Invalid username or password.";
-                $_SESSION['redirect'] = "/DreamAbode/public/login";
-            }
-        }
     }
 
 }

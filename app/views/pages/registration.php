@@ -2,8 +2,24 @@
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
+
     define('BASE_URL', '/DreamAbode');
+
+    $message  = $_SESSION['message'] ?? '';
+    $redirect = $_SESSION['redirect'] ?? null;
+
+    if (! empty($message) && $redirect) {
+        if (strpos(strtolower($message), 'success') !== false) {
+            unset($_SESSION['form_data']);
+        }
+        header("Refresh: 2; URL=$redirect");
+    }
+
+    unset($_SESSION['message']);
+    unset($_SESSION['redirect']);
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +29,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -26,6 +41,17 @@
         <div class="bg-white p-8 rounded-xl max-w-md w-full shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
             <form method="POST" action="./member/signupMember">
                 <h2 class="text-4xl font-bold mb-7 text-center">Sign Up</h2>
+
+                <?php if ($message): ?>
+<?php
+    $colorClass = (strpos(strtolower($message), 'success') !== false)
+    ? 'text-green-600'
+    : 'text-red-600';
+?>
+                    <div class="mb-4 text-center font-semibold p-1<?php echo $colorClass; ?>">
+                        <?php echo htmlspecialchars($message); ?>
+                    </div>
+                <?php endif; ?>
 
                 <div class="mb-2">
                     <label for="username" class="block text-lg font-medium text-gray-700">Username</label>
@@ -60,43 +86,6 @@
     <?php
         require_once __DIR__ . '/../includes/footer.php';
     ?>
-
-    <?php if (isset($_SESSION['msg'])): ?>
-
-    <?php
-        $message  = htmlspecialchars($_SESSION['msg']);
-        $icon     = (strpos($message, "successfully") !== false) ? "success" : "error";
-        $title    = ($icon === "success") ? "Success" : "Error";
-        $redirect = $_SESSION['redirect'] ?? null;
-
-        if ($icon === "success") {
-            unset($_SESSION['form_data']);
-        }
-
-        unset($_SESSION['msg']);
-        unset($_SESSION['redirect']);
-    ?>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                Swal.fire({
-                    icon: '<?php echo $icon; ?>',
-                    title: '<?php echo $title; ?>',
-                    text: '<?php echo $message; ?>',
-                    confirmButtonColor: '#5CFFAB',
-                    confirmButtonText: '<?php echo $redirect ? "Continue" : "OK"; ?>',
-                    customClass: {
-                        confirmButton: 'tailwind-confirm-btn'
-                    }
-                }).then((result) => {
-                    <?php if ($redirect): ?>
-                        if (result.isConfirmed) {
-                            window.location.href = '<?php echo $redirect; ?>';
-                        }
-                    <?php endif; ?>
-                });
-            });
-        </script>
-    <?php endif; ?>
 
 </body>
 </html>

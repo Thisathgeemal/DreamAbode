@@ -1,5 +1,5 @@
 <?php
-class memberProfileController
+class MemberProfileController
 {
     public function index()
     {

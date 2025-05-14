@@ -57,18 +57,18 @@ class Member
         return false;
     }
 
-    public function login()
+    public function login($username, $password)
     {
         $query = "SELECT * FROM " . $this->table . " WHERE Username = :username LIMIT 1";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($this->password, $user['password'])) {
-            unset($user['password']);
+        if ($user && password_verify($password, $user['Password'])) {
+            unset($user['Password']);
             return $user;
         }
 
