@@ -1,8 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
 <?php
+    session_start();
     define('BASE_URL', '/DreamAbode');
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -25,7 +27,7 @@
 
                 <div class="mb-2">
                     <label for="username" class="block text-lg font-medium text-gray-700">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" class="mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400" required>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" value="<?php echo isset($_SESSION['form_data']['username']) ? htmlspecialchars($_SESSION['form_data']['username']) : ''; ?>" class="mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400" required>
                 </div>
 
                 <div class="mb-2">

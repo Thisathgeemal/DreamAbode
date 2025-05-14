@@ -55,4 +55,22 @@ class Member
         }
         return false;
     }
+
+    public function login()
+    {
+        $query = "SELECT * FROM " . $this->table . " WHERE Username = :username LIMIT 1";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($this->password, $user['password'])) {
+            unset($user['password']);
+            return $user;
+        }
+
+        return false;
+    }
 }

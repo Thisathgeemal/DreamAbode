@@ -72,4 +72,42 @@ class MemberController
         exit();
 
     }
+
+    public function loginMember()
+    {
+        session_start();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username   = htmlspecialchars(trim($_POST['username']));
+            $password   = trim($_POST['password']);
+            $rememberMe = isset($_POST['remember']);
+
+            $_SESSION['form_data'] = [
+                'username' => $username,
+            ];
+
+            $this->member->username = $username;
+            $this->member->password = $password;
+
+            $user = $this->member->login();
+
+            if ($user) {
+                $_SESSION['msg']      = "Login successfully!";
+                $_SESSION['user']     = $user;
+                $_SESSION['redirect'] = "/DreamAbode/public/memberProfile";
+
+                if ($rememberMe) {
+                    setcookie('remember_username', $username, time() + (30 * 24 * 60 * 60), "/");
+                    setcookie('remember_token', hash('sha256', $user['id'] . $username), time() + (30 * 24 * 60 * 60), "/");
+                }
+
+                unset($_SESSION['form_data']);
+
+            } else {
+                $_SESSION['msg']      = "Invalid username or password.";
+                $_SESSION['redirect'] = "/DreamAbode/public/login";
+            }
+        }
+    }
+
 }
