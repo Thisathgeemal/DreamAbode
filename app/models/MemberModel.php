@@ -9,6 +9,7 @@ class Member
     public $mobile;
     public $dob;
     public $gender;
+    public $image;
 
     private $conn;
 
@@ -39,7 +40,7 @@ class Member
 
     public function signup()
     {
-        $query = "INSERT INTO " . $this->table . "(Username, Password, Email, Mobile, created_at) VALUES (:username, :password, :email, :mobile, NOW())";
+        $query = "INSERT INTO " . $this->table . "(Username, Password, Email, MobileNumber, created_at) VALUES (:username, :password, :email, :mobile, NOW())";
 
         $stmt = $this->conn->prepare($query);
 
