@@ -79,7 +79,16 @@
                 </div>
 
                 <button type="submit" class="w-full bg-green-400  hover:bg-green-200 text-black font-semibold mt-4 py-2 px-4 rounded-md border border-green-300 shadow-sm transition-colors duration-200">Sign Up</button>
-                </form>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="inline-block font-semibold text-sm text-black align-middle">
+                    Already have an account?
+                    <span class="text-green-500 hover:text-green-700">
+                        <a href="./login">Back to Login</a>
+                    </span>
+                </p>
+            </div>
         </div>
     </section>
 

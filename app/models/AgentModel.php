@@ -35,4 +35,26 @@ class Agent
 
         return false;
     }
+
+    public function findByEmail($email)
+    {
+        $query = "SELECT * FROM " . $this->table . " WHERE Email = :email LIMIT 1";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePassword($email, $newPassword)
+    {
+        $query = "UPDATE " . $this->table . " SET Password = :password WHERE Email = :email";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':password', password_hash($newPassword, PASSWORD_BCRYPT), PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
 }

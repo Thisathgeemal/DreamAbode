@@ -60,12 +60,20 @@ class LoginController
 
         if ($user) {
             if ($remember) {
-                setSecureCookie('username', $username, time() + (7 * 24 * 60 * 60));
-                setSecureCookie('password', $password, time() + (7 * 24 * 60 * 60));
+                // setSecureCookie('username', $username, time() + (7 * 24 * 60 * 60));
+                // setSecureCookie('password', $password, time() + (7 * 24 * 60 * 60));
+
+                setSecureCookie('username', $username, time() + 60);
+                setSecureCookie('password', $password, time() + 60);
+
             } else {
                 clearSecureCookie('username');
                 clearSecureCookie('password');
             }
+
+            $_SESSION['user_id']   = $user["ID"];
+            $_SESSION['username']  = $username;
+            $_SESSION['user_role'] = $type;
 
             $_SESSION['message'] = "Login successfully!";
             header("Location: " . $redirect);
@@ -89,4 +97,15 @@ class LoginController
             $this->handleLogin($username, $password, $type, $remember);
         }
     }
+
+    public function logout()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+
+        header("Location: /DreamAbode/public/login");
+        exit();
+    }
+
 }

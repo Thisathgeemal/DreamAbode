@@ -23,3 +23,6 @@ class Database
     }
 
 }
+
+define('EMAIL_USERNAME', 'thisathgeemal38@gmail.com');
+define('EMAIL_PASSWORD', 'uxbu kulx ntvv vbib');

@@ -3,6 +3,11 @@
         session_start();
     }
 
+    if (! isset($_SESSION['user_id'])) {
+        header('Location: ' . '/DreamAbode/public/login');
+        exit;
+    }
+
     define('BASE_URL', '/DreamAbode');
 ?>
 
@@ -25,9 +30,15 @@
 
     <!-- hero section 1 -->
     <section>
-        <div class="bg-white p-8 rounded shadow-md w-96 text-center">
+        <div class="bg-white p-8 rounded text-center">
             <h2 class="text-2xl font-bold text-green-700 mb-4">Welcome, Member!</h2>
             <p class="text-gray-700">You have successfully logged in as a member.</p>
+            <form action="./login/logout" method="post">
+                <button type="submit"
+                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">
+                    Logout
+                </button>
+            </form>
         </div>
     </section>
 
