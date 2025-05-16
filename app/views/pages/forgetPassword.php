@@ -29,8 +29,8 @@
                 <p class="text-red-500 font-semibold text-center mb-4"><?php echo $_SESSION['error'];unset($_SESSION['error']); ?></p>
             <?php endif; ?>
 
-            <?php if (isset($_SESSION['success'])): ?>
-                <p class="text-green-500 font-semibold text-center mb-4"><?php echo $_SESSION['success'];unset($_SESSION['success']); ?></p>
+            <?php if (isset($_SESSION['message'])): ?>
+                <p class="text-green-500 font-semibold text-center mb-4"><?php echo $_SESSION['message'];unset($_SESSION['message']); ?></p>
             <?php endif; ?>
 
             <?php if (isset($_SESSION['verified'])): ?>
@@ -52,6 +52,15 @@
                         Reset Password
                     </button>
                 </form>
+
+                <div class="text-center mt-4">
+                    <p class="inline-block font-semibold text-sm text-black align-middle">
+                        Remembered your password?
+                        <span class="text-green-500 hover:text-green-700">
+                            <a href="./forgetPassword/resetForgotPassword">Back to Login</a>
+                        </span>
+                    </p>
+                </div>
 
             <?php elseif (! isset($_SESSION['verification_code'])): ?>
                 <!-- Email Input Form -->
@@ -106,6 +115,10 @@
             <?php endif; ?>
         </div>
     </section>
+
+    <?php
+        require_once __DIR__ . '/../includes/footer.php';
+    ?>
 
 </body>
 </html>

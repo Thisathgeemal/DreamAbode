@@ -163,9 +163,13 @@ class ForgetPasswordController
                 exit;
         }
 
-        $_SESSION['success']  = "Password updated successfully.";
-        $_SESSION['redirect'] = "/DreamAbode/public/login";
-        header("Location: " . $_SESSION['redirect']);
+        if (isset($_SESSION['username'])) {
+            $username                         = $_SESSION['username'];
+            $_SESSION['message']              = "$username your password updated successfully.";
+            $_SESSION['redirect_after_reset'] = "/DreamAbode/public/login";
+        }
+
+        header("Location: " . $_SESSION['redirect_after_reset']);
         exit;
     }
 

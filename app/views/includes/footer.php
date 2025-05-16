@@ -11,11 +11,11 @@
   <div class="w-ful py-5 mt-[2%] text-center">
     <div class="max-w-screen-xl mx-auto">
 
-      <p class="font-poppins text-xl text-black my-6">
+      <p class="font-poppins text-lg text-black my-6">
         © 2025 Dream Abode. All Rights Reserved.
       </p>
 
-      <p class="font-poppins text-xl text-black my-6">
+      <p class="font-poppins text-lg text-black my-6">
         Home | Sales | Rentals | Projects | Loans | About
       </p>
 

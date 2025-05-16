@@ -28,17 +28,50 @@
         require_once __DIR__ . '/../includes/header.php';
     ?>
 
-    <!-- hero section 1 -->
-    <section>
-        <div class="bg-white p-8 rounded text-center">
-            <h2 class="text-2xl font-bold text-green-700 mb-4">Welcome, Member!</h2>
-            <p class="text-gray-700">You have successfully logged in as a member.</p>
-            <form action="./login/logout" method="post">
-                <button type="submit"
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">
-                    Logout
+    <section class="flex justify-center items-start mt-10 space-x-8 px-4">
+        <div class="bg-white p-6 rounded-xl flex flex-col justify-center items-center space-y-8 w-[280px] h-[600px] shadow-[0_0_15px_4px_rgba(0,0,0,0.2)]">
+            <form method="GET" class="flex flex-col items-center space-y-8">
+                <button name="section" value="profile" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
+                    My Profile
+                </button>
+                <button name="section" value="manage_ad" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
+                    Manage Ad
+                </button>
+                <button name="section" value="membership" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
+                    Membership
+                </button>
+                <button name="section" value="saved_properties" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
+                    Saved Properties
                 </button>
             </form>
+
+            <a href="./login/logout" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] text-center transition-colors duration-200">
+                Log Out
+            </a>
+        </div>
+
+
+        <div class="bg-white p-6 rounded-xl flex flex-col justify-center items-center space-y-4 w-[65%] h-[600px] shadow-[0_0_15px_4px_rgba(0,0,0,0.2)]">
+            <?php
+                $section = $_GET['section'] ?? 'default';
+
+                switch ($section) {
+                    case 'profile':
+                        require_once __DIR__ . '/content/profile.php';
+                        break;
+                    case 'manage_ad':
+                        require_once __DIR__ . '/content/manageAd.php';
+                        break;
+                    case 'membership':
+                        require_once __DIR__ . '/content/membership.php';
+                        break;
+                    case 'saved_properties':
+                        require_once __DIR__ . '/content/savedProperties.php';
+                        break;
+                    default:
+                        require_once __DIR__ . '/content/profile.php';
+                }
+            ?>
         </div>
     </section>
 
