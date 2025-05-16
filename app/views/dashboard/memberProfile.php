@@ -35,7 +35,7 @@
                     My Profile
                 </button>
                 <button name="section" value="manage_ad" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
-                    Manage Ad
+                    Manage Ads
                 </button>
                 <button name="section" value="membership" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     Membership
@@ -49,7 +49,6 @@
                 Log Out
             </a>
         </div>
-
 
         <div class="bg-white p-6 rounded-xl flex flex-col justify-center items-center space-y-4 w-[65%] h-[600px] shadow-[0_0_15px_4px_rgba(0,0,0,0.2)]">
             <?php

@@ -39,7 +39,7 @@
 
     <section class="bg-white flex items-center justify-center px-4 py-8">
         <div class="bg-white p-8 rounded-xl max-w-md w-full shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
-            <form method="POST" action="./member/signupMember">
+            <form method="POST" action="./memberProfile/signupMember">
                 <h2 class="text-4xl font-bold mb-7 text-center">Sign Up</h2>
 
                 <?php if ($message): ?>

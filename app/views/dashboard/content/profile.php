@@ -2,6 +2,9 @@
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
+
+    $message = isset($_SESSION['message']) ? $_SESSION['message'] : '';
+    unset($_SESSION['message']);
 ?>
 
 <!DOCTYPE html>
@@ -19,8 +22,8 @@
 <body>
 
     <section class="p-10 w-full">
+        <form method="POST" action="./memberProfile/updateProfile" enctype="multipart/form-data" class="w-full max-w-3xl mx-auto">
 
-        <form enctype="multipart/form-data" class="w-full max-w-3xl mx-auto">
             <!-- Profile Image -->
             <div class="flex flex-col items-center mb-8">
                 <div class="relative w-36 h-36">
@@ -35,6 +38,17 @@
                     <input type="file" name="Image" id="Image" class="hidden">
                 </div>
             </div>
+
+            <?php if ($message): ?>
+<?php
+    $colorClass = (strpos(strtolower($message), 'success') !== false)
+    ? 'text-green-600'
+    : 'text-red-600';
+?>
+                <div class="mb-4 text-center font-semibold p-1 <?php echo "{$colorClass}"?>">
+                    <?php echo htmlspecialchars($message); ?>
+                </div>
+            <?php endif; ?>
 
             <!-- Input Fields -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -60,7 +74,7 @@
 
                 <div>
                     <label for="dob" class="block text-md font-medium text-black">Date of Birth</label>
-                    <input type="text" id="dob" name="dob" placeholder="DD/MM/YYYY"
+                    <input type="text" id="dob" name="dob" placeholder="YYYY-MM-DD"
                         <?php echo isset($userData['DOB']) ? 'value="' . htmlspecialchars($userData['DOB']) . '"' : ''; ?>
                         class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400">
                 </div>
@@ -77,8 +91,8 @@
                     <select id="gender" name="gender"
                         class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-3 text-black focus:outline-none focus:ring-2 focus:ring-green-400">
                         <option value="">Select Gender</option>
-                        <option value="Male"                                                                                         <?php echo(isset($userData['Gender']) && $userData['Gender'] === 'Male') ? 'selected' : ''; ?>>Male</option>
-                        <option value="Female"                                                                                             <?php echo(isset($userData['Gender']) && $userData['Gender'] === 'Female') ? 'selected' : ''; ?>>Female</option><?php echo($userData['Gender'] === 'Female') ? 'selected' : ''; ?>>Female</option>
+                        <option value="Male"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <?php echo(isset($userData['Gender']) && $userData['Gender'] === 'Male') ? 'selected' : ''; ?>>Male</option>
+                        <option value="Female"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           <?php echo(isset($userData['Gender']) && $userData['Gender'] === 'Female') ? 'selected' : ''; ?>>Female</option><?php echo($userData['Gender'] === 'Female') ? 'selected' : ''; ?>>Female</option>
                     </select>
                 </div>
             </div>

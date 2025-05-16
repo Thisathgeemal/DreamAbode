@@ -3,10 +3,12 @@ class Admin
 {
     private $table = "admin";
 
+    public $id;
     public $username;
     public $password;
     public $email;
     public $mobile;
+    public $dob;
     public $gender;
     public $image;
 
@@ -83,4 +85,39 @@ class Admin
             return false;
         }
     }
+
+    public function updateAdmin()
+    {
+        $query = "UPDATE " . $this->table . " SET Username = :username, Email = :email, MobileNumber = :mobile, DOB = :dob, Gender = :gender";
+
+        if (! empty($this->password)) {
+            $query .= ", Password = :password";
+        }
+
+        if (! empty($this->image)) {
+            $query .= ", Image = :image";
+        }
+
+        $query .= " WHERE ID = :id";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':mobile', $this->mobile);
+        $stmt->bindParam(':dob', $this->dob);
+        $stmt->bindParam(':gender', $this->gender);
+        $stmt->bindParam(':id', $this->id);
+
+        if (! empty($this->password)) {
+            $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+            $stmt->bindParam(':password', $hashedPassword);
+        }
+
+        if (! empty($this->image)) {
+            $stmt->bindParam(':image', $this->image);
+        }
+
+        return $stmt->execute();
+    }
+
 }
