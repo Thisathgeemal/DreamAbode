@@ -10,7 +10,6 @@
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -26,8 +25,9 @@
             <!-- Top Image Section -->
             <form action="./postAd/addProperty" method="POST" enctype="multipart/form-data" class="max-w-2xl mx-auto p-6 bg-white">
                 <div class="mb-6 text-center">
-                    <div id="imagePreviewContainer" class="bg-gray-200 h-[250px] w-[250px] mx-auto rounded-lg flex items-center justify-center mb-8">
-                        <span id="placeholderText" class="text-gray-500">Upload up to 6 images at once</span>
+                    <div id="imagePreviewContainer" class="grid grid-cols-3 gap-4 justify-items-center w-[600px] mx-auto bg-gray-200 p-4 rounded-lg mt-4 mb-8">
+                        <span id="placeholderText" class="text-gray-500"></span>
+                        <span id="placeholderText" class="text-gray-500 py-4">Upload up to 6 images at once</span>
                     </div>
 
                     <input type="file" id="imageInput" name="images[]" multiple accept="image/*" class="hidden" onchange="handleImageUpload(event)" max="6" />
@@ -45,40 +45,6 @@
                         <div class="mb-2">
                             <label for="propertyName" class="block text-md font-medium text-gray-700">Property Name</label>
                             <input type="text" id="propertyName" name="propertyName" placeholder="Enter property name"
-                                class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
-                                required>
-                        </div>
-
-                        <!-- Measurement -->
-                        <div class="mb-2">
-                            <label for="measurement" class="block text-md font-medium text-gray-700">Measurement (SQFT)</label>
-                            <input type="number" id="measurement" name="measurement" placeholder="Enter measurement"
-                                class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
-                                required>
-                        </div>
-
-                        <!-- Property Type -->
-                        <div class="mb-2">
-                            <label for="propertyType" class="block text-md font-medium text-gray-700">Property Type</label>
-                            <select id="propertyType" name="propertyType"
-                                class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black focus:outline-none focus:ring-2 focus:ring-green-400"
-                                required>
-                                <option value="">Select type</option>
-                                <option value="House">House</option>
-                                <option value="Apartment">Apartment</option>
-                                <option value="Commercial">Commercial</option>
-                                <option value="Villa">Villa</option>
-                                <option value="Bangalore">Bangalore</option>
-                                <option value="Land">Land</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 space-y-4">
-                        <!-- Location -->
-                        <div class="mb-2">
-                            <label for="location" class="block text-md font-medium text-gray-700">Location</label>
-                            <input type="text" id="location" name="location" placeholder="Enter location"
                                 class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
                                 required>
                         </div>
@@ -101,6 +67,67 @@
                                 <option value="Sale">Sale</option>
                                 <option value="Rental">Rental</option>
                             </select>
+                        </div>
+
+                        <!-- Bathroom Count -->
+                        <div id="bathroomFields" style="display: none;" class="mb-2">
+                            <label for="bathroomCount" class="block text-md font-medium text-gray-700">Bathroom Count</label>
+                            <input type="number" id="bathroomCount" name="bathroomCount" placeholder="Enter number of bathrooms"
+                                class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        </div>
+
+                        <!-- Measurement -->
+                        <div id="measurementFields" style="display: none;" class="mb-2">
+                            <label for="measurement" class="block text-md font-medium text-gray-700">Measurement</label>
+                            <input type="text" id="measurement" name="measurement" placeholder="E.g. 2000 sqft"
+                                class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        </div>
+                    </div>
+
+                    <div class="flex-1 space-y-4">
+                        <!-- Location -->
+                        <div class="mb-2">
+                            <label for="location" class="block text-md font-medium text-gray-700">Location</label>
+                            <input type="text" id="location" name="location" placeholder="Enter location"
+                                class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
+                                required>
+                        </div>
+
+                        <!-- Property Type -->
+                        <div id="propertyTypeFields" class="mb-2">
+                            <label for="propertyType" class="block text-md font-medium text-gray-700">Property Type</label>
+                            <select id="propertyType" name="propertyType"
+                                class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black focus:outline-none focus:ring-2 focus:ring-green-400"
+                                required onchange="toggleFields()">
+                                <option value="">Select type</option>
+                                <option value="House">House</option>
+                                <option value="Apartment">Apartment</option>
+                                <option value="Commercial">Commercial</option>
+                                <option value="Villa">Villa</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Land">Land</option>
+                            </select>
+                        </div>
+
+                        <!-- Bedroom Count -->
+                        <div id="bedroomFields" style="display: none;" class="mb-2">
+                            <label for="bedroomCount" class="block text-md font-medium text-gray-700">Bedroom Count</label>
+                            <input type="number" id="bedroomCount" name="bedroomCount" placeholder="Enter number of bedrooms"
+                                class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        </div>
+
+                        <!-- Floor Count -->
+                        <div id="floorsFields" style="display: none;" class="mb-2">
+                            <label for="floorCount" class="block text-md font-medium text-gray-700">Number of Floors</label>
+                            <input type="number" id="floorCount" name="floorCount" placeholder="Enter number of floors"
+                                class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        </div>
+
+                        <!-- Perches -->
+                        <div id="perchesFields" style="display: none;" class="mb-2">
+                            <label for="perches" class="block text-md font-medium text-gray-700">Perches</label>
+                            <input type="number" id="perches" name="perches" placeholder="Enter number of perches"
+                                class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400">
                         </div>
                     </div>
                 </div>
@@ -148,13 +175,49 @@
                     const img = document.createElement('img');
                     img.src = e.target.result;
                     img.alt = "Preview";
-                    img.classList.add('w-24', 'h-24', 'object-cover', 'rounded', 'border', 'shadow');
+                    img.classList.add('w-38', 'h-38', 'object-cover', 'rounded', 'border', 'shadow');
                     previewContainer.appendChild(img);
                 };
 
                 reader.readAsDataURL(files[i]);
             }
         }
+
+        function toggleFields() {
+            const type = document.getElementById("propertyType").value;
+            const showCommon = ["House", "Villa", "Bangalore"];
+            const bedroom = document.getElementById("bedroomFields");
+            const bathroom = document.getElementById("bathroomFields");
+            const floors = document.getElementById("floorsFields");
+            const measurement = document.getElementById("measurementFields");
+            const perches = document.getElementById("perchesFields");
+
+            // Reset visibility
+            bedroom.style.display = "none";
+            bathroom.style.display = "none";
+            floors.style.display = "none";
+            measurement.style.display = "none";
+            perches.style.display = "none";
+
+            if (showCommon.includes(type)) {
+                bedroom.style.display = "block";
+                bathroom.style.display = "block";
+                floors.style.display = "block";
+                measurement.style.display = "block";
+                perches.style.display = "block";
+            } else if (type === "Commercial") {
+                measurement.style.display = "block";
+                floors.style.display = "block";
+            } else if (type === "Apartment") {
+                bedroom.style.display = "block";
+                bathroom.style.display = "block";
+                measurement.style.display = "block";
+                floors.style.display = "block";
+            } else if (type === "Land") {
+                perches.style.display = "block";
+            }
+        }
+
     </script>
 
 </body>

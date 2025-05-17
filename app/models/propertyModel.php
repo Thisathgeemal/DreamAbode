@@ -7,7 +7,7 @@ class Property
     public $propertyName;
     public $propertyType;
     public $location;
-    public $measurement;
+    public $perches;
     public $price;
     public $postType;
     public $status;
@@ -16,6 +16,10 @@ class Property
     public $memberId;
     public $agentId;
     public $adminId;
+    public $bedrooms;
+    public $bathrooms;
+    public $floors;
+    public $measurement;
 
     private $conn;
 
@@ -26,7 +30,7 @@ class Property
 
     public function createProperty()
     {
-        $query = "INSERT INTO " . $this->table . " (PropertyName, PropertyType, Location, Measurement, Price, PostType, MemberId) VALUES (:propertyName, :propertyType, :location, :measurement, :price, :postType, :memberId)";
+        $query = "INSERT INTO " . $this->table . " (PropertyName, PropertyType, Location, Measurement, Price, PostType, Bedrooms, Bathrooms, Floors, Perches, MemberId) VALUES (:propertyName, :propertyType, :location, :measurement, :price, :postType, :bedrooms, :bathrooms, :floors, :perches, :memberId)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -36,6 +40,10 @@ class Property
         $stmt->bindParam(':measurement', $this->measurement);
         $stmt->bindParam(':price', $this->price);
         $stmt->bindParam(':postType', $this->postType);
+        $stmt->bindParam(':bedrooms', $this->bedrooms);
+        $stmt->bindParam(':bathrooms', $this->bathrooms);
+        $stmt->bindParam(':floors', $this->floors);
+        $stmt->bindParam(':perches', $this->perches);
         $stmt->bindParam(':memberId', $this->memberId);
 
         if ($stmt->execute()) {

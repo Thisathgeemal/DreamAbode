@@ -44,6 +44,10 @@ class PostAdController
             $this->property->price        = trim($_POST['price']);
             $this->property->propertyType = trim($_POST['propertyType']);
             $this->property->postType     = trim($_POST['postType']);
+            $this->property->bedrooms     = trim($_POST['bedroomCount']);
+            $this->property->bathrooms    = trim($_POST['bathroomCount']);
+            $this->property->floors       = trim($_POST['floorCount']);
+            $this->property->perches      = trim($_POST['perches']);
             $this->property->memberId     = $userId;
 
             // Create property entry

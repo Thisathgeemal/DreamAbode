@@ -34,23 +34,22 @@ class MemberProfileController
         switch ($type) {
             case 'member':
                 $userData = $this->member->getUserProfile($userId);
+                require_once '../app/views/dashboard/memberProfile.php';
                 break;
 
             case 'admin':
                 $userData = $this->admin->getUserProfile($userId);
+                require_once '../app/views/dashboard/adminProfile.php';
                 break;
 
             case 'agent':
                 $userData = $this->agent->getUserProfile($userId);
+                require_once '../app/views/dashboard/agentProfile.php';
                 break;
 
             default:
                 header("Location: /DreamAbode/public/login");
                 exit();
-        }
-
-        if ($userData) {
-            require_once '../app/views/dashboard/memberProfile.php';
         }
     }
 
