@@ -63,8 +63,8 @@
 
                 <!-- Property Type -->
                 <div class="bg-white rounded-lg px-4 py-2 flex items-center space-x-2 w-48">
-                <img src="./images/Status.png" alt="Project Status" class="w-5 mx-3">
-                <input type="text" placeholder="Project Status" class="outline-none w-full bg-transparent" />
+                <img src="./images/Houses.png" alt="PropertyType" class="w-4 mx-3">
+                <input type="text" placeholder="Property Type" class="outline-none w-full bg-transparent" />
                 </div>
 
                 <!-- Max Price -->
@@ -86,10 +86,10 @@
                 <!-- Extra Inputs (Hidden Initially) -->
                 <div id="moreInputs" class="hidden flex-wrap gap-3 justify-center w-full mt-3">
 
-                    <!-- Min SQFT -->
+                    <!-- Min Perches -->
                     <div class="bg-white rounded-lg px-4 py-2 flex items-center space-x-2 w-48">
-                        <img src="./images/Perches.png" alt="SQFT" class="w-5 mx-3">
-                        <input type="text" placeholder="Min SQFT" class="outline-none w-full bg-transparent" />
+                        <img src="./images/Perches.png" alt="Perches" class="w-5 mx-3">
+                        <input type="text" placeholder="Min Perches" class="outline-none w-full bg-transparent" />
                     </div>
 
                     <!-- Min Bedrooms -->
@@ -106,28 +106,61 @@
                 </div>
             </div>
         </div>
+
+        <!-- Property Categories -->
+        <div class="text-center space-y-6">
+            <h2 class="text-4xl font-bold py-3">Find Exactly What You Need</h2>
+            <div class="grid grid-cols-3 gap-4 max-w-3xl mx-auto">
+                <div class="bg-green-300 transition duration-300 ease-in-out hover:scale-105 hover:bg-green-400 cursor-pointer text-black px-6 py-4 rounded-lg shadow-md flex justify-between items-center">
+                    <span class="font-semibold">Houses</span>
+                    <img src="./images/Houses.png" alt="Houses" class="w-5 mx-3">
+                </div>
+                <div class="bg-green-300 transition duration-300 ease-in-out hover:scale-105 hover:bg-green-400 cursor-pointer text-black px-6 py-4 rounded-lg shadow-md flex justify-between items-center">
+                    <span class="font-semibold">Apartments</span>
+                    <img src="./images/Apartments.png" alt="Apartments" class="w-5 mx-3">
+                </div>
+                <div class="bg-green-300 transition duration-300 ease-in-out hover:scale-105 hover:bg-green-400 cursor-pointer text-black px-6 py-4 rounded-lg shadow-md flex justify-between items-center">
+                    <span class="font-semibold">Commercial</span>
+                    <img src="./images/Commercial.png" alt="Commercial" class="w-5 mx-3">
+                </div>
+                <div class="bg-green-300 transition duration-300 ease-in-out hover:scale-105 hover:bg-green-400 cursor-pointer text-black px-6 py-4 rounded-lg shadow-md flex justify-between items-center">
+                    <span class="font-semibold">Villas</span>
+                    <img src="./images/Villas.png" alt="Villas" class="w-6 mx-3">
+                </div>
+                <div class="bg-green-300 transition duration-300 ease-in-out hover:scale-105 hover:bg-green-400 cursor-pointer text-black px-6 py-4 rounded-lg shadow-md flex justify-between items-center">
+                    <span class="font-semibold">Bungalows</span>
+                    <img src="./images/Bungalows.png" alt="Bungalows" class="w-6 mx-3">
+                </div>
+                <div class="bg-green-300 transition duration-300 ease-in-out hover:scale-105 hover:bg-green-400 cursor-pointer text-black px-6 py-4 rounded-lg shadow-md flex justify-between items-center">
+                    <span class="font-semibold">Lands</span>
+                    <img src="./images/Lands.png" alt="Lands" class="w-7 mx-3">
+                </div>
+            </div>
+        </div>
     </section>
+
+    <!-- hero section 3 -->
 
     <?php
         require_once __DIR__ . '/../includes/footer.php';
     ?>
 
     <script>
-    const moreBtn = document.getElementById('moreBtn');
-    const moreInputs = document.getElementById('moreInputs');
-    const searchButton = document.getElementById('searchBtn');
+        const moreBtn = document.getElementById('moreBtn');
+        const moreInputs = document.getElementById('moreInputs');
+        const searchButton = document.getElementById('searchBtn');
 
-    moreBtn.addEventListener('click', () => {
-        moreInputs.classList.remove('hidden');
-        moreInputs.classList.add('flex');
-        moreBtn.classList.add('hidden');
-    });
+        moreBtn.addEventListener('click', () => {
+            moreInputs.classList.remove('hidden');
+            moreInputs.classList.add('flex');
+            moreBtn.classList.add('hidden');
+        });
 
-    searchButton.addEventListener('click', () => {
-        moreInputs.classList.add('hidden');
-        moreInputs.classList.remove('flex');
-        moreBtn.classList.remove('hidden');
-    });
+        searchButton.addEventListener('click', () => {
+            moreInputs.classList.add('hidden');
+            moreInputs.classList.remove('flex');
+            moreBtn.classList.remove('hidden');
+        });
     </script>
 
 </body>

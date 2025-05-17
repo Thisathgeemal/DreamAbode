@@ -20,9 +20,9 @@
 
     <section class="p-10 w-full">
         <div class="flex mb-6">
-            <button class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-2 px-3 rounded-md w-[130px] transition-colors duration-200 mr-8">
-                <img src="/DreamAbode/public/images/Add.png" class="w-6 h-6 inline-block mr-1"><a href="./postAd">Add</a>
-            </button>
+            <a href="./postAd"><button class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-2 px-3 rounded-md w-[130px] transition-colors duration-200 mr-8">
+                <img src="/DreamAbode/public/images/Add.png" class="w-6 h-6 inline-block mr-1">Add
+            </button></a>
             <button class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-2 px-3 rounded-md w-[130px] transition-colors duration-200">
                 <img src="/DreamAbode/public/images/Promote.png" class="w-6 h-6 inline-block mr-1"><a href="#">Promote</a>
             </button>

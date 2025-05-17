@@ -164,19 +164,19 @@ class MemberProfileController
             switch ($userType) {
                 case 'member':
                     $this->member->updateMember();
-                    $_SESSION['message']  = "Profile updated successfully!";
+                    $_SESSION['msg']      = "Profile updated successfully!";
                     $_SESSION['redirect'] = "/DreamAbode/public/memberProfile";
                     break;
 
                 case 'admin':
                     $this->admin->updateAdmin();
-                    $_SESSION['message']  = "Profile updated successfully!";
+                    $_SESSION['msg']      = "Profile updated successfully!";
                     $_SESSION['redirect'] = "/DreamAbode/public/adminProfile";
                     break;
 
                 case 'agent':
                     $this->agent->updateAgent();
-                    $_SESSION['message']  = "Profile updated successfully!";
+                    $_SESSION['msg']      = "Profile updated successfully!";
                     $_SESSION['redirect'] = "/DreamAbode/public/agentProfile";
                     break;
 
