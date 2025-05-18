@@ -14,7 +14,7 @@
     <section class="p-10 w-full">
         <div class="text-center">
             <h1 class="text-4xl font-bold mb-10">Choose Your Plan</h1>
-            <div class="flex flex-col md:flex-row gap-6 items-center justify-center">
+            <div class="flex flex-col md:flex-row gap-10 items-center justify-center">
 
                 <div class="w-[320px] h-[400px] bg-[#5CFFAB] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow-xl transition duration-300 ease-in-out hover:bg-[#42e697] hover:shadow-md cursor-pointer">
                     <img src="./images/Silver.jpg" alt="Silver" class="w-60 h-60 object-contain">

@@ -1,55 +1,35 @@
 <?php
-require_once __DIR__ . '/../models/MemberModel.php';
 require_once __DIR__ . '/../models/AdminModel.php';
-require_once __DIR__ . '/../models/AgentModel.php';
+require_once __DIR__ . '/../models/propertyModel.php';
 require_once __DIR__ . '/../../config/database.php';
 
 class AdminProfileController
 {
     private $conn;
-    private $member;
     private $admin;
-    private $agent;
+    private $property;
 
     public function __construct()
     {
-        $database     = new Database();
-        $this->conn   = $database->connection();
-        $this->member = new Member($this->conn);
-        $this->admin  = new Admin($this->conn);
-        $this->agent  = new Agent($this->conn);
+        $database       = new Database();
+        $this->conn     = $database->connection();
+        $this->admin    = new Admin($this->conn);
+        $this->property = new Property($this->conn);
     }
 
     public function index()
     {
         session_start();
-        if (! isset($_SESSION['user_id']) || ! isset($_SESSION['user_role'])) {
+        if (! isset($_SESSION['user_id'])) {
             header("Location: /DreamAbode/public/login");
             exit();
         }
 
-        $userId = $_SESSION['user_id'];
-        $type   = $_SESSION['user_role'];
+        $userId     = $_SESSION['user_id'];
+        $userData   = $this->admin->getUserProfile($userId);
+        $properties = $this->property->getAllPropertyRequest();
 
-        switch ($type) {
-            case 'member':
-                $userData = $this->member->getUserProfile($userId);
-                require_once '../app/views/dashboard/memberProfile.php';
-                break;
-
-            case 'admin':
-                $userData = $this->admin->getUserProfile($userId);
-                require_once '../app/views/dashboard/adminProfile.php';
-                break;
-
-            case 'agent':
-                $userData = $this->agent->getUserProfile($userId);
-                require_once '../app/views/dashboard/agentProfile.php';
-                break;
-
-            default:
-                header("Location: /DreamAbode/public/login");
-                exit();
-        }
+        require_once '../app/views/dashboard/adminProfile.php';
     }
+
 }

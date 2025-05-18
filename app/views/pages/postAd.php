@@ -52,7 +52,7 @@
                         <!-- Price -->
                         <div class="mb-2">
                             <label for="price" class="block text-md font-medium text-gray-700">Price</label>
-                            <input type="number" id="price" name="price" step="0.01" placeholder="Enter price"
+                            <input type="number" id="price" name="price" step="0.01" placeholder="E.g. 19.8M"
                                 class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
                                 required>
                         </div>

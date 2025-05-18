@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../models/MemberModel.php';
 require_once __DIR__ . '/../models/AdminModel.php';
 require_once __DIR__ . '/../models/AgentModel.php';
+require_once __DIR__ . '/../models/propertyModel.php';
 require_once __DIR__ . '/../../config/database.php';
 
 class MemberProfileController
@@ -10,47 +11,31 @@ class MemberProfileController
     private $member;
     private $admin;
     private $agent;
+    private $property;
 
     public function __construct()
     {
-        $database     = new Database();
-        $this->conn   = $database->connection();
-        $this->member = new Member($this->conn);
-        $this->admin  = new Admin($this->conn);
-        $this->agent  = new Agent($this->conn);
+        $database       = new Database();
+        $this->conn     = $database->connection();
+        $this->member   = new Member($this->conn);
+        $this->admin    = new Admin($this->conn);
+        $this->agent    = new Agent($this->conn);
+        $this->property = new Property($this->conn);
     }
 
     public function index()
     {
         session_start();
-        if (! isset($_SESSION['user_id']) || ! isset($_SESSION['user_role'])) {
+        if (! isset($_SESSION['user_id'])) {
             header("Location: /DreamAbode/public/login");
             exit();
         }
 
-        $userId = $_SESSION['user_id'];
-        $type   = $_SESSION['user_role'];
+        $userId     = $_SESSION['user_id'];
+        $userData   = $this->member->getUserProfile($userId);
+        $properties = $this->property->getPropertiesByUserId($userId);
 
-        switch ($type) {
-            case 'member':
-                $userData = $this->member->getUserProfile($userId);
-                require_once '../app/views/dashboard/memberProfile.php';
-                break;
-
-            case 'admin':
-                $userData = $this->admin->getUserProfile($userId);
-                require_once '../app/views/dashboard/adminProfile.php';
-                break;
-
-            case 'agent':
-                $userData = $this->agent->getUserProfile($userId);
-                require_once '../app/views/dashboard/agentProfile.php';
-                break;
-
-            default:
-                header("Location: /DreamAbode/public/login");
-                exit();
-        }
+        require_once '../app/views/dashboard/memberProfile.php';
     }
 
     public function signupMember()
@@ -140,40 +125,55 @@ class MemberProfileController
                 exit();
             }
 
-            $this->member->id       = $userId;
-            $this->member->username = trim($_POST['username']);
-            $this->member->email    = trim($_POST['email']);
-            $this->member->mobile   = trim($_POST['mobile']);
-            $this->member->dob      = trim($_POST['dob']);
-            $this->member->gender   = trim($_POST['gender']);
-            $this->member->password = trim($_POST['password']);
-            $this->member->image    = '';
-
-            // Handle optional image upload
-            if (! empty($_FILES['image']['name'])) {
-                $uploadDir  = 'uploads/';
-                $imageName  = basename($_FILES['image']['name']);
-                $targetPath = $uploadDir . $imageName;
-
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                    $this->member->image = $imageName;
-                }
-            }
+            $username      = trim($_POST['username']);
+            $email         = trim($_POST['email']);
+            $mobile        = trim($_POST['mobile']);
+            $dob           = trim($_POST['dob']);
+            $gender        = trim($_POST['gender']);
+            $password      = trim($_POST['password']);
+            $uploadedImage = '';
 
             switch ($userType) {
                 case 'member':
+                    $this->member->id       = $userId;
+                    $this->member->username = $username;
+                    $this->member->email    = $email;
+                    $this->member->mobile   = $mobile;
+                    $this->member->dob      = $dob;
+                    $this->member->gender   = $gender;
+                    $this->member->password = $password;
+                    $this->member->image    = $uploadedImage;
+
                     $this->member->updateMember();
                     $_SESSION['msg']      = "Profile updated successfully!";
                     $_SESSION['redirect'] = "/DreamAbode/public/memberProfile";
                     break;
 
                 case 'admin':
+                    $this->admin->id       = $userId;
+                    $this->admin->username = $username;
+                    $this->admin->email    = $email;
+                    $this->admin->mobile   = $mobile;
+                    $this->admin->dob      = $dob;
+                    $this->admin->gender   = $gender;
+                    $this->admin->password = $password;
+                    $this->admin->image    = $uploadedImage;
+
                     $this->admin->updateAdmin();
                     $_SESSION['msg']      = "Profile updated successfully!";
                     $_SESSION['redirect'] = "/DreamAbode/public/adminProfile";
                     break;
 
                 case 'agent':
+                    $this->agent->id       = $userId;
+                    $this->agent->username = $username;
+                    $this->agent->email    = $email;
+                    $this->agent->mobile   = $mobile;
+                    $this->agent->dob      = $dob;
+                    $this->agent->gender   = $gender;
+                    $this->agent->password = $password;
+                    $this->agent->image    = $uploadedImage;
+
                     $this->agent->updateAgent();
                     $_SESSION['msg']      = "Profile updated successfully!";
                     $_SESSION['redirect'] = "/DreamAbode/public/agentProfile";

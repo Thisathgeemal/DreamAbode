@@ -73,4 +73,45 @@ class Property
         }
     }
 
+    public function getAllPropertyRequest()
+    {
+        try {
+            $query = "SELECT
+                    p.*,
+                    (SELECT ImageData
+                     FROM PropertyImages
+                     WHERE PropertyId = p.PropertyId
+                     ORDER BY UploadedAt ASC
+                     LIMIT 1) AS ImageData
+                  FROM " . $this->table . " p
+                  WHERE p.Status = 'pending'";
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            throw new Exception("Failed to fetch properties: " . $e->getMessage());
+        }
+    }
+
+    public function getPropertiesByUserId($userId)
+    {
+        $query = "SELECT
+                    p.*,
+                    (SELECT ImageData
+                     FROM PropertyImages
+                     WHERE PropertyId = p.PropertyId
+                     ORDER BY UploadedAt ASC
+                     LIMIT 1) AS ImageData
+                  FROM {$this->table} p
+                  WHERE p.MemberID = :userId";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
