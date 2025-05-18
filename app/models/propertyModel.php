@@ -114,4 +114,56 @@ class Property
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function grtAllProperties()
+    {
+        $query = "SELECT p.*, a.Username as AgentName
+                  FROM propertyAd p
+                  LEFT JOIN agent a ON p.AgentID = a.ID
+                  ORDER BY P.CreatedAt DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateStatus($propertyId, $status, $adminId)
+    {
+        if ($status === 'Accept') {
+            $agent   = $this->assignAgent();
+            $agentId = $agent ? $agent['ID'] : null;
+
+            $query = "UPDATE propertyAd SET Status = :status, AgentID = :agentId, AdminID = :adminId WHERE PropertyID = :propertyId";
+            $stmt  = $this->conn->prepare($query);
+            $stmt->execute([
+                ':status'     => $status,
+                ':agentId'    => $agentId,
+                ':adminId'    => $adminId,
+                ':propertyId' => $propertyId,
+            ]);
+            return ['agentName' => $agent ? $agent['Username'] : null];
+        } else {
+            $query = "UPDATE propertyAd SET Status = :status, AgentID = NULL, AdminID = :adminId WHERE PropertyID = :propertyId";
+            $stmt  = $this->conn->prepare($query);
+            $stmt->execute([
+                ':status'     => $status,
+                ':adminId'    => $adminId,
+                ':propertyId' => $propertyId,
+            ]);
+            return ['agentName' => null];
+        }
+    }
+
+    public function assignAgent()
+    {
+        $query = "SELECT a.ID, a.Username, COUNT(P.PropertyID) AS assignedCount
+                  FROM agent a
+                  LEFT JOIN propertyAd p ON a.ID = p.AgentID AND p.Status = 'Accept'
+                  GROUP BY a.ID
+                  ORDER BY assignedCount ASC
+                  LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
