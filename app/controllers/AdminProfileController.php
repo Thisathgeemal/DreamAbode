@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/AdminModel.php';
+require_once __DIR__ . '/../models/AgentModel.php';
 require_once __DIR__ . '/../models/propertyModel.php';
 require_once __DIR__ . '/../../config/database.php';
 
@@ -8,6 +9,7 @@ class AdminProfileController
     private $conn;
     private $admin;
     private $property;
+    private $agent;
 
     public function __construct()
     {
@@ -15,6 +17,7 @@ class AdminProfileController
         $this->conn     = $database->connection();
         $this->admin    = new Admin($this->conn);
         $this->property = new Property($this->conn);
+        $this->agent    = new Agent($this->conn);
     }
 
     public function index()
@@ -30,6 +33,7 @@ class AdminProfileController
         $pendingProperties  = $this->property->getAllPropertyRequest();
         $acceptedProperties = $this->property->getAcceptedProperties();
         $rejectedProperties = $this->property->getRejectedProperties();
+        $viewAgents         = $this->agent->getAllAgents();
 
         require_once '../app/views/dashboard/adminProfile.php';
     }
@@ -98,4 +102,5 @@ class AdminProfileController
             exit();
         }
     }
+
 }
