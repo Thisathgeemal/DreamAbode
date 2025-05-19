@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -19,17 +18,17 @@
     ?>
 
     <!-- hero section 1 -->
-    <section>
+    <section >
         <!-- text  -->
         <div class="absolute top-[33%] left-[7%] w-[45%] h-[75%]">
-            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] font-['Poppins']">
+            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] poppins">
                 Find Your <br> Dream Home <br> with Ease
             </h1>
-            <h2 class="relative top-[40%] left-0 text-[1.6vw] font-normal text-black font-['Poppins']">
+            <h2 class="relative top-[40%] left-0 text-[1.6vw] font-normal text-black poppins">
                 Explore Our Curated Selection of Modern <br> Homes and Prime Properties
             </h2>
             <div class="absolute top-[60%] left-0 w-[34%] h-[9.5%] bg-[#5CFFAB] rounded-[0.7vw] transition duration-300 ease-in-out hover:scale-105 hover:bg-[#42e697] shadow-md hover:shadow-lg cursor-pointer">
-                <span class="absolute top-[20%] w-full text-center text-[1.4vw] text-black font-normal font-['Poppins'] transition-colors duration-300">
+                <span class="absolute top-[20%] w-full text-center text-[1.4vw] text-black font-normal poppins transition-colors duration-300">
                     Explore Now
                 </span>
             </div>
@@ -63,10 +62,10 @@
 
         <!-- text  -->
         <div class="absolute top-[32%] left-[60%] w-[33%] h-[75%]">
-            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] font-['Poppins']">
+            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] poppins">
                 The Perfect Place to Manage Your Property
             </h1>
-           <h2 class="relative top-[40%] left-0 text-[1.5vw] font-normal text-black font-['Poppins']">
+           <h2 class="relative top-[40%] left-0 text-[1.5vw] font-normal text-black poppins">
                 Experience the power of the finest property management tools on the market and take your soperations to the next level!
             </h2>
 
@@ -142,6 +141,51 @@
             </h2>
         </div>
 
+        <div class="flex flex-wrap gap-10 justify-center p-4 h-[475px] mt-8">
+            <?php if (! empty($randomProperties) && is_array($randomProperties)): ?>
+<?php foreach ($randomProperties as $prop): ?>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                <!-- property image  -->
+                <div class="relative">
+                    <?php if (! empty($prop['ImageData'])): ?>
+                    <img src="data:image/jpeg;base64,<?php echo base64_encode($prop['ImageData']) ?>" alt="Property Image" class="w-full h-60 object-cover">
+                    <?php endif; ?>
+                    <div class="absolute top-2 right-2 bg-white rounded-lg p-2 shadow transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 cursor-pointer">
+                        <span class="font-semibold"><?php echo htmlspecialchars($prop['PostType']) ?></span>
+                    </div>
+                </div>
+
+                <!-- property data  -->
+                <div class="p-4 bg-[#5CFFAB] text-black text-center">
+                    <h2 class="text-xl font-bold m-1"><?php echo htmlspecialchars($prop['PropertyName']) ?></h2>
+                    <div class="flex justify-center items-center space-x-2 my-4">
+                        <img src="./images/Location.png" alt="Location" class="h-7 w-5.5">
+                        <span><?php echo htmlspecialchars($prop['Location']) ?></span>
+                    </div>
+
+                    <div class="flex justify-center items-center mt-2 space-x-8">
+                        <div class="flex items-center space-x-2">
+                            <img src="./images/money.png" alt="Price" class="h-7 w-7 mr-2">
+                            <span>RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <?php echo htmlspecialchars($prop['Price']) ?> M</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <img src="./images/Bed.png" alt="Bedrooms" class="h-6 w-6 mr-2">
+                            <span><?php echo htmlspecialchars($prop['Bedrooms']) ?> Rooms</span>
+                        </div>
+                    </div>
+
+                    <!-- buttons -->
+                    <form action="#" method="POST" class="mt-4 space-x-2">
+                        <button type="submit" name="action" value="Explore" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-[100px] transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 cursor-pointer">Explore</button>
+                        <button type="submit" name="action" value="Inquire" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-[100px] transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 cursor-pointer">Inquire</button>
+                    </form>
+                </div>
+            </div>
+            <?php endforeach; ?>
+<?php else: ?>
+                <p class="flex justify-center align-middle text-center text-red-500 text-lg">No properties found.</p>
+            <?php endif; ?>
+        </div>
     </section>
 
     <?php

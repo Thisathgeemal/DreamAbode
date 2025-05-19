@@ -227,6 +227,13 @@ class Property
 
     }
 
-    
+    public function getRandomAcceptedProperties($limit = 3)
+    {
+        $query = "SELECT p.*, (SELECT ImageData FROM PropertyImages WHERE PropertyId = p.PropertyId ORDER BY UploadedAt ASC LIMIT 1) AS ImageData FROM " . $this->table . " p WHERE p.Status = 'Accept' ORDER BY RAND() LIMIT :limit";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

@@ -225,13 +225,16 @@ class MemberProfileController
                 exit();
             }
 
-            $username      = trim($_POST['username']);
-            $email         = trim($_POST['email']);
-            $mobile        = trim($_POST['mobile']);
-            $dob           = trim($_POST['dob']);
-            $gender        = trim($_POST['gender']);
-            $password      = trim($_POST['password']);
-            $uploadedImage = '';
+            $username = trim($_POST['username']);
+            $email    = trim($_POST['email']);
+            $mobile   = trim($_POST['mobile']);
+            $dob      = trim($_POST['dob']);
+            $gender   = trim($_POST['gender']);
+            $password = trim($_POST['password']);
+
+            if (! empty($_FILES['image']['name'])) {
+                $uploadedImage = file_get_contents($_FILES['image']['tmp_name']);
+            }
 
             switch ($userType) {
                 case 'member':
@@ -246,7 +249,7 @@ class MemberProfileController
 
                     $this->member->updateMember();
                     $_SESSION['msg']      = "Profile updated successfully!";
-                    $_SESSION['redirect'] = "/DreamAbode/public/memberProfile";
+                    $_SESSION['redirect'] = "/DreamAbode/public/memberProfile?section=profile";
                     break;
 
                 case 'admin':
@@ -261,7 +264,7 @@ class MemberProfileController
 
                     $this->admin->updateAdmin();
                     $_SESSION['msg']      = "Profile updated successfully!";
-                    $_SESSION['redirect'] = "/DreamAbode/public/adminProfile";
+                    $_SESSION['redirect'] = "/DreamAbode/public/adminProfile?section=profile";
                     break;
 
                 case 'agent':
@@ -276,7 +279,7 @@ class MemberProfileController
 
                     $this->agent->updateAgent();
                     $_SESSION['msg']      = "Profile updated successfully!";
-                    $_SESSION['redirect'] = "/DreamAbode/public/agentProfile";
+                    $_SESSION['redirect'] = "/DreamAbode/public/agentProfile?section=profile";
                     break;
 
                 default:

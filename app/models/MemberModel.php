@@ -120,9 +120,9 @@ class Member
 
         if ($stmt->execute()) {
             return $stmt->fetch(PDO::FETCH_ASSOC);
-        } else {
-            return false;
         }
+        return false;
+
     }
 
     public function updateMember()
@@ -153,7 +153,7 @@ class Member
         }
 
         if (! empty($this->image)) {
-            $stmt->bindParam(':image', $this->image);
+            $stmt->bindParam(':image', $this->image, PDO::PARAM_LOB);
         }
 
         return $stmt->execute();

@@ -19,7 +19,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -33,6 +32,9 @@
             <form method="GET" class="flex flex-col items-center space-y-8">
                 <button name="section" value="dashboard" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     Dashboard
+                </button>
+                <button name="section" value="admin" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
+                    Admin
                 </button>
                 <button name="section" value="agents" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     Agents
@@ -67,17 +69,20 @@
                     case 'profile':
                         require_once __DIR__ . '/content/profile.php';
                         break;
+                    case 'admin':
+                        require_once __DIR__ . '/content/admin.php';
+                        break;
                     case 'agents':
-                        require_once __DIR__ . '/content/agents.php';
+                        require_once __DIR__ . '/content/adminAgent.php';
                         break;
                     case 'users':
-                        require_once __DIR__ . '/content/users.php';
+                        require_once __DIR__ . '/content/adminUsers.php';
                         break;
                     case 'add':
-                        require_once __DIR__ . '/content/add.php';
+                        require_once __DIR__ . '/content/adminAd.php';
                         break;
                     case 'projects':
-                        require_once __DIR__ . '/content/projects.php';
+                        require_once __DIR__ . '/content/adminProjects.php';
                         break;
                     default:
                         require_once __DIR__ . '/content/adminDashboard.php';
