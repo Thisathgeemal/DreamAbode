@@ -134,7 +134,7 @@
 
                 <div class="flex justify-center space-x-4 mt-6">
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 w-[100px]">Post</button>
-                    <a href="./memberProfile"><button type="button" class="bg-red-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-600 w-[100px]">Discard</button></a>
+                    <a href="./memberProfile?section=manage_ad"><button type="button" class="bg-red-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-600 w-[100px]">Discard</button></a>
                 </div>
             </form>
         </div>

@@ -63,7 +63,7 @@ class PostAdController
                 }
 
                 $_SESSION['msg'] = "Property added successfully!";
-                header("Location: /DreamAbode/public/memberProfile");
+                header("Location: /DreamAbode/public/memberProfile?section=manage_ad");
                 exit();
             } else {
                 $_SESSION['error'] = "Failed to add property.";

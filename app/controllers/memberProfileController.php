@@ -31,11 +31,111 @@ class MemberProfileController
             exit();
         }
 
-        $userId     = $_SESSION['user_id'];
-        $userData   = $this->member->getUserProfile($userId);
-        $properties = $this->property->getPropertiesByUserId($userId);
+        $userId             = $_SESSION['user_id'];
+        $userData           = $this->member->getUserProfile($userId);
+        $pendingProperties  = $this->property->getPendingPropertiesByUserId($userId);
+        $acceptedProperties = $this->property->getAcceptedPropertiesByUserId($userId);
+        $rejectedProperties = $this->property->getRejectedPropertiesByUserId($userId);
 
         require_once '../app/views/dashboard/memberProfile.php';
+    }
+
+    public function handleProperty()
+    {
+        session_start();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId     = $_SESSION['user_id'] ?? null;
+            $propertyId = $_POST['property_id'] ?? null;
+            $action     = $_POST['action'] ?? null;
+
+            $_SESSION['property_id'] = $propertyId;
+
+            if (! $userId || ! $propertyId || ! $action) {
+                $_SESSION['error'] = "Invalid request.";
+                header("Location: /DreamAbode/public/memberProfile");
+                exit();
+            }
+
+            if ($action === 'Edit') {
+                $this->property->propertyId = $propertyId;
+                $propertyDetails            = $this->property->getPropertyDetails();
+
+                if (! $propertyDetails) {
+                    $_SESSION['error'] = "Property not found.";
+                    header("Location: /DreamAbode/public/memberProfile");
+                    exit();
+                }
+
+                require_once '../app/views/pages/editAd.php';
+
+            } elseif ($action === 'Remove') {
+                $this->property->deleteProperty($propertyId);
+                header("Location: /DreamAbode/public/memberProfile");
+                exit();
+            }
+        }
+    }
+
+    public function discardPath()
+    {
+        header("Location: /DreamAbode/public/memberProfile?section=manage_ad");
+        exit();
+    }
+
+    public function updateProperty()
+    {
+        session_start();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId     = $_SESSION['user_id'] ?? null;
+            $propertyId = $_SESSION['property_id'] ?? null;
+
+            if (! $userId) {
+                $_SESSION['error'] = "You must be logged in to edit an ad.";
+                header("Location: /DreamAbode/public/login");
+                exit();
+            }
+
+            if (! $propertyId) {
+                $_SESSION['error'] = "Property ID is required.";
+                header("Location: /DreamAbode/public/memberProfile?section=manage_ad");
+                exit();
+            }
+
+            if (isset($_FILES['images']['tmp_name']) && count($_FILES['images']['tmp_name']) > 6) {
+                $_SESSION['error'] = "You can upload up to 6 images only.";
+                header("Location: /DreamAbode/public/editAd");
+                exit();
+            }
+
+            $this->property->propertyId   = $propertyId;
+            $this->property->propertyName = trim($_POST['propertyName']);
+            $this->property->location     = trim($_POST['location']);
+            $this->property->measurement  = trim($_POST['measurement']);
+            $this->property->price        = trim($_POST['price']);
+            $this->property->propertyType = trim($_POST['propertyType']);
+            $this->property->postType     = trim($_POST['postType']);
+            $this->property->bedrooms     = trim($_POST['bedroomCount']);
+            $this->property->bathrooms    = trim($_POST['bathroomCount']);
+            $this->property->floors       = trim($_POST['floorCount']);
+            $this->property->perches      = trim($_POST['perches']);
+            $this->property->memberId     = $userId;
+
+            if ($this->property->updatePropertyDetails()) {
+                $_SESSION['msg'] = "Ad updated successfully.";
+                header("Location: /DreamAbode/public/memberProfile?section=manage_ad");
+                exit();
+            } else {
+                $_SESSION['error'] = "Failed to update ad. Please try again.";
+                header("Location: /DreamAbode/public/editAd?id=" . $this->property->propertyId);
+                exit();
+            }
+
+        } else {
+            header("Location: /DreamAbode/public/memberProfile");
+            exit();
+        }
     }
 
     public function signupMember()
