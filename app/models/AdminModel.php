@@ -120,4 +120,64 @@ class Admin
         return $stmt->execute();
     }
 
+    public function getAllAdmins()
+    {
+        $query = "SELECT * FROM " . $this->table . " ORDER BY created_at ASC";
+        $stmt  = $this->conn->prepare($query);
+
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return [];
+    }
+
+    public function removeAdminById($userId)
+    {
+        $query = "DELETE FROM " . $this->table . " WHERE ID = :userId";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public function addAdmin()
+    {
+        $query = "INSERT INTO " . $this->table . "(Username, Password, Email, MobileNumber, DOB, Gender, created_at) VALUES (:username, :password, :email, :mobile, :dob, :gender, NOW())";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':mobile', $this->mobile);
+        $stmt->bindParam(':dob', $this->dob);
+        $stmt->bindParam(':gender', $this->gender);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function isUsernameExists()
+    {
+        $query = "SELECT 1 FROM " . $this->table . " WHERE Username = :username LIMIT 1";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function isEmailExists()
+    {
+        $query = "SELECT 1 FROM " . $this->table . " WHERE Email = :email LIMIT 1";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    }
 }

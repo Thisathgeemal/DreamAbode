@@ -75,7 +75,7 @@
                         require_once __DIR__ . '/content/adminAgent.php';
                         break;
                     case 'users':
-                        require_once __DIR__ . '/content/adminUsers.php';
+                        require_once __DIR__ . '/content/adminMember.php';
                         break;
                     case 'add':
                         require_once __DIR__ . '/content/adminAd.php';

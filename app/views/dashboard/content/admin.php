@@ -21,7 +21,7 @@
 <body>
 
         <section class="p-10 w-full">
-            <h1 class="flex justify-center align-miiddle text-4xl font-bold poppins p-4 mb-4 mt-2">Agent Details</h1>
+            <h1 class="flex justify-center align-miiddle text-4xl font-bold poppins p-4 mb-4 mt-2">Admin Details</h1>
             <!-- Top Button Groups -->
             <div class="flex flex-wrap gap-4 mb-6 align-middle justify-center">
                 <button class="flex items-center justify-center bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-2 px-3 rounded-md w-[130px] transition-colors duration-200" onclick="showSection('view')">
@@ -46,7 +46,7 @@
 ?>
 <?php endif; ?>
 
-            <form id="deleteForm" method="POST" action="./agentProfile/deleteAgent">
+            <form id="deleteForm" method="POST" action="./adminProfile/deleteAdmin">
                 <section id="property-container-view" class="p-4 flex justify-center align-middle">
                     <div class="-full max-w-7xl border border-green-300 shadow-lg rounded-lg overflow-hidden">
                         <div class="max-h-[450px] overflow-y-auto custom-scrollbar">
@@ -56,28 +56,28 @@
                                         <th class="py-2 px-6 text-left text-sm font-semibold">Select</th>
                                         <th class="py-2 px-6 text-left text-sm font-semibold">Username</th>
                                         <th class="py-2 px-6 text-left text-sm font-semibold">Email</th>
-                                        <th class="py-2 px-6 text-left text-sm font-semibold">Mobile Number</th>
-                                        <th class="py-2 px-6 text-left text-sm font-semibold">Date of Birth</th>
+                                        <th class="py-2 px-6 text-left text-sm font-semibold">Mobile</th>
+                                        <th class="py-2 px-6 text-left text-sm font-semibold">DOB</th>
                                         <th class="py-2 px-6 text-left text-sm font-semibold">Gender</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
-                                    <?php if (! empty($viewAgents)): ?>
-<?php foreach ($viewAgents as $agent): ?>
+                                    <?php if (! empty($viewAdmins)): ?>
+<?php foreach ($viewAdmins as $admin): ?>
                                             <tr class="hover:bg-green-100 even:bg-gray-50 transition">
                                                 <td class="py-2 px-6">
-                                                    <?php $id = htmlspecialchars($agent['ID']); ?>
-                                                    <input type="checkbox" name="agent_ids[]" value="<?php echo $id; ?>" class="h-4 w-4 text-green-500" />
+                                                    <?php $id = htmlspecialchars($admin['ID']); ?>
+                                                    <input type="checkbox" name="admin_ids[]" value="<?php echo $id; ?>" class="h-4 w-4 text-green-500" />
                                                 </td>
-                                                <td class="py-2 px-6"><?php echo htmlspecialchars($agent['Username']) ?></td>
-                                                <td class="py-2 px-6"><?php echo htmlspecialchars($agent['Email']) ?></td>
-                                                <td class="py-2 px-6"><?php echo htmlspecialchars($agent['MobileNumber']) ?></td>
-                                                <td class="py-2 px-6"><?php echo htmlspecialchars($agent['DOB']) ?></td>
-                                                <td class="py-2 px-6"><?php echo htmlspecialchars($agent['Gender']) ?></td>
+                                                <td class="py-2 px-6"><?php echo htmlspecialchars($admin['Username']) ?></td>
+                                                <td class="py-2 px-6"><?php echo htmlspecialchars($admin['Email']) ?></td>
+                                                <td class="py-2 px-6"><?php echo htmlspecialchars($admin['MobileNumber']) ?></td>
+                                                <td class="py-2 px-6"><?php echo htmlspecialchars($admin['DOB']) ?></td>
+                                                <td class="py-2 px-6"><?php echo htmlspecialchars($admin['Gender']) ?></td>
                                             </tr>
                                         <?php endforeach; ?>
 <?php else: ?>
-                                        <tr><td colspan="7" class="px-6 py-4 text-center text-red-500">No agents found.</td></tr>
+                                        <tr><td colspan="7" class="px-6 py-4 text-center text-red-500">No admins found.</td></tr>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
@@ -87,7 +87,7 @@
             </form>
 
             <section id="property-container-add" class="mt-8">
-                <form method="POST" action="./agentProfile/createAgent" enctype="multipart/form-data" class="w-full max-w-3xl mx-auto" id="property-container-add">
+                <form method="POST" action="./adminProfile/createadmin" enctype="multipart/form-data" class="w-full max-w-3xl mx-auto" id="property-container-add">
                     <!-- Input Fields -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>

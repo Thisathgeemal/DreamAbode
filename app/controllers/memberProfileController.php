@@ -292,4 +292,29 @@ class MemberProfileController
         }
     }
 
+    public function deleteMember()
+    {
+        session_start();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && ! empty($_POST['member_ids'])) {
+            $deleted = 0;
+            foreach ($_POST['member_ids'] as $userId) {
+                if ($this->member->removeMembersById($userId)) {
+                    $deleted++;
+                }
+            }
+
+            if ($deleted > 0) {
+                $_SESSION['msg'] = "$deleted member(s) deleted successfully!";
+            } else {
+                $_SESSION['msg'] = "No members were deleted.";
+            }
+        } else {
+            $_SESSION['msg'] = "No members selected for deletion.";
+        }
+
+        header("Location: /DreamAbode/public/adminProfile?section=users");
+        exit();
+    }
+
 }

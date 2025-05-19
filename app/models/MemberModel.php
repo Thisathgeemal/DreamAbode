@@ -159,4 +159,23 @@ class Member
         return $stmt->execute();
     }
 
+    public function getAllMembers()
+    {
+        $query = "SELECT * FROM " . $this->table . " ORDER BY created_at ASC";
+        $stmt  = $this->conn->prepare($query);
+
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return [];
+    }
+
+    public function removeMembersById($userId)
+    {
+        $query = "DELETE FROM " . $this->table . " WHERE ID = :userId";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }

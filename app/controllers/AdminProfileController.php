@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/AdminModel.php';
 require_once __DIR__ . '/../models/AgentModel.php';
+require_once __DIR__ . '/../models/MemberModel.php';
 require_once __DIR__ . '/../models/propertyModel.php';
 require_once __DIR__ . '/../../config/database.php';
 
@@ -18,6 +19,7 @@ class AdminProfileController
         $this->admin    = new Admin($this->conn);
         $this->property = new Property($this->conn);
         $this->agent    = new Agent($this->conn);
+        $this->member   = new Member($this->conn);
     }
 
     public function index()
@@ -34,6 +36,8 @@ class AdminProfileController
         $acceptedProperties = $this->property->getAcceptedProperties();
         $rejectedProperties = $this->property->getRejectedProperties();
         $viewAgents         = $this->agent->getAllAgents();
+        $viewMembers        = $this->member->getAllMembers();
+        $viewAdmins         = $this->admin->getAllAdmins();
 
         require_once '../app/views/dashboard/adminProfile.php';
     }
@@ -99,6 +103,82 @@ class AdminProfileController
             }
 
             header("Location: /DreamAbode/public/adminProfile?section=add");
+            exit();
+        }
+    }
+
+    public function deleteAdmin()
+    {
+        session_start();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && ! empty($_POST['admin_ids'])) {
+            $deleted = 0;
+            foreach ($_POST['admin_ids'] as $userId) {
+                if ($this->admin->removeAdminById($userId)) {
+                    $deleted++;
+                }
+            }
+
+            if ($deleted > 0) {
+                $_SESSION['msg'] = "$deleted admin(s) deleted successfully!";
+            } else {
+                $_SESSION['msg'] = "No admins were deleted.";
+            }
+        } else {
+            $_SESSION['msg'] = "No admins selected for deletion.";
+        }
+
+        header("Location: /DreamAbode/public/adminProfile?section=admin");
+        exit();
+    }
+
+    public function createAdmin()
+    {
+        session_start();
+
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $username = trim($_POST['username']);
+            $email    = trim($_POST['email']);
+            $mobile   = trim($_POST['mobile']);
+            $password = trim($_POST['password']);
+            $dob      = trim($_POST['dob']);
+            $gender   = trim($_POST['gender']);
+
+            $this->admin->username = $username;
+            $this->admin->password = $password;
+            $this->admin->email    = $email;
+            $this->admin->mobile   = $mobile;
+            $this->admin->dob      = $dob;
+            $this->admin->gender   = $gender;
+
+            // Basic validations
+            if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $_SESSION['msg'] = "Invalid email format!";
+            } elseif (! preg_match('/^[0-9]{10}$/', $mobile)) {
+                $_SESSION['msg'] = "Invalid mobile number!";
+            } else {
+
+                if ($this->admin->isUsernameExists() && $this->admin->isEmailExists()) {
+                    $_SESSION['msg'] = "Username and email already exist!";
+                } elseif ($this->admin->isUsernameExists()) {
+                    $_SESSION['msg'] = "Username already exists!";
+                } elseif ($this->admin->isEmailExists()) {
+                    $_SESSION['msg'] = "Email already exists!";
+                } else {
+                    if ($this->admin->addadmin()) {
+                        $_SESSION['msg'] = "Admin created successfully!";
+                    } else {
+                        $_SESSION['error'] = "Failed to register admin. Please try again.";
+                    }
+                    header("Location: /DreamAbode/public/adminProfile?section=admin");
+                    exit();
+                }
+            }
+
+            header("Location: /DreamAbode/public/adminProfile?section=admin");
+            exit();
+        } else {
+            header("Location: /DreamAbode/public/login");
             exit();
         }
     }
