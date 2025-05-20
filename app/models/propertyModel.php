@@ -204,6 +204,17 @@ class Property
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // get all images for a property
+    public function getAllPropertyImages()
+    {
+        $query = "SELECT ImageData FROM PropertyImages WHERE PropertyId = :propertyId ORDER BY UploadedAt ASC";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':propertyId', $this->propertyId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
     // update property details
     public function updatePropertyDetails()
     {

@@ -1,8 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
 <?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (isset($_SESSION['viewProperty'])) {
+        $viewProperty = $_SESSION['viewProperty'];
+        $images       = $viewProperty['ImageData'];
+    }
+
     define('BASE_URL', '/DreamAbode');
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -19,29 +29,28 @@
 
     <!-- hero section 1 -->
     <section class="bg-white p-6 flex flex-col items-center">
-        <div class="relative mb-8">
-             <div class="absolute z-0">
-                <img src="./images/ViewBg.png" alt="Background" class="w-[600px] max-w-full mx-auto" >
-            </div>
-            <img src="./images/pn.png" alt="Modern House" class="relative z-10 w-[600px]" >
+        <div class="relative mb-10">
+            <?php if (! empty($images)): ?>
+                <img src="data:image/jpeg;base64,<?php echo $images[0]; ?>" alt="Main Property" class="relative z-10 w-[550px] rounded-lg border border-black shadow-md hover:scale-105 transition-transform duration-300">
+            <?php endif; ?>
         </div>
 
         <div class="grid grid-cols-5 gap-6 px-20">
-            <img src="./images/PropertyBox01.jpg" alt="Modern House" class="max-w-[200px] rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-            <img src="./images/PropertyBox01.jpg" alt="Modern House" class="max-w-[200px] rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-            <img src="./images/PropertyBox01.jpg" alt="Modern House" class="max-w-[200px] rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-            <img src="./images/PropertyBox01.jpg" alt="Modern House" class="max-w-[200px] rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-            <img src="./images/PropertyBox01.jpg" alt="Modern House" class="max-w-[200px] rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+            <?php if (! empty($images) && count($images) > 1): ?>
+<?php foreach (array_slice($images, 1) as $img): ?>
+                    <img src="data:image/jpeg;base64,<?php echo $img; ?>" alt="Property Image" class="max-w-[200px] rounded-lg border border-black shadow-md hover:scale-105 transition-transform duration-300">
+                <?php endforeach; ?>
+<?php endif; ?>
         </div>
     </section>
 
     <!-- hero section 2 -->
     <section class="max-w-6xl mx-auto bg-white rounded-lg p-6 mt-10 shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
         <div class="text-center space-y-2">
-            <h2 class="text-3xl font-bold text-gray-800 mt-3 mb-5">Presidential Towers</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mt-3 mb-5"><?php echo $viewProperty['PropertyName']; ?></h2>
             <p class="text-gray-600 flex justify-center items-center gap-2 text-md font-semibold">
                 <img src="./images/Location.png" alt="Location" class="w-6 h-7">
-                Prime Residencies, Rajagiriya
+                <?php echo $viewProperty['Location']; ?>
             </p>
         </div>
 
@@ -49,7 +58,7 @@
         <div class="flex justify-center mt-6">
             <div class="inline-flex items-center gap-2 px-6 py-2 border border-gray-300 rounded-lg bg-green-100 text-red-600 font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/money.png" alt="Money" class="w-6 h-7">
-                RS 19.8M
+                RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <?php echo $viewProperty['Price']; ?> M
             </div>
         </div>
 
@@ -58,32 +67,32 @@
             <!-- Feature Box Template -->
             <div class="flex items-center justify-center gap-2 px-8 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Houses.png" alt="House" class="w-6 h-6">
-                House
+                <?php echo $viewProperty['PropertyType']; ?>
             </div>
 
             <div class="flex items-center justify-center gap-2 px-6 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Bedrooms.png" alt="Bedroom" class="w-6 h-6">
-                3 Bedrooms
+                <?php echo $viewProperty['Bedrooms']; ?> Bedrooms
             </div>
 
             <div class="flex items-center justify-center gap-2 px-6 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Bathrooms.png" alt="Bathroom" class="w-6 h-6">
-                2 Bathrooms
+                <?php echo $viewProperty['Bathrooms']; ?> Bathrooms
             </div>
 
             <div class="flex items-center justify-center gap-2 px-8 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Perches.png" alt="Sq.Ft" class="w-6 h-6">
-                2250 Sq.Ft.
+                <?php echo $viewProperty['Measurement']; ?> Sq.Ft.
             </div>
 
             <div class="flex items-center justify-center gap-2 px-8 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Floor.png" alt="Floor" class="w-6 h-6">
-                2 Floor
+                <?php echo $viewProperty['Floors']; ?> Floor
             </div>
 
             <div class="flex items-center justify-center gap-2 px-8 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Perches.png" alt="Perches" class="w-6 h-6">
-                20 Perches
+                <?php echo $viewProperty['Perches']; ?> Perches
             </div>
         </div>
     </section>
@@ -108,7 +117,6 @@
                 </iframe>
             </div>
         </div>
-
     </section>
 
     <!-- hero section 4 -->
@@ -147,6 +155,8 @@
 
     <?php
         require_once __DIR__ . '/../includes/footer.php';
+
+        unset($_SESSION['viewProperty']);
     ?>
 
 </body>
