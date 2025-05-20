@@ -91,11 +91,41 @@
         <div class="mt-12 flex flex-wrap justify-center items-center gap-20">
             <!-- Card Item -->
             <div class="w-[550px] h-[550px] bg-[#5CFFAB] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:bg-[#42e697] hover:shadow-md cursor-pointer">
-                <h3 class="text-2xl font-semibold mb-2">Dream Abode Real Estate Colombo</h3>
+                <h3 class="text-2xl font-semibold mb-6">Dream Abode Real Estate <br> Colombo</h3>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1978.7698578454135!2d80.63755512941708!3d7.29309175401359!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae3662c3b88e9ff%3A0x5b092bc39f5d4ed2!2sSri%20Dalada%20Veediya%2C%20Kandy!5e0!3m2!1sen!2slk!4v1747755707738!5m2!1sen!2slk"
+                    width="100%"
+                    height="300"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    class="w-full h-[300px]">
+                </iframe>
+                <div class="flex flex-col align-middle justify-center">
+                    <h3 class="mt-8">+94 11 234 5678</h3>
+                    <h3 class="my-1">info@dreamabode.lk</h3>
+                    <h3 class="my-1">123 Luxury Lane, Colombo, Sri Lanka</h3>
+                </div>
             </div>
 
             <div class="w-[550px] h-[550px] bg-[#5CFFAB] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:bg-[#42e697] hover:shadow-md cursor-pointer">
-                <h3 class="text-2xl font-semibold mb-2">Dream Abode Real Estate Kandy</h3>
+                <h3 class="text-2xl font-semibold mb-6">Dream Abode Real Estate <br> Kandy</h3>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.0535652958915!2d79.96023731076652!3d7.002975217376222!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2f861c6d50e2d%3A0x1347c9fc1104a454!2sKadawatha%20Interchange!5e0!3m2!1sen!2slk!4v1747755781451!5m2!1sen!2slk"
+                    width="100%"
+                    height="300"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    class="w-full h-[300px]">
+                </iframe>
+                <div class="flex flex-col align-middle justify-center">
+                    <h3 class="mt-8">+94 11 234 9856</h3>
+                    <h3 class="my-1">kandy@dreamabode.lk</h3>
+                    <h3 class="my-1">456 Heritage Street, Kandy, Sri Lanka</h3>
+                </div>
             </div>
 
         </div>

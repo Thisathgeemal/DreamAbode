@@ -47,7 +47,7 @@
 
             <form id="deleteForm" method="POST" action="./adminProfile/deleteAdmin">
                 <section id="property-container-view" class="p-4 flex justify-center align-middle">
-                    <div class="-full max-w-7xl border border-green-300 shadow-lg rounded-lg overflow-hidden">
+                    <div class="w-full max-w-7xl border border-green-300 shadow-lg rounded-lg overflow-hidden">
                         <div class="max-h-[450px] overflow-y-auto custom-scrollbar">
                             <table class="min-w-full divide-y divide-gray-200 border border-gray-300 bg-white rounded-lg">
                                 <thead class="bg-green-200 text-gray-800">

@@ -43,4 +43,18 @@ class ContactAgent
         return false;
     }
 
+    public function getMessage($contactType)
+    {
+        $query = "SELECT * FROM " . $this->table . " WHERE contactType = :contactType ORDER BY sent_at ASC";
+        $stmt  = $this->conn->prepare($query);
+
+        $stmt->bindParam(':contactType', $contactType, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return [];
+    }
+
 }

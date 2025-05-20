@@ -39,6 +39,9 @@
                 <button name="section" value="agentProjects" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     Projects
                 </button>
+                <button name="section" value="agentMessage" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
+                    Message
+                </button>
                 <button name="section" value="profile" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     My Profile
                 </button>
@@ -61,6 +64,9 @@
                         break;
                     case 'agentProjects':
                         require_once __DIR__ . '/content/agentProjects.php';
+                        break;
+                    case 'agentMessage':
+                        require_once __DIR__ . '/content/agentMessage.php';
                         break;
                     case 'profile':
                         require_once __DIR__ . '/content/profile.php';

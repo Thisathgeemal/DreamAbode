@@ -1,18 +1,20 @@
 <?php
 require_once __DIR__ . '/../models/AgentModel.php';
+require_once __DIR__ . '/../models/contactAgentModel.php';
 require_once __DIR__ . '/../../config/database.php';
 
 class AgentProfileController
 {
     private $conn;
-
+    private $contact;
     private $agent;
 
     public function __construct()
     {
-        $database    = new Database();
-        $this->conn  = $database->connection();
-        $this->agent = new Agent($this->conn);
+        $database      = new Database();
+        $this->conn    = $database->connection();
+        $this->agent   = new Agent($this->conn);
+        $this->contact = new ContactAgent($this->conn);
     }
 
     public function index()
@@ -23,8 +25,10 @@ class AgentProfileController
             exit();
         }
 
-        $userId   = $_SESSION['user_id'];
-        $userData = $this->agent->getUserProfile($userId);
+        $userId           = $_SESSION['user_id'];
+        $userData         = $this->agent->getUserProfile($userId);
+        $viewMessageCall  = $this->contact->getMessage('Call');
+        $viewMessageEmail = $this->contact->getMessage('Email');
 
         require_once '../app/views/dashboard/agentProfile.php';
     }
