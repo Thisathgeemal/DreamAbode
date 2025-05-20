@@ -181,4 +181,6 @@ class Agent
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    
 }

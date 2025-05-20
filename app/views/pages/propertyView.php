@@ -8,6 +8,11 @@
         $images       = $viewProperty['ImageData'];
     }
 
+    $agent = $_SESSION['agent'] ?? null;
+
+    $message = isset($_SESSION['msg']) ? $_SESSION['msg'] : '';
+    unset($_SESSION['msg']);
+
     define('BASE_URL', '/DreamAbode');
 ?>
 
@@ -27,6 +32,19 @@
         require_once __DIR__ . '/../includes/header.php';
     ?>
 
+
+    <?php if ($message): ?>
+<?php
+    $colorClass = (strpos(strtolower($message), 'success') !== false)
+    ? 'text-green-600'
+    : 'text-red-600';
+    echo "<div class=\"mb-4 text-center font-semibold p-1 text-lg " . htmlspecialchars($colorClass) . "\">";
+    echo htmlspecialchars($message);
+    echo "</div>";
+?>
+<?php endif; ?>
+
+
     <!-- hero section 1 -->
     <section class="bg-white p-6 flex flex-col items-center">
         <div class="relative mb-10">
@@ -44,10 +62,11 @@
         </div>
     </section>
 
+
     <!-- hero section 2 -->
     <section class="max-w-6xl mx-auto bg-white rounded-lg p-6 mt-10 shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
         <div class="text-center space-y-2">
-            <h2 class="text-3xl font-bold text-gray-800 mt-3 mb-5"><?php echo $viewProperty['PropertyName']; ?></h2>
+            <h2 class="text-3xl font-bold text-gray-800 mt-3 mb-5">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <?php echo htmlspecialchars($viewProperty['PropertyName']); ?></h2>
             <p class="text-gray-600 flex justify-center items-center gap-2 text-md font-semibold">
                 <img src="./images/Location.png" alt="Location" class="w-6 h-7">
                 <?php echo $viewProperty['Location']; ?>
@@ -58,7 +77,7 @@
         <div class="flex justify-center mt-6">
             <div class="inline-flex items-center gap-2 px-6 py-2 border border-gray-300 rounded-lg bg-green-100 text-red-600 font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/money.png" alt="Money" class="w-6 h-7">
-                RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <?php echo $viewProperty['Price']; ?> M
+                RS                                                                                                                                                                                                                                                                                                                                                                                                                               <?php echo htmlspecialchars($viewProperty['Price']); ?> M
             </div>
         </div>
 
@@ -67,35 +86,36 @@
             <!-- Feature Box Template -->
             <div class="flex items-center justify-center gap-2 px-8 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Houses.png" alt="House" class="w-6 h-6">
-                <?php echo $viewProperty['PropertyType']; ?>
+                <?php echo htmlspecialchars($viewProperty['PropertyType']); ?>
             </div>
 
             <div class="flex items-center justify-center gap-2 px-6 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Bedrooms.png" alt="Bedroom" class="w-6 h-6">
-                <?php echo $viewProperty['Bedrooms']; ?> Bedrooms
+                <?php echo htmlspecialchars($viewProperty['Bedrooms']); ?> Bedrooms
             </div>
 
             <div class="flex items-center justify-center gap-2 px-6 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Bathrooms.png" alt="Bathroom" class="w-6 h-6">
-                <?php echo $viewProperty['Bathrooms']; ?> Bathrooms
+                <?php echo htmlspecialchars($viewProperty['Bathrooms']); ?> Bathrooms
             </div>
 
             <div class="flex items-center justify-center gap-2 px-8 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Perches.png" alt="Sq.Ft" class="w-6 h-6">
-                <?php echo $viewProperty['Measurement']; ?> Sq.Ft.
+                <?php echo htmlspecialchars($viewProperty['Measurement']); ?> Sq.Ft.
             </div>
 
             <div class="flex items-center justify-center gap-2 px-8 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Floor.png" alt="Floor" class="w-6 h-6">
-                <?php echo $viewProperty['Floors']; ?> Floor
+                <?php echo htmlspecialchars($viewProperty['Floors']); ?> Floor
             </div>
 
             <div class="flex items-center justify-center gap-2 px-8 py-3 border border-gray-400 rounded-lg bg-[#5CFFAB] text-black font-semibold shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <img src="./images/Perches.png" alt="Perches" class="w-6 h-6">
-                <?php echo $viewProperty['Perches']; ?> Perches
+                <?php echo htmlspecialchars($viewProperty['Perches']); ?> Perches
             </div>
         </div>
     </section>
+
 
     <!-- hero section 3 -->
     <section class="max-w-6xl mx-auto bg-white rounded-lg p-6 mt-14 shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
@@ -105,8 +125,9 @@
 
         <div class="max-w-3xl mx-auto my-10">
             <div class="overflow-hidden rounded-lg border border-gray-300 shadow-[0_0_10px_3px_rgba(92,115,114,0.25)]">
+                <?php $encodedLocation = urlencode($viewProperty['Location']); ?>
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63320.41806481885!2d80.5844958207122!3d7.294628564856129!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae366266498acd3%3A0x411a3818a1e03c35!2sKandy!5e0!3m2!1sen!2slk!4v1747724701689!5m2!1sen!2slk"
+                    src="https://www.google.com/maps?q=<?php echo $encodedLocation; ?>&output=embed"
                     width="100%"
                     height="300"
                     style="border:0;"
@@ -119,6 +140,7 @@
         </div>
     </section>
 
+
     <!-- hero section 4 -->
     <section class="max-w-6xl mx-auto bg-white rounded-lg p-6 mt-14 shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
         <div class="text-center space-y-2">
@@ -126,37 +148,41 @@
         </div>
 
         <div class="flex flex-col md:flex-row items-center md:justify-center gap-10 my-10">
-            <!-- Profile Image -->
             <div class="flex-shrink-0">
-                <img src="./images/profile.png" alt="Agent" class="w-30 h-30 rounded-full border object-cover shadow-md" />
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($agent['Image']) ?>" alt="Agent" class="w-30 h-30 rounded-full border object-cover shadow-md" />
             </div>
 
-            <!-- Buttons -->
+            <!-- Buttons (submit form with context) -->
             <div class="flex flex-col gap-3">
-                <button class="bg-[#5CFFAB] text-black font-semibold py-2 px-8 rounded-lg flex items-center justify-center border border-gray-400 gap-2 shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                    <img src="./images/Call.png" alt="Call" class="w-5 h-5">
-                    Call
+                <button type="submit" name="contact_type" value="Call"
+                    form="contactForm"
+                    class="bg-[#5CFFAB] text-black font-semibold py-2 px-8 rounded-lg flex items-center justify-center border border-gray-400 gap-2 shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+                    <img src="./images/Call.png" alt="Call" class="w-5 h-5"> Call
                 </button>
-                <button class="bg-[#5CFFAB] text-black font-semibold py-2 px-8 rounded-lg flex items-center justify-center border border-gray-400 gap-2 shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                    <img src="./images/Email.png" alt="Email" class="w-6 h-6">
-                    Email
+                <button type="submit" name="contact_type" value="Email"
+                    form="contactForm"
+                    class="bg-[#5CFFAB] text-black font-semibold py-2 px-8 rounded-lg flex items-center justify-center border border-gray-400 gap-2 shadow transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+                    <img src="./images/Email.png" alt="Email" class="w-6 h-6"> Email
                 </button>
             </div>
         </div>
 
         <!-- Contact Form -->
-        <form class="grid grid-cols-1 md:grid-cols-2 gap-4 mx-[15%] mb-8">
-            <input type="text" placeholder="Name" class="bg-green-100 p-3 rounded border border-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-none" required />
-            <textarea placeholder="Message" class="bg-green-100 p-3 rounded h-full md:row-span-3 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-none" required></textarea>
-            <input type="email" placeholder="Email" class="bg-green-100 p-3 rounded focus:outline-none border border-gray-500 focus:ring-2 focus:ring-green-400 focus:border-none" required/>
-            <input type="tel" placeholder="Contact Number" class="bg-green-100 p-3 rounded border border-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-none" required/>
+        <form id="contactForm" action="./DreamAbode/public/propertyView/sendMessage" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4 mx-[15%] mb-8">
+            <input type="text" name="name" placeholder="Name" class="bg-green-100 p-3 rounded border border-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-none" required />
+            <textarea name="message" placeholder="Message" class="bg-green-100 p-3 rounded h-full md:row-span-3 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-none"></textarea>
+            <input type="email" name="email" placeholder="Email" class="bg-green-100 p-3 rounded focus:outline-none border border-gray-500 focus:ring-2 focus:ring-green-400 focus:border-none" />
+            <input type="tel" name="mobile" placeholder="Contact Number" class="bg-green-100 p-3 rounded border border-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-none" />
+
+            <!-- Hidden IDs -->
+            <input type="hidden" name="agent_id" value="<?php echo $viewProperty['AgentID'] ?>">
+            <input type="hidden" name="property_id" value="<?php echo $viewProperty['PropertyID'] ?>">
         </form>
     </section>
 
+
     <?php
         require_once __DIR__ . '/../includes/footer.php';
-
-        unset($_SESSION['viewProperty']);
     ?>
 
 </body>
