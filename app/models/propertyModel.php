@@ -68,7 +68,7 @@ class Property
 
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'max_allowed_packet') !== false) {
-                die("Image is too large. Please upload a smaller image (e.g., under 1MB).");
+                die("Image is too large. Please upload a smaller image (e.g., under 64MB).");
             } else {
                 die("Database error: " . $e->getMessage());
             }
