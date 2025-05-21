@@ -32,9 +32,11 @@ class MemberProfileController
 
         $userId             = $_SESSION['user_id'];
         $userData           = $this->member->getUserProfile($userId);
+
         $pendingProperties  = $this->property->getPendingPropertiesByUserId($userId);
         $acceptedProperties = $this->property->getAcceptedPropertiesByUserId($userId);
         $rejectedProperties = $this->property->getRejectedPropertiesByUserId($userId);
+        
         $pendingProjects    = $this->project->getPendingProjectsByUserId($userId);
         $acceptedProjects   = $this->project->getAcceptedProjectsByUserId($userId);
         $rejectedProjects   = $this->project->getRejectedProjectsByUserId($userId);
@@ -93,7 +95,7 @@ class MemberProfileController
         }
     }
 
-    public function discardPath()
+    public function discardPathProperty()
     {
         header("Location: /DreamAbode/public/memberProfile?section=manage_ad");
         exit();
@@ -331,6 +333,99 @@ class MemberProfileController
 
         header("Location: /DreamAbode/public/adminProfile?section=users");
         exit();
+    }
+
+    public function handleProject()
+    {
+        session_start();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId    = $_SESSION['user_id'] ?? null;
+            $projectId = $_POST['project_id'] ?? null;
+            $action    = $_POST['action'] ?? null;
+
+            $_SESSION['project_id'] = $projectId;
+
+            if (! $userId || ! $projectId || ! $action) {
+                $_SESSION['error'] = "Invalid request.";
+                header("Location: /DreamAbode/public/memberProfile");
+                exit();
+            }
+
+            if ($action === 'Edit') {
+                $this->project->projectId = $projectId;
+                $projectDetails           = $this->project->getProjectDetails();
+
+                if (! $projectDetails) {
+                    $_SESSION['error'] = "Project not found.";
+                    header("Location: /DreamAbode/public/memberProfile");
+                    exit();
+                }
+
+                require_once '../app/views/pages/editProject.php';
+
+            } elseif ($action === 'Remove') {
+                $this->project->deleteProject($projectId);
+                header("Location: /DreamAbode/public/memberProfile");
+                exit();
+            }
+        }
+    }
+
+    public function discardPathProject()
+    {
+        header("Location: /DreamAbode/public/memberProfile?section=manage_project");
+        exit();
+    }
+
+    public function updateProject()
+    {
+        session_start();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId    = $_SESSION['user_id'] ?? null;
+            $projectId = $_SESSION['project_id'] ?? null;
+
+            if (! $userId) {
+                $_SESSION['error'] = "You must be logged in to edit an ad.";
+                header("Location: /DreamAbode/public/login");
+                exit();
+            }
+
+            if (! $projectId) {
+                $_SESSION['error'] = "Property ID is required.";
+                header("Location: /DreamAbode/public/memberProfile?section=manage_project");
+                exit();
+            }
+
+            if (isset($_FILES['images']['tmp_name']) && count($_FILES['images']['tmp_name']) > 6) {
+                $_SESSION['error'] = "You can upload up to 6 images only.";
+                header("Location: /DreamAbode/public/editProject");
+                exit();
+            }
+
+            $this->project->projectId      = $projectId;
+            $this->project->projectName    = trim($_POST['projectName']);
+            $this->project->location       = trim($_POST['location']);
+            $this->project->price          = trim($_POST['price']);
+            $this->project->totalUnits     = trim($_POST['totalUnits']);
+            $this->project->completionDate = trim($_POST['completionDate']);
+            $this->project->measurement    = trim($_POST['measurement']);
+
+            if ($this->project->updateProjectDetails()) {
+                $_SESSION['msg'] = "Project updated successfully.";
+                header("Location: /DreamAbode/public/memberProfile?section=manage_project");
+                exit();
+            } else {
+                $_SESSION['error'] = "Failed to update project. Please try again.";
+                header("Location: /DreamAbode/public/editProject?id=" . $this->project->projectId);
+                exit();
+            }
+
+        } else {
+            header("Location: /DreamAbode/public/memberProfile");
+            exit();
+        }
     }
 
 }

@@ -8,7 +8,7 @@ class ContactAgent
     public $email;
     public $mobile;
     public $message;
-    public $propertyId;
+    public $viewId;
     public $memberId;
     public $agentId;
     public $contactType;
@@ -20,9 +20,9 @@ class ContactAgent
         $this->conn = $db;
     }
 
-    public function saveMessage()
+    public function savePropertyMessage()
     {
-        $query = "INSERT INTO contactAgent (Name, Email, MobileNumber, Message, PropertyID, MemberID, AgentID, ContactType, sent_at) VALUES (:name, :email, :mobile, :message, :propertyID, :memberID, :agentID, :contactType, NOW())";
+        $query = "INSERT INTO contactAgent (Name, Email, MobileNumber, Message, ViewID, MemberID, AgentID, ContactType, sent_at) VALUES (:name, :email, :mobile, :message, :viewID, :memberID, :agentID, :contactType, NOW())";
 
         $stmt = $this->conn->prepare($query);
 
@@ -30,7 +30,30 @@ class ContactAgent
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':mobile', $this->mobile);
         $stmt->bindParam(':message', $this->message);
-        $stmt->bindParam(':propertyID', $this->propertyId);
+        $stmt->bindParam(':viewID', $this->viewId);
+        $stmt->bindParam(':memberID', $this->memberId);
+        $stmt->bindParam(':agentID', $this->agentId);
+        $stmt->bindParam(':contactType', $this->contactType);
+
+        if ($stmt->execute()) {
+            $this->messageId = $this->conn->lastInsertId();
+            return true;
+        }
+
+        return false;
+    }
+
+    public function saveProjectMessage()
+    {
+        $query = "INSERT INTO contactAgent (Name, Email, MobileNumber, Message, ViewID, MemberID, AgentID, ContactType, sent_at) VALUES (:name, :email, :mobile, :message, :viewID, :memberID, :agentID, :contactType, NOW())";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':mobile', $this->mobile);
+        $stmt->bindParam(':message', $this->message);
+        $stmt->bindParam(':viewID', $this->viewId);
         $stmt->bindParam(':memberID', $this->memberId);
         $stmt->bindParam(':agentID', $this->agentId);
         $stmt->bindParam(':contactType', $this->contactType);

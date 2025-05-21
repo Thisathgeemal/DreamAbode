@@ -52,7 +52,7 @@
                                     <th class="py-2 px-6 text-left text-sm font-semibold">Name</th>
                                     <th class="py-2 px-6 text-left text-sm font-semibold">MobileNumber</th>
                                     <th class="py-2 px-6 text-left text-sm font-semibold">Message</th>
-                                    <th class="py-2 px-6 text-left text-sm font-semibold">PropertyID</th>
+                                    <th class="py-2 px-6 text-left text-sm font-semibold">ViewID</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
@@ -63,7 +63,7 @@
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['Name']) ?></td>
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['MobileNumber']) ?></td>
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['Message']) ?></td>
-                                            <td class="py-2 px-6"><?php echo htmlspecialchars($message['PropertyID']) ?></td>
+                                            <td class="py-2 px-6"><?php echo htmlspecialchars($message['ViewID']) ?></td>
                                         </tr>
                                     <?php endforeach; ?>
 <?php else: ?>
@@ -85,7 +85,7 @@
                                     <th class="py-2 px-6 text-left text-sm font-semibold">Name</th>
                                     <th class="py-2 px-6 text-left text-sm font-semibold">Email</th>
                                     <th class="py-2 px-6 text-left text-sm font-semibold">Message</th>
-                                    <th class="py-2 px-6 text-left text-sm font-semibold">PropertyID</th>
+                                    <th class="py-2 px-6 text-left text-sm font-semibold">ViewID</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
@@ -96,7 +96,7 @@
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['Name']) ?></td>
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['Email']) ?></td>
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['Message']) ?></td>
-                                            <td class="py-2 px-6"><?php echo htmlspecialchars($message['PropertyID']) ?></td>
+                                            <td class="py-2 px-6"><?php echo htmlspecialchars($message['ViewID']) ?></td>
                                         </tr>
                                     <?php endforeach; ?>
 <?php else: ?>
