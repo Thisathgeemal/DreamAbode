@@ -43,7 +43,7 @@
                     Members
                 </button>
                 <button name="section" value="add" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
-                    Ads
+                    Property
                 </button>
                 <button name="section" value="projects" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     Projects
@@ -81,7 +81,7 @@
                         require_once __DIR__ . '/content/adminAd.php';
                         break;
                     case 'projects':
-                        require_once __DIR__ . '/content/adminProjects.php';
+                        require_once __DIR__ . '/content/adminProject.php';
                         break;
                     default:
                         require_once __DIR__ . '/content/adminDashboard.php';

@@ -180,4 +180,18 @@ class Admin
 
         return $stmt->rowCount() > 0;
     }
+
+    public function adminCount($role)
+    {
+        try {
+            $query = "SELECT COUNT(*) as Count FROM " . $this->table . " WHERE Role = :role";
+            $stmt  = $this->conn->prepare($query);
+            $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
 }

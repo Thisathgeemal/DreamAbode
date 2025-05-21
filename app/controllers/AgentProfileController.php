@@ -19,18 +19,28 @@ class AgentProfileController
 
     public function index()
     {
+        $this->checkLogin();
+
+        $userId           = $_SESSION['user_id'];
+        $userData         = $this->agent->getUserProfile($userId);
+        $viewMessageCall  = $this->contact->getMessage($userId, 'Call');
+        $viewMessageEmail = $this->contact->getMessage($userId, 'Email');
+
+        require_once '../app/views/dashboard/agentProfile.php';
+    }
+
+    public function checkLogin()
+    {
         session_start();
-        if (! isset($_SESSION['user_id'])) {
+        if (! isset($_SESSION['user_id']) || ! isset($_SESSION['user_role'])) {
             header("Location: /DreamAbode/public/login");
             exit();
         }
 
-        $userId           = $_SESSION['user_id'];
-        $userData         = $this->agent->getUserProfile($userId);
-        $viewMessageCall  = $this->contact->getMessage('Call');
-        $viewMessageEmail = $this->contact->getMessage('Email');
-
-        require_once '../app/views/dashboard/agentProfile.php';
+        if ($_SESSION['user_role'] !== 'agent') {
+            header("Location: /DreamAbode/public/unauthorized");
+            exit();
+        }
     }
 
     public function createAgent()

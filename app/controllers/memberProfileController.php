@@ -3,6 +3,7 @@ require_once __DIR__ . '/../models/MemberModel.php';
 require_once __DIR__ . '/../models/AdminModel.php';
 require_once __DIR__ . '/../models/AgentModel.php';
 require_once __DIR__ . '/../models/propertyModel.php';
+require_once __DIR__ . '/../models/projectModel.php';
 require_once __DIR__ . '/../../config/database.php';
 
 class MemberProfileController
@@ -12,6 +13,7 @@ class MemberProfileController
     private $admin;
     private $agent;
     private $property;
+    private $project;
 
     public function __construct()
     {
@@ -21,23 +23,37 @@ class MemberProfileController
         $this->admin    = new Admin($this->conn);
         $this->agent    = new Agent($this->conn);
         $this->property = new Property($this->conn);
+        $this->project  = new Project($this->conn);
     }
 
     public function index()
     {
-        session_start();
-        if (! isset($_SESSION['user_id'])) {
-            header("Location: /DreamAbode/public/login");
-            exit();
-        }
+        $this->checkLogin();
 
         $userId             = $_SESSION['user_id'];
         $userData           = $this->member->getUserProfile($userId);
         $pendingProperties  = $this->property->getPendingPropertiesByUserId($userId);
         $acceptedProperties = $this->property->getAcceptedPropertiesByUserId($userId);
         $rejectedProperties = $this->property->getRejectedPropertiesByUserId($userId);
+        $pendingProjects    = $this->project->getPendingProjectsByUserId($userId);
+        $acceptedProjects   = $this->project->getAcceptedProjectsByUserId($userId);
+        $rejectedProjects   = $this->project->getRejectedProjectsByUserId($userId);
 
         require_once '../app/views/dashboard/memberProfile.php';
+    }
+
+    public function checkLogin()
+    {
+        session_start();
+        if (! isset($_SESSION['user_id']) || ! isset($_SESSION['user_role'])) {
+            header("Location: /DreamAbode/public/login");
+            exit();
+        }
+
+        if ($_SESSION['user_role'] !== 'member') {
+            header("Location: /DreamAbode/public/unauthorized");
+            exit();
+        }
     }
 
     public function handleProperty()

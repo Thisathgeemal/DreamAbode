@@ -20,7 +20,7 @@
 
     <section class="bg-white flex items-center justify-center px-2 py-8">
         <div class="bg-white p-8 rounded-xl max-w-3xl w-full shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
-            <h2 class="text-4xl font-bold mb-7 text-center">Add a Post</h2>
+            <h2 class="text-4xl font-bold mb-6 mt-3 text-center">Add a Property</h2>
 
             <!-- Top Image Section -->
             <form action="./postAd/addProperty" method="POST" enctype="multipart/form-data" class="max-w-2xl mx-auto p-6 bg-white">

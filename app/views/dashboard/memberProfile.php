@@ -34,13 +34,13 @@
                     Dashboard
                 </button>
                 <button name="section" value="manage_ad" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
-                    Manage Ads
+                    Manage Property
+                </button>
+                <button name="section" value="manage_project" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
+                    Manage Project
                 </button>
                 <button name="section" value="membership" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     Membership
-                </button>
-                <button name="section" value="saved_properties" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
-                    Saved Properties
                 </button>
                 <button name="section" value="profile" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     My Profile
@@ -68,8 +68,8 @@
                     case 'membership':
                         require_once __DIR__ . '/content/membership.php';
                         break;
-                    case 'saved_properties':
-                        require_once __DIR__ . '/content/savedProperties.php';
+                    case 'manage_project':
+                        require_once __DIR__ . '/content/manageProject.php';
                         break;
                     default:
                         require_once __DIR__ . '/content/dashboard.php';

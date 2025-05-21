@@ -33,11 +33,11 @@
                 <button name="section" value="dashboard" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     Dashboard
                 </button>
-                <button name="section" value="agentAdd" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
-                    Ads
+                <button name="section" value="agentAd" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
+                    Property
                 </button>
                 <button name="section" value="agentProjects" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
-                    Projects
+                    Project
                 </button>
                 <button name="section" value="agentMessage" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     Message
@@ -59,8 +59,8 @@
                     case 'dashboard':
                         require_once __DIR__ . '/content/agentDashboard.php';
                         break;
-                    case 'agentAdd':
-                        require_once __DIR__ . '/content/agentAdd.php';
+                    case 'agentAd':
+                        require_once __DIR__ . '/content/agentAd.php';
                         break;
                     case 'agentProjects':
                         require_once __DIR__ . '/content/agentProjects.php';

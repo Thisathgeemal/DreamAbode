@@ -182,5 +182,17 @@ class Agent
         return $stmt->execute();
     }
 
-    
+    public function agentCount()
+    {
+        try {
+            $query = "SELECT COUNT(*) as Count FROM " . $this->table;
+            $stmt  = $this->conn->prepare($query);
+            $stmt->execute();
+
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
 }

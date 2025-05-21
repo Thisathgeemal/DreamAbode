@@ -238,6 +238,7 @@ class Property
 
     }
 
+    // display property card in home page
     public function getRandomAcceptedProperties($limit = 3)
     {
         $query = "SELECT p.*, (SELECT ImageData FROM PropertyImages WHERE PropertyId = p.PropertyId ORDER BY UploadedAt ASC LIMIT 1) AS ImageData FROM " . $this->table . " p WHERE p.Status = 'Accept' ORDER BY RAND() LIMIT :limit";
@@ -245,6 +246,21 @@ class Property
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // get property count
+    public function propertyCountByStatus($status)
+    {
+        try {
+            $query = "SELECT COUNT(*) FROM " . $this->table . " WHERE Status = :status";
+            $stmt  = $this->conn->prepare($query);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
+        }
     }
 
 }

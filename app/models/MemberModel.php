@@ -178,4 +178,17 @@ class Member
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function memberCount()
+    {
+        try {
+            $query = "SELECT COUNT(*) as Count FROM " . $this->table;
+            $stmt  = $this->conn->prepare($query);
+            $stmt->execute();
+
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
 }

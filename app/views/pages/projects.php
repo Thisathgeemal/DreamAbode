@@ -37,7 +37,7 @@
             </div>
 
             <!-- ad post button -->
-            <a href="./postAd" class="z-50 absolute top-[91%] left-[81%] w-[8.75%] h-[5.5%]">
+            <a href="./postProject" class="z-50 absolute top-[91%] left-[81%] w-[8.75%] h-[5.5%]">
                 <div class="w-full h-full bg-[#5CFFAB] border border-black rounded-full transition duration-300 ease-in-out hover:scale-105 cursor-pointer relative">
                     <div class="absolute top-[5%] left-[3.25%] w-[26.5%] h-[90%] bg-white rounded-full">
                         <img src="./images/ReviewButton.png" alt="Review" class="w-full h-full object-contain">
