@@ -68,7 +68,7 @@ class ContactAgent
 
     public function getMessage($userId, $contactType)
     {
-        $query = "SELECT * FROM " . $this->table . " WHERE AgentID = :userId AND contactType = :contactType ORDER BY sent_at ASC";
+        $query = "SELECT * FROM " . $this->table . " WHERE AgentID = :userId AND ContactType = :contactType ORDER BY sent_at ASC";
         $stmt  = $this->conn->prepare($query);
 
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
@@ -79,6 +79,22 @@ class ContactAgent
         }
 
         return [];
+    }
+
+    public function receivedMessageCount($userId, $contactType)
+    {
+        try {
+            $query = "SELECT COUNT(*) FROM " . $this->table . " WHERE AgentID = :userId AND ContactType = :contactType";
+            $stmt  = $this->conn->prepare($query);
+            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmt->bindParam(':contactType', $contactType, PDO::PARAM_STR);
+
+            $stmt->execute();
+            return (int) $stmt->fetchColumn();
+
+        } catch (PDOException $e) {
+            return 0;
+        }
     }
 
 }

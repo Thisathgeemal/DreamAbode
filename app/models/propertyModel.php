@@ -239,7 +239,7 @@ class Property
     }
 
     // display property card in home page
-    public function getRandomAcceptedProperties($limit = 3)
+    public function getRandomAcceptedProperties($limit)
     {
         $query = "SELECT p.*, (SELECT ImageData FROM PropertyImages WHERE PropertyId = p.PropertyId ORDER BY UploadedAt ASC LIMIT 1) AS ImageData FROM " . $this->table . " p WHERE p.Status = 'Accept' ORDER BY RAND() LIMIT :limit";
         $stmt  = $this->conn->prepare($query);
@@ -258,6 +258,49 @@ class Property
             $stmt->execute();
 
             return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    //get properties assign to agents
+    public function getPropertyByAgentId($userId)
+    {
+        $query = "SELECT p.*, (SELECT ImageData FROM PropertyImages WHERE PropertyId = p.PropertyId ORDER BY UploadedAt ASC LIMIT 1) AS ImageData FROM {$this->table} p WHERE p.AgentID = :userId AND p.Status = 'Accept'";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // get agents assign property count
+    public function assignedPropertyCount($userId)
+    {
+        try {
+            $query = "SELECT COUNT(*) FROM " . $this->table . " WHERE AgentID = :userId AND Status = 'Accept'";
+            $stmt  = $this->conn->prepare($query);
+            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return (int) $stmt->fetchColumn();
+
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    // get property request count based on userId and status
+    public function getPropertyCountByIdAndStatus($userId, $status)
+    {
+        try {
+            $query = "SELECT COUNT(*) FROM " . $this->table . " WHERE MemberID = :userId AND Status = :status";
+            $stmt  = $this->conn->prepare($query);
+            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+
+            $stmt->execute();
+            return (int) $stmt->fetchColumn();
+
         } catch (PDOException $e) {
             return 0;
         }

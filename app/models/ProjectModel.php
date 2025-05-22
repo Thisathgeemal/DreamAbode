@@ -241,4 +241,46 @@ class Project
         }
     }
 
+    //get projects assign to agents
+    public function getProjectsByAgentId($userId)
+    {
+        $query = "SELECT p.*, (SELECT ImageData FROM ProjectImages WHERE ProjectId = p.ProjectId ORDER BY UploadedAt ASC LIMIT 1) AS ImageData FROM " . $this->table . " p WHERE p.AgentID = :userId AND p.Status = 'Accept'";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // get agents assign project count
+    public function assignedProjectCount($userId)
+    {
+        try {
+            $query = "SELECT COUNT(*) FROM " . $this->table . " WHERE AgentID = :userId AND Status = 'Accept'";
+            $stmt  = $this->conn->prepare($query);
+            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return (int) $stmt->fetchColumn();
+
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    // get project request count based on userId and status
+    public function getProjectCountByIdAndStatus($userId, $status)
+    {
+        try {
+            $query = "SELECT COUNT(*) FROM " . $this->table . " WHERE MemberID = :userId AND Status = :status";
+            $stmt  = $this->conn->prepare($query);
+            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+
+            $stmt->execute();
+            return (int) $stmt->fetchColumn();
+
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
 }

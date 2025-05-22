@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../models/AgentModel.php';
 require_once __DIR__ . '/../models/contactAgentModel.php';
+require_once __DIR__ . '/../models/propertyModel.php';
+require_once __DIR__ . '/../models/projectModel.php';
 require_once __DIR__ . '/../../config/database.php';
 
 class AgentProfileController
@@ -8,23 +10,36 @@ class AgentProfileController
     private $conn;
     private $contact;
     private $agent;
+    private $property;
+    private $project;
 
     public function __construct()
     {
-        $database      = new Database();
-        $this->conn    = $database->connection();
-        $this->agent   = new Agent($this->conn);
-        $this->contact = new ContactAgent($this->conn);
+        $database       = new Database();
+        $this->conn     = $database->connection();
+        $this->agent    = new Agent($this->conn);
+        $this->contact  = new ContactAgent($this->conn);
+        $this->property = new Property($this->conn);
+        $this->project  = new Project($this->conn);
     }
 
     public function index()
     {
         $this->checkLogin();
 
-        $userId           = $_SESSION['user_id'];
-        $userData         = $this->agent->getUserProfile($userId);
+        $userId   = $_SESSION['user_id'];
+        $userData = $this->agent->getUserProfile($userId);
+
         $viewMessageCall  = $this->contact->getMessage($userId, 'Call');
         $viewMessageEmail = $this->contact->getMessage($userId, 'Email');
+
+        $assignProjects   = $this->project->getProjectsByAgentId($userId);
+        $assignProperties = $this->property->getPropertyByAgentId($userId);
+
+        $assignProperty = $this->property->assignedPropertyCount($userId);
+        $assignProject  = $this->project->assignedProjectCount($userId);
+        $receivedCall   = $this->contact->receivedMessageCount($userId, 'Call');
+        $receivedEmail  = $this->contact->receivedMessageCount($userId, 'Email');
 
         require_once '../app/views/dashboard/agentProfile.php';
     }

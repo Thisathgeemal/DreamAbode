@@ -30,16 +30,24 @@ class MemberProfileController
     {
         $this->checkLogin();
 
-        $userId             = $_SESSION['user_id'];
-        $userData           = $this->member->getUserProfile($userId);
+        $userId   = $_SESSION['user_id'];
+        $userData = $this->member->getUserProfile($userId);
 
         $pendingProperties  = $this->property->getPendingPropertiesByUserId($userId);
         $acceptedProperties = $this->property->getAcceptedPropertiesByUserId($userId);
         $rejectedProperties = $this->property->getRejectedPropertiesByUserId($userId);
-        
-        $pendingProjects    = $this->project->getPendingProjectsByUserId($userId);
-        $acceptedProjects   = $this->project->getAcceptedProjectsByUserId($userId);
-        $rejectedProjects   = $this->project->getRejectedProjectsByUserId($userId);
+
+        $pendingProjects  = $this->project->getPendingProjectsByUserId($userId);
+        $acceptedProjects = $this->project->getAcceptedProjectsByUserId($userId);
+        $rejectedProjects = $this->project->getRejectedProjectsByUserId($userId);
+
+        $pendingProp = $this->property->getPropertyCountByIdAndStatus($userId, 'Pending');
+        $acceptProp  = $this->property->getPropertyCountByIdAndStatus($userId, 'Accept');
+        $rejectProp  = $this->property->getPropertyCountByIdAndStatus($userId, 'Reject');
+
+        $pendingProject = $this->project->getProjectCountByIdAndStatus($userId, 'Pending');
+        $acceptProject  = $this->project->getProjectCountByIdAndStatus($userId, 'Accept');
+        $rejectProject  = $this->project->getProjectCountByIdAndStatus($userId, 'Reject');
 
         require_once '../app/views/dashboard/memberProfile.php';
     }
