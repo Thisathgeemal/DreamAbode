@@ -306,4 +306,15 @@ class Property
         }
     }
 
+    // display property card by post type without limit
+    public function getRandomPropertyByPostType($postType)
+    {
+        $query = "SELECT p.*, (SELECT ImageData FROM PropertyImages WHERE PropertyId = p.PropertyId ORDER BY UploadedAt ASC LIMIT 1) AS ImageData FROM " . $this->table . " p WHERE p.Status = 'Accept' AND p.PostType = :postType ORDER BY RAND()";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':postType', $postType, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
