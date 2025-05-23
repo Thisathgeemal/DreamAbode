@@ -17,7 +17,7 @@
         require_once __DIR__ . '/../includes/header.php';
     ?>
 
-    <section class="bg-white flex items-center justify-center px-2 py-8">
+    <section class="bg-white flex items-center justify-center px-2 py-8 poppins">
         <div class="bg-white p-8 rounded-xl max-w-3xl w-full shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
             <h2 class="text-4xl font-bold mb-6 mt-3 text-center">Update Your Project</h2>
 

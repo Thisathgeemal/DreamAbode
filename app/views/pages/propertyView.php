@@ -32,7 +32,6 @@
         require_once __DIR__ . '/../includes/header.php';
     ?>
 
-
     <?php if ($message): ?>
 <?php
     $colorClass = (strpos(strtolower($message), 'success') !== false)
@@ -43,7 +42,6 @@
     echo "</div>";
 ?>
 <?php endif; ?>
-
 
     <!-- hero section 1 -->
     <section class="bg-white p-6 flex flex-col items-center">
@@ -61,7 +59,6 @@
 <?php endif; ?>
         </div>
     </section>
-
 
     <!-- hero section 2 -->
     <section class="max-w-6xl mx-auto bg-white rounded-lg p-6 mt-10 shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
@@ -116,7 +113,6 @@
         </div>
     </section>
 
-
     <!-- hero section 3 -->
     <section class="max-w-6xl mx-auto bg-white rounded-lg p-6 mt-14 shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
         <div class="text-center space-y-2">
@@ -139,7 +135,6 @@
             </div>
         </div>
     </section>
-
 
     <!-- hero section 4 -->
     <section class="max-w-6xl mx-auto bg-white rounded-lg p-6 mt-14 shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
@@ -179,7 +174,6 @@
             <input type="hidden" name="property_id" value="<?php echo $viewProperty['PropertyID'] ?>">
         </form>
     </section>
-
 
     <?php
         require_once __DIR__ . '/../includes/footer.php';

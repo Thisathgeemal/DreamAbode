@@ -2,6 +2,14 @@
 <html lang="en">
 <?php
     define('BASE_URL', '/DreamAbode');
+
+    $perPage             = 8;
+    $totalProjects       = count($projects);
+    $page                = isset($_GET['page']) ? max((int) $_GET['page'], 1) : 1;
+    $offset              = ($page - 1) * $perPage;
+    $currentPageProjects = array_slice($projects, $offset, $perPage);
+    $totalPages          = ceil($totalProjects / $perPage);
+
 ?>
 
 <head>
@@ -9,7 +17,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -22,10 +29,10 @@
     <section>
         <!-- text  -->
         <div class="absolute top-[36%] left-[7%] w-[45%] h-[65%]">
-            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] font-['Poppins']">
+            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] poppins">
                 Our Journey <br> of Excellence
             </h1>
-            <h2 class="relative top-[32%] left-0 text-[1.6vw] font-normal text-black font-['Poppins']">
+            <h2 class="relative top-[32%] left-0 text-[1.6vw] font-normal text-black poppins">
                 Stay updated with our ongoing, upcoming, and <br> completed projects, showcasing innovation, <br> quality, and excellence in every build.
             </h2>
         </div>
@@ -140,6 +147,78 @@
     </section>
 
     <!-- hero section 3 -->
+    <section class="poppins">
+        <div class="flex flex-wrap gap-10 justify-center p-4 mt-8">
+            <?php if (! empty($currentPageProjects)): ?>
+<?php foreach ($currentPageProjects as $prop): ?>
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
+                    <!-- project image  -->
+                    <div class="relative">
+                        <?php if (! empty($prop['ImageData'])): ?>
+                        <img src="data:image/jpeg;base64,<?php echo base64_encode($prop['ImageData']) ?>" alt="Project Image" class="w-full h-60 object-cover">
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- project data  -->
+                    <div class="p-4 bg-[#5CFFAB] text-black text-center">
+                        <h2 class="text-xl font-bold m-1"><?php echo htmlspecialchars($prop['ProjectName']) ?></h2>
+                        <div class="flex justify-center items-center space-x-2 my-4">
+                            <img src="./images/Location.png" alt="Location" class="h-7 w-5.5">
+                            <span><?php echo htmlspecialchars($prop['Location']) ?></span>
+                        </div>
+
+                        <div class="flex justify-center items-center mt-2 space-x-8">
+                            <div class="flex items-center space-x-2">
+                                <img src="./images/money.png" alt="Price" class="h-7 w-7 mr-2">
+                                <span>RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?php echo htmlspecialchars($prop['Price']) ?> M</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <img src="./images/Accept.png" alt="CompletionDate" class="h-6 w-6 mr-2">
+                                <span><?php echo htmlspecialchars($prop['CompletionDate']) ?> </span>
+                            </div>
+                        </div>
+
+                        <form action="./projectView/viewProject" method="POST" class="mt-4 space-x-2">
+                            <input type="hidden" name="project_id" value="<?php echo $prop['ProjectID']; ?>">
+                            <button type="submit" name="action" value="Explore" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-[100px] hover:scale-105 hover:bg-gray-200">Explore</button>
+                        </form>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+<?php else: ?>
+                <p class="text-red-500 text-center text-lg">No properties found.</p>
+            <?php endif; ?>
+        </div>
+
+        <div class="flex justify-center space-x-1 mt-6 mb-10 text-gray-800">
+            <!-- Previous button -->
+            <?php if ($page > 1): ?>
+                <a href="?page=<?php echo $page - 1 ?>" title="previous" class="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md bg-white border-gray-300 hover:bg-gray-200">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="w-4">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </a>
+            <?php endif; ?>
+
+            <!-- Numbered page buttons -->
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <a href="?page=<?php echo $i ?>"
+                class="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <?php echo($i == $page) ? 'bg-white text-violet-600 border-violet-600 font-semibold' : 'bg-white border-gray-300 hover:bg-gray-200'; ?>"
+                title="Page                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <?php echo $i ?>">
+                <?php echo $i ?>
+                </a>
+            <?php endfor; ?>
+
+            <!-- Next button -->
+            <?php if ($page < $totalPages): ?>
+                <a href="?page=<?php echo $page + 1 ?>" title="next" class="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md bg-white border-gray-300 hover:bg-gray-200">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="w-4">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </a>
+            <?php endif; ?>
+        </div>
+    </section>
 
     <?php
         require_once __DIR__ . '/../includes/footer.php';

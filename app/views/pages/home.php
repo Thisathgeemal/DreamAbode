@@ -28,7 +28,7 @@
                 Explore Our Curated Selection of Modern <br> Homes and Prime Properties
             </h2>
             <div class="absolute top-[60%] left-0 w-[34%] h-[9.5%] bg-[#5CFFAB] rounded-[0.7vw] transition duration-300 ease-in-out hover:scale-105 hover:bg-[#42e697] shadow-md hover:shadow-lg cursor-pointer">
-                <span class="absolute top-[20%] w-full text-center text-[1.4vw] text-black font-normal poppins transition-colors duration-300">
+                <span class="absolute top-[20%] w-full text-center text-[1.4vw] text-black font-normal poppins transform transition-colors duration-300">
                     Explore Now
                 </span>
             </div>
@@ -90,8 +90,8 @@
     <section class="relative flex flex-col justify-center items-center text-center mt-[7%]">
         <!-- Heading Section -->
         <div class="w-full max-w-6xl">
-            <h1 class="text-[3.5vw] font-bold text-black font-poppins">What’s Your Next Move</h1>
-            <h2 class="text-[1.5vw] text-black font-poppins mt-4">
+            <h1 class="text-[3.5vw] font-bold text-black poppins">What’s Your Next Move</h1>
+            <h2 class="text-[1.5vw] text-black poppins mt-4">
             Elevate your path to success with our premium services designed for growth and efficiency!
             </h2>
         </div>
@@ -135,8 +135,8 @@
     <section class="relative flex flex-col justify-center items-center text-center mt-[6%]">
         <!-- Heading Section -->
         <div class="w-full max-w-6xl">
-            <h1 class="text-[3.5vw] font-bold text-black font-poppins">Find the Perfect Property for You</h1>
-            <h2 class="text-[1.5vw] text-black font-poppins mt-4">
+            <h1 class="text-[3.5vw] font-bold text-black poppins">Find the Perfect Property for You</h1>
+            <h2 class="text-[1.5vw] text-black poppins mt-4">
             Discover your ideal space with ease. Whether it’s your first home or a dream investment, we have something for everyone.
             </h2>
         </div>
@@ -166,7 +166,7 @@
                     <div class="flex justify-center items-center mt-2 space-x-8">
                         <div class="flex items-center space-x-2">
                             <img src="./images/money.png" alt="Price" class="h-7 w-7 mr-2">
-                            <span>RS                                                                         <?php echo htmlspecialchars($prop['Price']) ?> M</span>
+                            <span>RS                                                                                                                                                                                                                         <?php echo htmlspecialchars($prop['Price']) ?> M</span>
                         </div>
                         <div class="flex items-center space-x-2">
                             <img src="./images/Bedrooms.png" alt="Bedrooms" class="h-6 w-6 mr-2">

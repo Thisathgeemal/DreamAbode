@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -22,14 +21,14 @@
     <section>
         <!-- text  -->
         <div class="absolute top-[33%] left-[7%] w-[45%] h-[75%]">
-            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] font-['Poppins']">
+            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] poppins">
                 Your Trusted <br> Partner in Real <br> Estate
             </h1>
-            <h2 class="relative top-[40%] left-0 text-[1.6vw] font-normal text-black font-['Poppins']">
+            <h2 class="relative top-[40%] left-0 text-[1.6vw] font-normal text-black poppins">
                 We’re your trusted partner in finding the <br> perfect property with integrity, innovation, <br> and personalized service.
             </h2>
             <div class="absolute top-[65%] left-0 w-[34%] h-[9.5%] z-50 bg-[#5CFFAB] rounded-[0.7vw] transition duration-300 ease-in-out hover:scale-105 hover:bg-[#42e697] shadow-md hover:shadow-lg cursor-pointer">
-                <span class="absolute top-[20%] w-full text-center text-[1.4vw] text-black font-normal font-['Poppins'] transition-colors duration-300">
+                <span class="absolute top-[20%] w-full text-center text-[1.4vw] text-black font-normal poppins transition-colors duration-300">
                     Discover Our Story
                 </span>
             </div>
@@ -58,27 +57,27 @@
         <!-- hero section 2 -->
     <section class="relative mt-[30%] h-[100vh]">
         <!-- background image  -->
-        <div class="absolute top-[215px] left-[7%] w-[42%]">
+        <div class="absolute top-[30%] left-[7%] w-[42%]">
             <img src="./images/AboutTwoBg.png" alt="About Bg" class="transition duration-300 ease-in-out hover:scale-105 hover:shadow-md cursor-pointer">
         </div>
 
-        <div class="absolute top-[215px] left-[48%]">
+        <div class="absolute top-[30%] left-[48%]">
             <img src="./images/Union.png" alt="Union Bg" class="w-[80%] ">
         </div>
 
         <!-- text  -->
-        <div class="absolute top-[34%] left-[60%] w-[33%] h-[75%]">
-            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] font-['Poppins']">
+        <div class="absolute top-[30%] left-[60%] w-[33%] h-[75%]">
+            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] poppins">
                 Explore Dream Abode
             </h1>
-           <h2 class="relative top-[28%] left-0 text-[1.5vw] font-normal text-black text-justify font-['Poppins']">
+           <h2 class="relative top-[28%] left-0 text-[1.5vw] font-normal text-black text-justify poppins">
                 Welcome to Dream Abode, where living meets luxury. We craft exceptional spaces that blend style, comfort, and elegance whether it's a sleek apartment or a grand villa. At Dream Abode, we don't just build homes; we create the kind of living experience that feels like a dream every single day.
             </h2>
         </div>
     </section>
 
     <!-- hero section 3 -->
-    <section class="relative flex flex-col justify-center items-center text-center mt-[7%]">
+    <section class="relative flex flex-col justify-center items-center text-center mt-[5%]">
         <!-- Heading Section -->
         <div class="w-full max-w-6xl">
             <h1 class="text-[3.5vw] font-bold text-black font-poppins">Get in Touch with Dream Abode</h1>

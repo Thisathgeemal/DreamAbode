@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -22,10 +21,10 @@
     <section>
         <!-- text  -->
         <div class="absolute top-[33%] left-[7%] w-[45%] h-[75%]">
-            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] font-['Poppins']">
+            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] poppins">
                 Simplifying <br> Home Loans <br> for You
             </h1>
-            <h2 class="relative top-[39%] left-0 text-[1.6vw] font-normal text-black font-['Poppins']">
+            <h2 class="relative top-[39%] left-0 text-[1.6vw] font-normal text-black poppins">
                 Let us guide you through the home loan <br> process with personalized advice and <br> solutions to secure the best options for <br> your future home.
             </h2>
         </div>
@@ -53,7 +52,7 @@
     <section class="relative mt-[40%] flex flex-col items-center p-8 space-y-12">
         <!-- Heading Section -->
         <div class="w-full max-w-6xl">
-            <h1 class="text-[3.5vw] font-bold text-center text-black font-poppins">Home Loan Calculator</h1>
+            <h1 class="text-[3.5vw] font-bold text-center text-black poppins">Home Loan Calculator</h1>
         </div>
 
         <div class="flex flex-col md:flex-row md:space-x-10 w-full max-w-2xl">
@@ -131,11 +130,11 @@
     <section class="relative flex flex-col justify-center items-center text-center mt-[2%]">
         <!-- Heading Section -->
         <div class="w-full max-w-6xl">
-            <h1 class="text-[3.5vw] font-bold text-black font-poppins">Bank Partnership</h1>
+            <h1 class="text-[3.5vw] font-bold text-black poppins">Bank Partnership</h1>
         </div>
 
         <!-- Cards Section -->
-        <div class="mt-12 flex flex-wrap justify-center items-center gap-10">
+        <div class="mt-12 flex flex-wrap justify-center items-center gap-10 poppins">
             <!-- Card Item -->
             <div class="w-[350px] h-[450px] bg-[#5CFFAB] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:bg-[#42e697] hover:shadow-md cursor-pointer">
                 <img src="./images/commercialBank.png" alt="Commercial Bank" class="w-60 h-60 object-contain">

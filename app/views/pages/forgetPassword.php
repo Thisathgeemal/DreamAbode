@@ -13,15 +13,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    
     <?php
         require_once __DIR__ . '/../includes/header.php';
     ?>
 
-    <section class="bg-white flex items-center justify-center align-middle mt-10">
+    <section class="bg-white flex items-center justify-center align-middle mt-10 poppins">
         <div class="bg-white p-8 rounded-xl max-w-md w-full shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
             <h2 class="text-4xl font-bold mb-7 text-center">Forgot Password</h2>
 

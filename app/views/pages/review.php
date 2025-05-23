@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -21,10 +20,10 @@
     <section class="bg-white flex items-center justify-center px-4 pt-8 pb-5">
         <div class="bg-white p-8 rounded-xl max-w-md w-full shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
             <form method="POST">
-                <h2 class="text-4xl font-bold mb-8 text-center">Share your experience</h2>
+                <h2 class="text-4xl font-bold mb-8 text-center poppins">Share your experience</h2>
 
                 <!-- Message Field -->
-                <div class="mb-5">
+                <div class="mb-5 poppins">
                     <label for="message" class="block text-lg font-medium text-gray-700">Your Message</label>
                     <textarea id="message" name="message" rows="4" placeholder="Describe your experience..." class="mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400" required></textarea>
                 </div>

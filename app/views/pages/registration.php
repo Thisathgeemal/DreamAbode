@@ -29,7 +29,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -40,7 +39,7 @@
     <section class="bg-white flex items-center justify-center px-4 py-8">
         <div class="bg-white p-8 rounded-xl max-w-md w-full shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
             <form method="POST" action="./memberProfile/signupMember">
-                <h2 class="text-4xl font-bold mb-7 text-center">Sign Up</h2>
+                <h2 class="text-4xl font-bold mb-7 text-center poppins">Sign Up</h2>
 
                 <?php if ($message): ?>
 <?php
