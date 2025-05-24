@@ -27,13 +27,13 @@
     ?>
 
     <!-- hero section 1 -->
-    <section class="poppins">
+    <section>
         <!-- text  -->
         <div class="absolute top-[30%] left-[7%] w-[45%] h-[65%]">
-            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] font-['Poppins']">
+            <h1 class="absolute top-0 left-0 text-[3.5vw] font-bold text-black leading-[1.15] poppins">
                 Find Your <br> Dream Home <br> Today!
             </h1>
-            <h2 class="relative top-[43%] left-0 text-[1.6vw] font-normal text-black font-['Poppins']">
+            <h2 class="relative top-[43%] left-0 text-[1.6vw] font-normal text-black poppins">
                 Discover exceptional properties tailored to <br> your lifestyleExplore our exclusive listings <br> and make your dream home a reality with <br> Dream Abode.
             </h2>
         </div>
@@ -55,7 +55,6 @@
             </a>
         </div>
     </section>
-
 
     <!-- hero section 2 -->
     <section class="relative mt-[40%] flex flex-col items-center p-8 space-y-12 poppins">
@@ -148,7 +147,6 @@
         </div>
     </section>
 
-
     <!-- hero section 3 -->
     <section class="poppins">
         <div class="flex flex-wrap gap-10 justify-center p-4 mt-8">
@@ -174,7 +172,7 @@
                             <div class="flex justify-center items-center mt-2 space-x-8">
                                 <div class="flex items-center space-x-2">
                                     <img src="./images/money.png" alt="Price" class="h-7 w-7 mr-2">
-                                    <span>RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <?php echo htmlspecialchars($prop['Price']); ?> M</span>
+                                    <span>RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <?php echo htmlspecialchars($prop['Price']); ?> M</span>
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <img src="./images/Bedrooms.png" alt="Bedrooms" class="h-6 w-6 mr-2">
@@ -206,8 +204,8 @@
             <!-- Numbered page buttons -->
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                 <a href="?page=<?php echo $i ?>"
-                class="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <?php echo($i == $page) ? 'bg-white text-black font-semibold' : 'bg-white border-gray-300 hover:bg-gray-200'; ?>"
-                title="Page                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?php echo $i ?>">
+                class="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <?php echo($i == $page) ? 'bg-white text-black font-semibold' : 'bg-white border-gray-300 hover:bg-gray-200'; ?>"
+                title="Page                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <?php echo $i ?>">
                 <?php echo $i ?>
                 </a>
             <?php endfor; ?>

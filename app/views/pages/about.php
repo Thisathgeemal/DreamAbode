@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DreamAbode</title>
     <link href="<?php echo BASE_URL . "/public/css/styles.css" ?>" rel="stylesheet">
+
 </head>
 
 <body>
@@ -133,10 +134,13 @@
     <!-- hero section 4 -->
     <section class="relative flex flex-col justify-center items-center text-center mt-[7%]">
         <!-- Heading Section -->
-        <div class="w-full max-w-6xl">
-            <h1 class="text-[3.5vw] font-bold text-black font-poppins">Our Journey So Far</h1>
-            <h2 class="text-[1.5vw] text-black font-poppins mt-4">
-            Dream Abode has grown into a trusted name in real estate, delivering quality homes and earning industry recognition. With successful projects and happy homeowners, we take pride in every milestone along the way.
+        <div class="w-full max-w-6xl mx-auto px-2">
+            <h1 class="text-3xl sm:text-6xl font-bold text-black poppins text-center">
+                Our Journey So Far
+            </h1>
+            <h2 class="text-lg sm:text-xl text-black poppins mt-7 text-justify sm:text-center leading-relaxed px-5">
+                Dream Abode has grown into a trusted name in real estate, delivering quality homes and earning industry recognition.
+                With successful projects and happy homeowners, we take pride in every milestone along the way.
             </h2>
         </div>
 
@@ -178,6 +182,35 @@
 
         <!-- Cards Section -->
         <div class="mt-12 flex flex-wrap justify-center items-center gap-10">
+            <?php if (! empty($randomReviews) && is_array($randomReviews)): ?>
+            <?php foreach ($randomReviews as $review): ?>
+            <!-- Card Item -->
+            <div class="w-[350px] h-[400px] bg-[#5CFFAB] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:bg-[#42e697] hover:shadow-md cursor-pointer">
+                <?php
+                $imageSrc = !empty($review['Image'])
+                    ? 'data:image/jpeg;base64,' . base64_encode($review['Image'])
+                    : BASE_URL . '/public/images/Profile.png';
+                $username = !empty($review['Username']) ? ucfirst($review['Username']) : '';
+                $altText = !empty($username)
+                    ? htmlspecialchars($username . "'s Review")
+                    : 'User Review';
+                ?>
+                <img src="<?php echo $imageSrc; ?>" alt="<?php echo $altText; ?>" class="w-35 h-35 object-cover mb-4 rounded-full  shadow">
+                <h3 class="text-lg font-semibold mb-1"><?php echo htmlspecialchars($username); ?></h3>
+                <div class="flex justify-center items-center mb-1">
+                <?php
+                    $rating = (int) $review['Rating'];
+                    for ($i = 1; $i <= $rating; $i++) {
+                    echo '<span style="color:gold;font-size:1.8em;">&#9733;</span>';
+                    }
+                ?>
+                </div>
+                <p class="text-sm text-center leading-[2] mt-1"><?php echo htmlspecialchars($review['Description']); ?></p>
+            </div>
+            <?php endforeach; ?>
+            <?php else: ?>
+            <p class="flex justify-center align-middle text-center text-red-500 text-lg">No review found.</p>
+            <?php endif; ?>
         </div>
     </section>
 
