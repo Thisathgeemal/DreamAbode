@@ -20,7 +20,7 @@
 <body>
 
     <!-- Top Button Groups -->
-    <div class="flex flex-wrap gap-4 mb-6">
+    <div class="flex flex-wrap gap-4 mb-6 justify-center align-middle">
         <button class="flex items-center justify-center bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-2 px-3 rounded-md w-[130px] transition-colors duration-200" onclick="showSection('pending')">
             <img src="/DreamAbode/public/images/Status.png" class="w-7 h-7 mr-2" alt="Pending">Pending
         </button>
@@ -33,20 +33,19 @@
     </div>
 
     <?php if ($message): ?>
-<?php
-    $colorClass = (strpos(strtolower($message), 'success') !== false)
-    ? 'text-green-600'
-    : 'text-red-600';
-    echo "<div class=\"mb-4 text-center font-semibold p-1 " . htmlspecialchars($colorClass) . "\">";
-    echo htmlspecialchars($message);
-    echo "</div>";
-?>
-<?php endif; ?>
-
+        <?php
+            $colorClass = (strpos(strtolower($message), 'success') !== false)
+            ? 'text-green-600'
+            : 'text-red-600';
+            echo "<div class=\"mb-4 text-center font-semibold p-1 " . htmlspecialchars($colorClass) . "\">";
+            echo htmlspecialchars($message);
+            echo "</div>";
+        ?>
+    <?php endif; ?>
 
     <section id="property-container-pending" class="flex flex-wrap gap-10 justify-center p-4 h-[475px] overflow-y-auto custom-scrollbar">
         <?php if (! empty($pendingProperties) && is_array($pendingProperties)): ?>
-<?php foreach ($pendingProperties as $prop): ?>
+        <?php foreach ($pendingProperties as $prop): ?>
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
             <!-- property image  -->
             <div class="relative">
@@ -88,15 +87,14 @@
             </div>
         </div>
         <?php endforeach; ?>
-<?php else: ?>
+        <?php else: ?>
             <p class="flex justify-center align-middle text-center text-red-500 text-lg">No properties found.</p>
         <?php endif; ?>
     </section>
 
-
     <section id="property-container-accept" class="flex flex-wrap gap-10 justify-center p-4 h-[475px] overflow-y-auto custom-scrollbar">
         <?php if (! empty($acceptedProperties) && is_array($acceptedProperties)): ?>
-<?php foreach ($acceptedProperties as $prop): ?>
+        <?php foreach ($acceptedProperties as $prop): ?>
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
             <!-- property image -->
             <div class="relative group">
@@ -146,15 +144,14 @@
             </div>
         </div>
         <?php endforeach; ?>
-<?php else: ?>
+        <?php else: ?>
             <p class="flex justify-center align-middle text-center text-red-500 text-lg">No properties found.</p>
         <?php endif; ?>
     </section>
 
-
     <section id="property-container-reject" class="flex flex-wrap gap-10 justify-center p-4 h-[475px] overflow-y-auto custom-scrollbar">
         <?php if (! empty($rejectedProperties) && is_array($rejectedProperties)): ?>
-<?php foreach ($rejectedProperties as $prop): ?>
+        <?php foreach ($rejectedProperties as $prop): ?>
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
             <!-- property image  -->
             <div class="relative">
@@ -195,7 +192,7 @@
             </div>
         </div>
         <?php endforeach; ?>
-<?php else: ?>
+        <?php else: ?>
             <p class="flex justify-center align-middle text-center text-red-500 text-lg">No properties found.</p>
         <?php endif; ?>
     </section>

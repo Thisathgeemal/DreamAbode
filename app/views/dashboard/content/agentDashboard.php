@@ -19,30 +19,30 @@
 
 <body>
     <!-- Main Content -->
-    <div class="flex items-center justify-center min-h-screen">
-        <div class="flex-1 p-8 overflow-auto justify-center align-middle max-w-6xl">
-            <h1 class="text-4xl font-bold mb-12 text-center">Welcome to Agent Dashboard!</h1>
+    <div class="flex items-center justify-center min-h-screen px-2">
+        <div class="flex-1 p-4 sm:p-8 overflow-auto justify-center align-middle max-w-6xl w-full">
+            <h1 class="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-center">Welcome to Agent Dashboard!</h1>
             <div>
-                <div class="grid grid-cols-2 gap-12">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-12">
                     <!-- Card 1 -->
                     <div class="custom-dashboard-button custom-dashboard-button:hover">
-                        <h2 class="text-xl font-semibold mb-2">Assigned Properties</h2>
-                        <p class="text-gray-600 text-2xl font-bold"><?php echo $assignProperty ?></p>
+                        <h2 class="text-lg sm:text-xl font-semibold mb-2">Assigned Properties</h2>
+                        <p class="text-gray-600 text-xl sm:text-2xl font-bold"><?php echo $assignProperty ?></p>
                     </div>
                     <!-- Card 2 -->
                     <div class="custom-dashboard-button custom-dashboard-button:hover">
-                        <h2 class="text-xl font-semibold mb-2">Assigned Projects</h2>
-                        <p class="text-gray-600 text-2xl font-bold"><?php echo $assignProject ?></p>
+                        <h2 class="text-lg sm:text-xl font-semibold mb-2">Assigned Projects</h2>
+                        <p class="text-gray-600 text-xl sm:text-2xl font-bold"><?php echo $assignProject ?></p>
                     </div>
                     <!-- Card 3 -->
                     <div class="custom-dashboard-button custom-dashboard-button:hover">
-                        <h2 class="text-xl font-semibold mb-2">Calls Received</h2>
-                        <p class="text-gray-600 text-2xl font-bold"><?php echo $receivedCall ?></p>
+                        <h2 class="text-lg sm:text-xl font-semibold mb-2">Calls Received</h2>
+                        <p class="text-gray-600 text-xl sm:text-2xl font-bold"><?php echo $receivedCall ?></p>
                     </div>
                     <!-- Card 4 -->
                     <div class="custom-dashboard-button custom-dashboard-button:hover">
-                        <h2 class="text-xl font-semibold mb-2">Emails Received</h2>
-                        <p class="text-gray-600 text-2xl font-bold"><?php echo $receivedEmail ?></p>
+                        <h2 class="text-lg sm:text-xl font-semibold mb-2">Emails Received</h2>
+                        <p class="text-gray-600 text-xl sm:text-2xl font-bold"><?php echo $receivedEmail ?></p>
                     </div>
                 </div>
             </div>

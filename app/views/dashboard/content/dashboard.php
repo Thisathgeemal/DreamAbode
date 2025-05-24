@@ -20,39 +20,39 @@
 <body>
     <!-- Main Content -->
     <div class="flex items-center justify-center min-h-screen">
-        <div class="flex-1 p-8 overflow-auto justify-center align-middle max-w-6xl">
-            <h1 class="text-4xl font-bold mb-12 text-center">Welcome to Member Dashboard!</h1>
+        <div class="flex-1 p-4 sm:p-8 overflow-auto justify-center align-middle max-w-6xl">
+            <h1 class="text-3xl sm:text-4xl font-bold mb-8 mt-6 sm:mb-12 text-center">Welcome to Member Dashboard!</h1>
             <div>
-                <div class="grid grid-cols-3 gap-12">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
                     <!-- Card 1 -->
                     <div class="custom-dashboard-button custom-dashboard-button:hover">
-                        <h2 class="text-xl font-semibold mb-2">Pending Properties</h2>
-                        <p class="text-gray-600 text-2xl font-bold"><?php echo $pendingProp ?></p>
+                        <h2 class="text-lg sm:text-xl font-semibold mb-2">Pending Properties</h2>
+                        <p class="text-gray-600 text-xl sm:text-2xl font-bold"><?php echo $pendingProp ?></p>
                     </div>
                     <!-- Card 2 -->
                     <div class="custom-dashboard-button custom-dashboard-button:hover">
-                        <h2 class="text-xl font-semibold mb-2">Accepted Properties</h2>
-                        <p class="text-gray-600 text-2xl font-bold"><?php echo $acceptProp ?></p>
+                        <h2 class="text-lg sm:text-xl font-semibold mb-2">Accepted Properties</h2>
+                        <p class="text-gray-600 text-xl sm:text-2xl font-bold"><?php echo $acceptProp ?></p>
                     </div>
                     <!-- Card 3 -->
                     <div class="custom-dashboard-button custom-dashboard-button:hover">
-                        <h2 class="text-xl font-semibold mb-2">Rejected Properties</h2>
-                        <p class="text-gray-600 text-2xl font-bold"><?php echo $rejectProp ?></p>
+                        <h2 class="text-lg sm:text-xl font-semibold mb-2">Rejected Properties</h2>
+                        <p class="text-gray-600 text-xl sm:text-2xl font-bold"><?php echo $rejectProp ?></p>
                     </div>
                     <!-- Card 4 -->
                     <div class="custom-dashboard-button custom-dashboard-button:hover">
-                        <h2 class="text-xl font-semibold mb-2">Pending Projects</h2>
-                        <p class="text-gray-600 text-2xl font-bold"><?php echo $pendingProject ?></p>
+                        <h2 class="text-lg sm:text-xl font-semibold mb-2">Pending Projects</h2>
+                        <p class="text-gray-600 text-xl sm:text-2xl font-bold"><?php echo $pendingProject ?></p>
                     </div>
                     <!-- Card 5 -->
                     <div class="custom-dashboard-button custom-dashboard-button:hover">
-                        <h2 class="text-xl font-semibold mb-2">Accepted Projects</h2>
-                        <p class="text-gray-600 text-2xl font-bold"><?php echo $acceptProject ?></p>
+                        <h2 class="text-lg sm:text-xl font-semibold mb-2">Accepted Projects</h2>
+                        <p class="text-gray-600 text-xl sm:text-2xl font-bold"><?php echo $acceptProject ?></p>
                     </div>
                     <!-- Card 6 -->
                     <div class="custom-dashboard-button custom-dashboard-button:hover">
-                        <h2 class="text-xl font-semibold mb-2">Rejected Projects</h2>
-                        <p class="text-gray-600 text-2xl font-bold"><?php echo $rejectProject ?></p>
+                        <h2 class="text-lg sm:text-xl font-semibold mb-2">Rejected Projects</h2>
+                        <p class="text-gray-600 text-xl sm:text-2xl font-bold"><?php echo $rejectProject ?></p>
                     </div>
                 </div>
             </div>

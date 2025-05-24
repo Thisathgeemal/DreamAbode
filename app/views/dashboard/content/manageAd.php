@@ -19,7 +19,7 @@
 
 <body>
 
-    <section class="p-10 w-full">
+    <section class="md:p-10 w-full">
         <!-- Top Button Groups -->
         <div class="flex flex-wrap justify-center align-middle gap-4 mb-6">
             <a href="./postAd">
@@ -44,20 +44,20 @@
         </div>
 
         <?php if ($message): ?>
-<?php
-    $colorClass = (strpos(strtolower($message), 'success') !== false)
-    ? 'text-green-600'
-    : 'text-red-600';
-    echo "<div class=\"mb-4 text-center font-semibold p-1 " . htmlspecialchars($colorClass) . "\">";
-    echo htmlspecialchars($message);
-    echo "</div>";
-?>
-<?php endif; ?>
+        <?php
+            $colorClass = (strpos(strtolower($message), 'success') !== false)
+            ? 'text-green-600'
+            : 'text-red-600';
+            echo "<div class=\"mb-4 text-center font-semibold p-1 " . htmlspecialchars($colorClass) . "\">";
+            echo htmlspecialchars($message);
+            echo "</div>";
+        ?>
+        <?php endif; ?>
 
 
         <section id="property-container-pending" class="flex flex-wrap gap-10 justify-center p-4 h-[475px] overflow-y-auto custom-scrollbar">
             <?php if (! empty($pendingProperties) && is_array($pendingProperties)): ?>
-<?php foreach ($pendingProperties as $prop): ?>
+            <?php foreach ($pendingProperties as $prop): ?>
             <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                 <!-- property image  -->
                 <div class="relative">
@@ -99,20 +99,20 @@
                 </div>
             </div>
             <?php endforeach; ?>
-<?php else: ?>
+            <?php else: ?>
                 <p class="flex justify-center align-middle text-center text-red-500 text-lg">No properties found.</p>
             <?php endif; ?>
         </section>
 
 
-        <section id="property-container-accept" class="flex flex-wrap gap-10 justify-center p-4 h-[475px] overflow-y-auto custom-scrollbar">
+        <section id="property-container-accept" class="flex flex-wrap gap-6 md:gap-10 justify-center p-2 md:p-4 h-[475px] overflow-y-auto custom-scrollbar">
             <?php if (! empty($acceptedProperties) && is_array($acceptedProperties)): ?>
-<?php foreach ($acceptedProperties as $prop): ?>
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
+            <?php foreach ($acceptedProperties as $prop): ?>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-full max-w-xs sm:w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer flex flex-col">
                 <!-- property image  -->
                 <div class="relative">
                     <?php if (! empty($prop['ImageData'])): ?>
-                    <img src="data:image/jpeg;base64,<?php echo base64_encode($prop['ImageData']) ?>" alt="Property Image" class="w-full h-60 object-cover">
+                    <img src="data:image/jpeg;base64,<?php echo base64_encode($prop['ImageData']) ?>" alt="Property Image" class="w-full h-44 sm:h-60 object-cover">
                     <?php endif; ?>
                     <div class="absolute top-2 right-2 bg-white rounded-lg p-2 shadow transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 cursor-pointer">
                         <span class="font-semibold"><?php echo htmlspecialchars($prop['PostType']) ?></span>
@@ -120,9 +120,9 @@
                 </div>
 
                 <!-- property data  -->
-                <div class="p-4 bg-[#5CFFAB] text-black text-center">
-                    <h2 class="text-xl font-bold m-1"><?php echo htmlspecialchars($prop['PropertyName']) ?></h2>
-                    <div class="flex justify-center items-center space-x-2 my-4">
+                <div class="p-3 sm:p-4 bg-[#5CFFAB] text-black text-center flex-1 flex flex-col justify-between">
+                    <h2 class="text-lg sm:text-xl font-bold m-1"><?php echo htmlspecialchars($prop['PropertyName']) ?></h2>
+                    <div class="flex justify-center
                         <img src="./images/Location.png" alt="Location" class="h-7 w-5.5">
                         <span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <?php echo htmlspecialchars($prop['Location']) ?> </span>
                     </div>
@@ -148,7 +148,7 @@
                 </div>
             </div>
             <?php endforeach; ?>
-<?php else: ?>
+            <?php else: ?>
                 <p class="flex justify-center align-middle text-center text-red-500 text-lg">No properties found.</p>
             <?php endif; ?>
         </section>
@@ -156,7 +156,7 @@
 
         <section id="property-container-reject" class="flex flex-wrap gap-10 justify-center p-4 h-[475px] overflow-y-auto custom-scrollbar">
             <?php if (! empty($rejectedProperties) && is_array($rejectedProperties)): ?>
-<?php foreach ($rejectedProperties as $prop): ?>
+            <?php foreach ($rejectedProperties as $prop): ?>
             <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                 <!-- property image  -->
                 <div class="relative">
@@ -197,7 +197,7 @@
                 </div>
             </div>
             <?php endforeach; ?>
-<?php else: ?>
+            <?php else: ?>
                 <p class="flex justify-center align-middle text-center text-red-500 text-lg">No properties found.</p>
             <?php endif; ?>
         </section>

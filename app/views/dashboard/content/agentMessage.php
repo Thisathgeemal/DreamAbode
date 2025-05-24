@@ -19,8 +19,8 @@
 
 <body>
 
-        <section class="p-10 w-full">
-            <h1 class="flex justify-center items-center text-4xl font-bold poppins p-4 mb-4 mt-2">Member Message</h1>
+        <section class="md:p-10 w-full">
+            <h1 class="flex justify-center items-center text-center text-4xl font-bold poppins p-4 mb-4 mt-2">Member Message</h1>
             <!-- Top Button Groups -->
             <div class="flex flex-wrap gap-4 mb-6 align-middle justify-center">
                 <button class="flex items-center justify-center bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-2 px-3 rounded-md w-[130px] transition-colors duration-200" onclick="showSection('Call')">
@@ -32,15 +32,15 @@
             </div>
 
             <?php if ($message): ?>
-<?php
-    $colorClass = (strpos(strtolower($message), 'success') !== false)
-    ? 'text-green-600'
-    : 'text-red-600';
-    echo "<div class=\"mb-4 text-center font-semibold p-1 " . htmlspecialchars($colorClass) . "\">";
-    echo htmlspecialchars($message);
-    echo "</div>";
-?>
-<?php endif; ?>
+                <?php
+                    $colorClass = (strpos(strtolower($message), 'success') !== false)
+                    ? 'text-green-600'
+                    : 'text-red-600';
+                    echo "<div class=\"mb-4 text-center font-semibold p-1 " . htmlspecialchars($colorClass) . "\">";
+                    echo htmlspecialchars($message);
+                    echo "</div>";
+                ?>
+            <?php endif; ?>
 
             <section id="memberCall" class="p-4 flex justify-center align-middle">
                 <div class="w-full max-w-7xl border border-green-300 shadow-lg rounded-lg overflow-hidden">
@@ -57,7 +57,7 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
                                 <?php if (! empty($viewMessageCall)): ?>
-<?php foreach ($viewMessageCall as $message): ?>
+                                    <?php foreach ($viewMessageCall as $message): ?>
                                         <tr class="hover:bg-green-100 even:bg-gray-50 transition">
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['MessageID']) ?></td>
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['Name']) ?></td>
@@ -66,7 +66,7 @@
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['ViewID']) ?></td>
                                         </tr>
                                     <?php endforeach; ?>
-<?php else: ?>
+                                <?php else: ?>
                                     <tr><td colspan="7" class="px-6 py-4 text-center text-red-500">No message found.</td></tr>
                                 <?php endif; ?>
                             </tbody>
@@ -90,7 +90,7 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
                                 <?php if (! empty($viewMessageEmail)): ?>
-<?php foreach ($viewMessageEmail as $message): ?>
+                                    <?php foreach ($viewMessageEmail as $message): ?>
                                         <tr class="hover:bg-green-100 even:bg-gray-50 transition">
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['MessageID']) ?></td>
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['Name']) ?></td>
@@ -99,7 +99,7 @@
                                             <td class="py-2 px-6"><?php echo htmlspecialchars($message['ViewID']) ?></td>
                                         </tr>
                                     <?php endforeach; ?>
-<?php else: ?>
+                                <?php else: ?>
                                     <tr><td colspan="5" class="px-6 py-4 text-center text-red-500">No message found.</td></tr>
                                 <?php endif; ?>
                             </tbody>

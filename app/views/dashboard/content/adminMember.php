@@ -19,8 +19,8 @@
 
 <body>
 
-        <section class="p-6 w-full">
-            <h1 class="flex justify-center align-miiddle text-4xl font-bold poppins p-4 mb-4 mt-2">Member Details</h1>
+        <section class="md:p-6 w-full">
+            <h1 class="flex justify-center text-center align-miiddle text-4xl font-bold poppins p-4 mb-4 mt-2">Member Details</h1>
             <!-- Top Button Groups -->
             <div class="flex flex-wrap gap-4 mb-6 align-middle justify-center">
                 <button class="flex items-center justify-center bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-2 px-3 rounded-md w-[130px] transition-colors duration-200">

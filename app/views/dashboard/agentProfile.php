@@ -27,8 +27,8 @@
         require_once __DIR__ . '/../includes/header.php';
     ?>
 
-    <section class="flex justify-center items-start mt-10 space-x-8 px-4">
-        <div class="bg-white p-6 rounded-xl flex flex-col justify-center items-center space-y-8 w-[280px] h-[700px] shadow-[0_0_15px_4px_rgba(0,0,0,0.2)]">
+    <section class="flex flex-col lg:flex-row justify-center items-center mt-10 space-y-8 lg:space-y-0 lg:space-x-8 px-2 sm:px-4 min-h-[80vh]">
+        <div class="bg-white p-6 rounded-xl flex flex-col justify-center items-center space-y-8 w-[320px] md:w-[280px] h-auto md:h-[700px] shadow-[0_0_15px_4px_rgba(0,0,0,0.2)]">
             <form method="GET" class="flex flex-col items-center space-y-8">
                 <button name="section" value="dashboard" class="bg-[#5CFFAB] hover:bg-[#32e38d] text-black font-semibold py-4 px-6 rounded-lg w-[190px] transition-colors duration-200">
                     Dashboard
@@ -51,7 +51,7 @@
             </form>
         </div>
 
-        <div class="bg-white p-6 rounded-xl flex flex-col justify-center items-center space-y-4 w-[65%] h-[700px] shadow-[0_0_15px_4px_rgba(0,0,0,0.2)]">
+        <div class="bg-white p-6 rounded-xl flex flex-col justify-center items-center space-y-4 w-[320px]  md:w-[65%] h-auto md:h-[700px] shadow-[0_0_15px_4px_rgba(0,0,0,0.2)]">
             <?php
                 $section = $_GET['section'] ?? 'default';
 
