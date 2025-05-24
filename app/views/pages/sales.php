@@ -151,7 +151,7 @@
     <section class="poppins">
         <div class="flex flex-wrap gap-10 justify-center p-4 mt-8">
             <?php if (! empty($currentPageProperties)): ?>
-<?php foreach ($currentPageProperties as $prop): ?>
+                <?php foreach ($currentPageProperties as $prop): ?>
                     <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
                         <!-- Image -->
                         <div class="relative">
@@ -186,7 +186,7 @@
                         </div>
                     </div>
                 <?php endforeach; ?>
-<?php else: ?>
+            <?php else: ?>
                 <p class="text-red-500 text-center text-lg">No properties found.</p>
             <?php endif; ?>
         </div>

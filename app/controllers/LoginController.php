@@ -60,11 +60,8 @@ class LoginController
 
         if ($user) {
             if ($remember) {
-                // setSecureCookie('username', $username, time() + (7 * 24 * 60 * 60));
-                // setSecureCookie('password', $password, time() + (7 * 24 * 60 * 60));
-
-                setSecureCookie('username', $username, time() + 60);
-                setSecureCookie('password', $password, time() + 60);
+                setSecureCookie('username', $username, time() + (7 * 24 * 60 * 60));
+                setSecureCookie('password', $password, time() + (7 * 24 * 60 * 60));
 
             } else {
                 clearSecureCookie('username');

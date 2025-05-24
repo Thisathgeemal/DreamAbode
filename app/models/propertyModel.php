@@ -30,7 +30,8 @@ class Property
 
     public function createProperty()
     {
-        $query = "INSERT INTO " . $this->table . " (PropertyName, PropertyType, Location, Measurement, Price, PostType, Bedrooms, Bathrooms, Floors, Perches, MemberId) VALUES (:propertyName, :propertyType, :location, :measurement, :price, :postType, :bedrooms, :bathrooms, :floors, :perches, :memberId)";
+        $query = "INSERT INTO " . $this->table . " (PropertyName, PropertyType, Location, Measurement, Price, PostType, Bedrooms, Bathrooms, Floors, Perches, MemberId) 
+                   VALUES (:propertyName, :propertyType, :location, :measurement, :price, :postType, :bedrooms, :bathrooms, :floors, :perches, :memberId)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -79,7 +80,8 @@ class Property
     public function getAllPropertyRequest()
     {
         try {
-            $query = "SELECT p.*, (SELECT ImageData FROM PropertyImages WHERE PropertyId = p.PropertyId ORDER BY UploadedAt ASC LIMIT 1) AS ImageData FROM " . $this->table . " p WHERE p.Status = 'pending'";
+            $query = "SELECT p.*, (SELECT ImageData FROM PropertyImages WHERE PropertyId = p.PropertyId ORDER BY UploadedAt ASC LIMIT 1) AS ImageData 
+                      FROM " . $this->table . " p WHERE p.Status = 'pending'";
             $stmt  = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

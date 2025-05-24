@@ -123,7 +123,8 @@ class Agent
 
     public function addAgent()
     {
-        $query = "INSERT INTO " . $this->table . " (Username, Password, Email, MobileNumber, DOB, Gender, Image, created_at) VALUES (:username, :password, :email, :mobile, :dob, :gender, :image, NOW())";
+        $query = "INSERT INTO " . $this->table . " (Username, Password, Email, MobileNumber, DOB, Gender, Image, created_at) 
+                  VALUES (:username, :password, :email, :mobile, :dob, :gender, :image, NOW())";
 
         $stmt = $this->conn->prepare($query);
 

@@ -27,7 +27,8 @@ class Project
 
     public function createProject()
     {
-        $query = "INSERT INTO " . $this->table . " (ProjectName, Location, TotalUnits, CompletionDate, Measurement, Price, MemberId) VALUES (:projectName, :location, :totalUnits, :completionDate, :measurement, :price, :memberId)";
+        $query = "INSERT INTO " . $this->table . " (ProjectName, Location, TotalUnits, CompletionDate, Measurement, Price, MemberId) 
+                  VALUES (:projectName, :location, :totalUnits, :completionDate, :measurement, :price, :memberId)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -96,7 +97,8 @@ class Project
     // get accepted projects by user
     public function getAcceptedProjectsByUserId($userId)
     {
-        $query = "SELECT p.*, (SELECT ImageData FROM ProjectImages WHERE ProjectId = p.ProjectId ORDER BY UploadedAt ASC LIMIT 1) AS ImageData FROM {$this->table} p WHERE p.MemberID = :userId AND p.Status = 'Accept'";
+        $query = "SELECT p.*, (SELECT ImageData FROM ProjectImages WHERE ProjectId = p.ProjectId ORDER BY UploadedAt ASC LIMIT 1) AS ImageData 
+                  FROM {$this->table} p WHERE p.MemberID = :userId AND p.Status = 'Accept'";
         $stmt  = $this->conn->prepare($query);
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         $stmt->execute();
@@ -211,7 +213,8 @@ class Project
     // update project details
     public function updateProjectDetails()
     {
-        $query = "UPDATE " . $this->table . " SET ProjectName = :projectName, Location = :location, TotalUnits = :totalUnits, CompletionDate = :completionDate, Measurement = :measurement, Price = :price WHERE ProjectID = :projectId";
+        $query = "UPDATE " . $this->table . " SET ProjectName = :projectName, Location = :location, TotalUnits = :totalUnits, 
+                  CompletionDate = :completionDate, Measurement = :measurement, Price = :price WHERE ProjectID = :projectId";
         $stmt  = $this->conn->prepare($query);
 
         $stmt->bindParam(':projectName', $this->projectName);
