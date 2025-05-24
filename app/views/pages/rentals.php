@@ -158,8 +158,8 @@
                             <?php if (! empty($prop['ImageData'])): ?>
                                 <img src="data:image/jpeg;base64,<?php echo base64_encode($prop['ImageData']); ?>" alt="Property Image" class="w-full h-60 object-cover">
                             <?php endif; ?>
-                            <div class="absolute top-2 right-2 bg-white rounded-lg p-2 shadow hover:bg-gray-200">
-                                <span class="font-semibold"><?php echo htmlspecialchars($prop['PostType']); ?></span>
+                            <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow hover:bg-gray-200">
+                                <img src="./images/Addfavourite.png" alt="Favourite" class="w-7 h-7">
                             </div>
                         </div>
                         <!-- Info -->
@@ -172,7 +172,7 @@
                             <div class="flex justify-center items-center mt-2 space-x-8">
                                 <div class="flex items-center space-x-2">
                                     <img src="./images/money.png" alt="Price" class="h-7 w-7 mr-2">
-                                    <span>RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <?php echo htmlspecialchars($prop['Price']); ?> M</span>
+                                    <span>RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <?php echo htmlspecialchars($prop['Price']); ?> M</span>
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <img src="./images/Bedrooms.png" alt="Bedrooms" class="h-6 w-6 mr-2">
@@ -204,8 +204,8 @@
             <!-- Numbered page buttons -->
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                 <a href="?page=<?php echo $i ?>"
-                class="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md     <?php echo($i == $page) ? 'bg-white text-black font-semibold' : 'bg-white border-gray-300 hover:bg-gray-200'; ?>"
-                title="Page                                      <?php echo $i ?>">
+                class="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md                                                                                                                                                                                                                                                                                                                          <?php echo($i == $page) ? 'bg-white text-black font-semibold' : 'bg-white border-gray-300 hover:bg-gray-200'; ?>"
+                title="Page                                                                                                                       <?php echo $i ?>">
                 <?php echo $i ?>
                 </a>
             <?php endfor; ?>

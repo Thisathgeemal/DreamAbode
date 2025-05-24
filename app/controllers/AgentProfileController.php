@@ -77,6 +77,7 @@ class AgentProfileController
             $this->agent->mobile   = $mobile;
             $this->agent->dob      = $dob;
             $this->agent->gender   = $gender;
+            $this->agent->image    = '/DreamAbode/public/images/Profile.png';
 
             // Basic validations
             if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {

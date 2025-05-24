@@ -61,34 +61,34 @@
         <!-- Search Bar -->
         <div class="w-full flex justify-center mt-10">
             <!-- Search Bar Container -->
-            <div class="bg-green-200 p-4 rounded-full shadow-md flex flex-wrap gap-3 items-center justify-center w-[70%] max-w-4xl" id="searchBar">
+            <form action="" method="POST" class="bg-green-200 p-4 rounded-full shadow-md flex flex-wrap gap-3 items-center justify-center w-[70%] max-w-4xl" id="searchBar">
 
                 <!-- Location -->
                 <div class="bg-white rounded-lg px-4 py-2 flex items-center space-x-2 w-48">
-                <img src="./images/Location.png" alt="Location" class="w-3 mx-3">
-                <input type="text" placeholder="Location" class="outline-none w-full bg-transparent" />
+                    <img src="./images/Location.png" alt="Location" class="w-3 mx-3">
+                    <input type="text" name="location" placeholder="Location" class="outline-none w-full bg-transparent" />
                 </div>
 
                 <!-- Property Type -->
                 <div class="bg-white rounded-lg px-4 py-2 flex items-center space-x-2 w-48">
-                <img src="./images/Houses.png" alt="PropertyType" class="w-4 mx-3">
-                <input type="text" placeholder="Property Type" class="outline-none w-full bg-transparent" />
+                    <img src="./images/Houses.png" alt="PropertyType" class="w-4 mx-3">
+                    <input type="text" name="property_type" placeholder="Property Type" class="outline-none w-full bg-transparent" />
                 </div>
 
                 <!-- Max Price -->
                 <div class="bg-white rounded-lg px-4 py-2 flex items-center space-x-2 w-48">
-                <img src="./images/Price.png" alt="Price" class="w-5 mx-3">
-                <input type="text" placeholder="Max Price" class="outline-none w-full bg-transparent" />
+                    <img src="./images/Price.png" alt="Price" class="w-5 mx-3">
+                    <input type="text" name="max_price" placeholder="Max Price" class="outline-none w-full bg-transparent" />
                 </div>
 
                 <!-- More Button -->
-                <div id="moreBtn" class="bg-white rounded-lg px-1 py-2 flex items-center justify-center w-10 h-10 cursor-pointer">
-                <img src="./images/More.png" alt="More" class="w-5 mx-4">
+                <div id="moreBtn" class="bg-white rounded-lg px-1 py-2 flex items-center justify-center w-10 h-10 cursor-pointer" type="button">
+                    <img src="./images/More.png" alt="More" class="w-5 mx-4">
                 </div>
 
                 <!-- Search Button -->
-                <button id="searchBtn" class="bg-[#42e697] transition duration-300 ease-in-out hover:scale-105 hover:bg-green-400 cursor-pointer text-black font-bold py-2 px-6 rounded-full">
-                Search
+                <button id="searchBtn" type="submit" class="bg-[#42e697] transition duration-300 ease-in-out hover:scale-105 hover:bg-green-400 cursor-pointer text-black font-bold py-2 px-6 rounded-full">
+                    Search
                 </button>
 
                 <!-- Extra Inputs (Hidden Initially) -->
@@ -97,22 +97,22 @@
                     <!-- Min Perches -->
                     <div class="bg-white rounded-lg px-4 py-2 flex items-center space-x-2 w-48">
                         <img src="./images/Perches.png" alt="Perches" class="w-5 mx-3">
-                        <input type="text" placeholder="Min Perches" class="outline-none w-full bg-transparent" />
+                        <input type="text" name="min_perches" placeholder="Min Perches" class="outline-none w-full bg-transparent" />
                     </div>
 
                     <!-- Min Bedrooms -->
                     <div class="bg-white rounded-lg px-4 py-2 flex items-center space-x-2 w-48">
                         <img src="./images/Bedrooms.png" alt="Bedrooms" class="w-4 mx-3">
-                        <input type="text" placeholder="Min Bedrooms" class="outline-none w-full bg-transparent" />
+                        <input type="text" name="min_bedrooms" placeholder="Min Bedrooms" class="outline-none w-full bg-transparent" />
                     </div>
 
                     <!-- Min Bathrooms -->
                     <div class="bg-white rounded-lg px-4 py-2 flex items-center space-x-2 w-48">
                         <img src="./images/Bathrooms.png" alt="Bathrooms" class="w-5 mx-3">
-                        <input type="text" placeholder="Min Bathrooms" class="outline-none w-full bg-transparent" />
+                        <input type="text" name="min_bathrooms" placeholder="Min Bathrooms" class="outline-none w-full bg-transparent" />
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <!-- Property Categories -->
@@ -158,8 +158,8 @@
                             <?php if (! empty($prop['ImageData'])): ?>
                                 <img src="data:image/jpeg;base64,<?php echo base64_encode($prop['ImageData']); ?>" alt="Property Image" class="w-full h-60 object-cover">
                             <?php endif; ?>
-                            <div class="absolute top-2 right-2 bg-white rounded-lg p-2 shadow hover:bg-gray-200">
-                                <span class="font-semibold"><?php echo htmlspecialchars($prop['PostType']); ?></span>
+                            <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow hover:bg-gray-200">
+                                <img src="./images/Addfavourite.png" alt="Favourite" class="w-7 h-7">
                             </div>
                         </div>
                         <!-- Info -->
@@ -172,7 +172,7 @@
                             <div class="flex justify-center items-center mt-2 space-x-8">
                                 <div class="flex items-center space-x-2">
                                     <img src="./images/money.png" alt="Price" class="h-7 w-7 mr-2">
-                                    <span>RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <?php echo htmlspecialchars($prop['Price']); ?> M</span>
+                                    <span>RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <?php echo htmlspecialchars($prop['Price']); ?> M</span>
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <img src="./images/Bedrooms.png" alt="Bedrooms" class="h-6 w-6 mr-2">
@@ -204,8 +204,8 @@
             <!-- Numbered page buttons -->
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                 <a href="?page=<?php echo $i ?>"
-                class="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <?php echo($i == $page) ? 'bg-white text-black font-semibold' : 'bg-white border-gray-300 hover:bg-gray-200'; ?>"
-                title="Page                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <?php echo $i ?>">
+                class="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <?php echo($i == $page) ? 'bg-white text-black font-semibold' : 'bg-white border-gray-300 hover:bg-gray-200'; ?>"
+                title="Page                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <?php echo $i ?>">
                 <?php echo $i ?>
                 </a>
             <?php endfor; ?>
@@ -220,7 +220,6 @@
             <?php endif; ?>
         </div>
     </section>
-
 
     <?php
         require_once __DIR__ . '/../includes/footer.php';
