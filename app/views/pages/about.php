@@ -183,15 +183,15 @@
         <!-- Cards Section -->
         <div class="mt-12 flex flex-wrap justify-center items-center gap-10">
             <?php if (! empty($randomReviews) && is_array($randomReviews)): ?>
-            <?php foreach ($randomReviews as $review): ?>
+<?php foreach ($randomReviews as $review): ?>
             <!-- Card Item -->
             <div class="w-[350px] h-[400px] bg-[#5CFFAB] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:bg-[#42e697] hover:shadow-md cursor-pointer">
                 <?php
-                $imageSrc = !empty($review['Image'])
+                    $imageSrc = ! empty($review['Image'])
                     ? 'data:image/jpeg;base64,' . base64_encode($review['Image'])
                     : BASE_URL . '/public/images/Profile.png';
-                $username = !empty($review['Username']) ? ucfirst($review['Username']) : '';
-                $altText = !empty($username)
+                    $username = ! empty($review['Username']) ? ucfirst($review['Username']) : '';
+                    $altText  = ! empty($username)
                     ? htmlspecialchars($username . "'s Review")
                     : 'User Review';
                 ?>
@@ -201,14 +201,14 @@
                 <?php
                     $rating = (int) $review['Rating'];
                     for ($i = 1; $i <= $rating; $i++) {
-                    echo '<span style="color:gold;font-size:1.8em;">&#9733;</span>';
+                        echo '<span style="color:gold;font-size:1.8em;">&#9733;</span>';
                     }
                 ?>
                 </div>
                 <p class="text-sm text-center leading-[2] mt-1"><?php echo htmlspecialchars($review['Description']); ?></p>
             </div>
             <?php endforeach; ?>
-            <?php else: ?>
+<?php else: ?>
             <p class="flex justify-center align-middle text-center text-red-500 text-lg">No review found.</p>
             <?php endif; ?>
         </div>

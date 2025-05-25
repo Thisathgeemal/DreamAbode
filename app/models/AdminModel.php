@@ -122,7 +122,7 @@ class Admin
 
     public function getAllAdmins()
     {
-        $query = "SELECT * FROM " . $this->table . " ORDER BY created_at ASC";
+        $query = "SELECT * FROM " . $this->table . " WHERE Role = 'Admin' ORDER BY created_at ASC";
         $stmt  = $this->conn->prepare($query);
 
         if ($stmt->execute()) {
