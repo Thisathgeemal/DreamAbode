@@ -183,7 +183,7 @@
         <!-- Cards Section -->
         <div class="mt-12 flex flex-wrap justify-center items-center gap-10">
             <?php if (! empty($randomReviews) && is_array($randomReviews)): ?>
-<?php foreach ($randomReviews as $review): ?>
+            <?php foreach ($randomReviews as $review): ?>
             <!-- Card Item -->
             <div class="w-[350px] h-[400px] bg-[#5CFFAB] rounded-xl p-4 flex flex-col justify-center items-center text-center shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:bg-[#42e697] hover:shadow-md cursor-pointer">
                 <?php
@@ -208,7 +208,7 @@
                 <p class="text-sm text-center leading-[2] mt-1"><?php echo htmlspecialchars($review['Description']); ?></p>
             </div>
             <?php endforeach; ?>
-<?php else: ?>
+            <?php else: ?>
             <p class="flex justify-center align-middle text-center text-red-500 text-lg">No review found.</p>
             <?php endif; ?>
         </div>
