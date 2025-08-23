@@ -15,12 +15,10 @@ class Payment extends Model
         'member_id',
         'amount',
         'description',
-        'payment_date',
     ];
 
     protected $casts = [
-        'amount'       => 'decimal:2',
-        'payment_date' => 'datetime',
+        'amount' => 'decimal:2',
     ];
 
     public $timestamps = true;
