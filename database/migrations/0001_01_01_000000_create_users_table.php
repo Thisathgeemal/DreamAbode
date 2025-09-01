@@ -21,10 +21,11 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->date('dob')->nullable();
-            $table->json('user_roles');
+            $table->json('user_roles')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->string('profile_image')->nullable();
             $table->rememberToken();
+            $table->foreignId('current_team_id')->nullable();
+            $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
         });
 
