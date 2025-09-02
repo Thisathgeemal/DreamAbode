@@ -58,21 +58,24 @@
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
                     <x-label for="terms">
-                        <div class="flex items-center">
-                            <x-checkbox name="terms" id="terms" required />
+                        <div class="flex items-center space-x-3">
+                            <!-- Checkbox -->
+                            <x-checkbox name="terms" id="terms" required
+                                class="rounded border-gray-300 text-[#5CFFAB] focus:ring-[#5CFFAB]" />
 
-                            <div class="ms-2">
+                            <!-- Terms & Privacy Text -->
+                            <div class="text-sm text-gray-700 font-poppins">
                                 {!! __('I agree to the :terms_of_service and :privacy_policy', [
                                     'terms_of_service' =>
                                         '<a target="_blank" href="' .
                                         route('terms.show') .
-                                        '" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
+                                        '" class="underline text-[#18c772] hover:text-[#42e697] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5CFFAB]">' .
                                         __('Terms of Service') .
                                         '</a>',
                                     'privacy_policy' =>
                                         '<a target="_blank" href="' .
                                         route('policy.show') .
-                                        '" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
+                                        '" class="underline text-[#18c772] hover:text-[#42e697] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5CFFAB]">' .
                                         __('Privacy Policy') .
                                         '</a>',
                                 ]) !!}

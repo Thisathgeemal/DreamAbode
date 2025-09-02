@@ -42,20 +42,33 @@
                     <x-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">About</x-nav-link>
                 </div>
 
-                {{-- Login & Register Buttons --}}
+                {{-- Login & Register or Dashboard --}}
                 <div class="hidden sm:flex flex-shrink-0">
-                    <a href="{{ route('login') }}">
-                        <button
-                            class="text-sm font-semibold border border-[#5CFFAB] text-green-600 px-5 py-2 rounded hover:bg-[#5CFFAB] hover:text-black transition">
-                            Sign in
-                        </button>
-                    </a>
-                    <a href="{{ route('register') }}">
-                        <button
-                            class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition ml-2">
-                            Sign up
-                        </button>
-                    </a>
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/dashboard') }}">
+                                <button
+                                    class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
+                                    Dashboard
+                                </button>
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}">
+                                <button
+                                    class="text-sm font-semibold border border-[#5CFFAB] text-green-600 px-5 py-2 rounded hover:bg-[#5CFFAB] hover:text-black transition">
+                                    Sign in
+                                </button>
+                            </a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}">
+                                    <button
+                                        class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition ml-2">
+                                        Sign up
+                                    </button>
+                                </a>
+                            @endif
+                        @endauth
+                    @endif
                 </div>
 
                 <!-- Hamburger for mobile -->
@@ -122,19 +135,33 @@
                     </a>
                 </li>
                 <li class="flex justify-center space-x-2 pt-2">
-                    <a href="{{ route('login') }}">
-                        <button
-                            class="text-sm font-semibold border border-[#5CFFAB] text-green-600 px-5 py-2 rounded hover:bg-[#4de79a] hover:text-black transition">
-                            Sign in
-                        </button>
-                    </a>
-                    <a href="{{ route('register') }}">
-                        <button
-                            class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
-                            Sign up
-                        </button>
-                    </a>
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/dashboard') }}">
+                                <button
+                                    class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
+                                    Dashboard
+                                </button>
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}">
+                                <button
+                                    class="text-sm font-semibold border border-[#5CFFAB] text-green-600 px-5 py-2 rounded hover:bg-[#4de79a] hover:text-black transition">
+                                    Sign in
+                                </button>
+                            </a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}">
+                                    <button
+                                        class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
+                                        Sign up
+                                    </button>
+                                </a>
+                            @endif
+                        @endauth
+                    @endif
                 </li>
+
             </ul>
         </div>
     </header>

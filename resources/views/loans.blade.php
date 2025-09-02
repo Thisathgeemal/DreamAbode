@@ -52,9 +52,12 @@
     <section class="relative md:mt-5 flex flex-col items-center p-8 space-y-12">
         <!-- Heading Section -->
         <div class="w-full max-w-6xl">
-            <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-900 poppins">Home Loan Calculator</h1>
-            <p class="text-center text-gray-700 mt-2 md:mt-4">Estimate your monthly payments and total cost of your home
-                loan.</p>
+            <h1 class="text-3xl md:text-5xl font-bold text-center text-gray-900 poppins">
+                Home Loan Calculator
+            </h1>
+            <p class="text-lg md:text-xl text-center text-gray-700 mt-2">
+                Estimate your monthly payments and total cost of your home loan.
+            </p>
         </div>
 
         <div class="flex flex-col md:flex-row md:space-x-10 w-full max-w-3xl">
@@ -63,30 +66,31 @@
                 <h2 class="text-xl font-semibold text-gray-800">Loan Details</h2>
 
                 <div>
-                    <label for="propertyValue" class="text-gray-700 font-medium">Property Value</label>
+                    <label for="propertyValue" class="text-sm font-medium text-gray-700">Property Value</label>
                     <input type="number" id="propertyValue" placeholder="Enter property value"
                         class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
                         min="0">
                 </div>
 
                 <div>
-                    <label for="downPaymentPercentage" class="text-gray-700 font-medium">Down Payment (%)</label>
+                    <label for="downPaymentPercentage" class="text-sm font-medium text-gray-700">Down Payment
+                        (%)</label>
                     <input type="number" id="downPaymentPercentage" placeholder="Enter down payment (%)"
                         class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
                         min="10">
-                    <p id="downPaymentWarning" class="text-red-500 text-sm mt-1 hidden">Down payment must be at least
+                    <p id="downPaymentWarning" class="text-red-500 text-xs mt-1 hidden">Down payment must be at least
                         10% of the property value.</p>
                 </div>
 
                 <div>
-                    <label for="interestRate" class="text-gray-700 font-medium">Interest Rate (%)</label>
+                    <label for="interestRate" class="text-sm font-medium text-gray-700">Interest Rate (%)</label>
                     <input type="number" id="interestRate" placeholder="Enter interest rate (Default: 12%)"
                         class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
                         min="0">
                 </div>
 
                 <div>
-                    <label for="loanPeriod" class="text-gray-700 font-medium">Loan Period (Years)</label>
+                    <label for="loanPeriod" class="text-sm font-medium text-gray-700">Loan Period (Years)</label>
                     <input type="number" id="loanPeriod" placeholder="Enter loan period"
                         class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
                         min="1">
@@ -99,25 +103,25 @@
                 <h2 class="text-xl font-semibold text-gray-800">Loan Summary</h2>
 
                 <div>
-                    <label class="text-gray-700 font-medium">Loan Amount</label>
+                    <label class="text-sm font-medium text-gray-700">Loan Amount</label>
                     <input type="text" id="loanAmount" value="Rs: 0.00" disabled
                         class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm p-2 text-black focus:outline-none">
                 </div>
 
                 <div>
-                    <label class="text-gray-700 font-medium">Estimated Monthly Payment</label>
+                    <label class="text-sm font-medium text-gray-700">Estimated Monthly Payment</label>
                     <input type="text" id="estimatedMonthlyPayment" value="Rs: 0.00" disabled
                         class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm p-2 text-black focus:outline-none">
                 </div>
 
                 <div>
-                    <label class="text-gray-700 font-medium">Total Interest Payable</label>
+                    <label class="text-sm font-medium text-gray-700">Total Interest Payable</label>
                     <input type="text" id="totalInterestPayable" value="Rs: 0.00" disabled
                         class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm p-2 text-black focus:outline-none">
                 </div>
 
                 <div>
-                    <label class="text-gray-700 font-medium">Total Payable (Loan Amount + Interest)</label>
+                    <label class="text-sm font-medium text-gray-700">Total Payable (Loan Amount + Interest)</label>
                     <input type="text" id="totalPayable" value="Rs: 0.00" disabled
                         class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm p-2 text-black focus:outline-none">
                 </div>
@@ -137,73 +141,84 @@
     <section class="relative flex flex-col justify-center items-center text-center mt-2 md:mt-2 px-4">
         <!-- Heading Section -->
         <div class="w-full max-w-6xl">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 poppins">Bank Partnerships</h1>
-            <p class="text-gray-700 mt-2 md:mt-4 poppins">Explore our trusted banking partners offering competitive home
-                loan options.</p>
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 poppins">
+                Bank Partnerships
+            </h1>
+            <p class="text-lg md:text-xl text-gray-700 mt-2 md:mt-4 poppins">
+                Explore our trusted banking partners offering competitive home loan options.
+            </p>
         </div>
 
         <!-- Cards Section -->
         <div class="mt-10 flex flex-wrap justify-center items-stretch gap-8 max-w-6xl">
-            <!-- Card Item Template -->
+            <!-- Card Item -->
             <div
                 class="w-[320px] md:w-[350px] bg-gradient-to-br from-[#5CFFAB] to-[#42e697] rounded-xl p-6 flex flex-col justify-between items-center text-center shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl cursor-pointer">
                 <img src="./images/commercialBank.png" alt="Commercial Bank"
                     class="w-40 h-40 md:w-60 md:h-60 object-contain">
-                <h3 class="text-lg md:text-xl font-semibold mb-2 text-gray-900">Commercial Bank</h3>
-                <p class="text-sm text-gray-800 leading-relaxed mb-4">Flexible home loan solutions to suit your needs
+                <h3 class="text-xl font-semibold mb-2 text-gray-900">Commercial Bank</h3>
+                <p class="text-base text-gray-800 leading-relaxed mb-4">Flexible home loan solutions to suit your needs
                     and goals.</p>
                 <div class="flex flex-col md:flex-row gap-2 md:gap-4 w-full justify-center mb-4">
                     <div class="flex items-center gap-2 bg-white/40 px-3 py-1 rounded-full">
                         <img src="./images/money.png" alt="Money" class="w-5 h-5">
-                        <span class="text-sm font-semibold text-gray-900">Up to 10.5M</span>
+                        <span class="text-sm font-medium text-gray-900">Up to 10.5M</span>
                     </div>
                     <div class="flex items-center gap-2 bg-white/40 px-3 py-1 rounded-full">
                         <img src="./images/Discount.png" alt="Discount" class="w-5 h-5">
-                        <span class="text-sm font-semibold text-gray-900">Starting from 10.5%</span>
+                        <span class="text-sm font-medium text-gray-900">Starting from 10.5%</span>
                     </div>
                 </div>
                 <button
-                    class="w-[120px] h-[40px] rounded-md bg-white text-gray-900 font-semibold border border-green-400 hover:bg-gray-200 hover:scale-105 transition duration-300">Inquire</button>
+                    class="w-[120px] h-[40px] rounded-md bg-white text-gray-900 font-semibold border border-green-400 hover:bg-gray-200 hover:scale-105 transition duration-300">
+                    Inquire
+                </button>
             </div>
 
+            <!-- Card 2 -->
             <div
                 class="w-[320px] md:w-[350px] bg-gradient-to-br from-[#5CFFAB] to-[#42e697] rounded-xl p-6 flex flex-col justify-between items-center text-center shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl cursor-pointer">
                 <img src="./images/BOC.png" alt="BOC Bank" class="w-40 h-40 md:w-60 md:h-60 object-contain">
-                <h3 class="text-lg md:text-xl font-semibold mb-2 text-gray-900">Bank of Ceylon (BOC)</h3>
-                <p class="text-sm text-gray-800 leading-relaxed mb-4">Affordable housing loans with easy repayment
+                <h3 class="text-xl font-semibold mb-2 text-gray-900">Bank of Ceylon (BOC)</h3>
+                <p class="text-base text-gray-800 leading-relaxed mb-4">Affordable housing loans with easy repayment
                     options.</p>
                 <div class="flex flex-col md:flex-row gap-2 md:gap-4 w-full justify-center mb-4">
                     <div class="flex items-center gap-2 bg-white/40 px-3 py-1 rounded-full">
                         <img src="./images/money.png" alt="Money" class="w-5 h-5">
-                        <span class="text-sm font-semibold text-gray-900">Up to 9.5M</span>
+                        <span class="text-sm font-medium text-gray-900">Up to 9.5M</span>
                     </div>
                     <div class="flex items-center gap-2 bg-white/40 px-3 py-1 rounded-full">
                         <img src="./images/Discount.png" alt="Discount" class="w-5 h-5">
-                        <span class="text-sm font-semibold text-gray-900">Starting from 12%</span>
+                        <span class="text-sm font-medium text-gray-900">Starting from 12%</span>
                     </div>
                 </div>
                 <button
-                    class="w-[120px] h-[40px] rounded-md bg-white text-gray-900 font-semibold border border-green-400 hover:bg-gray-200 hover:scale-105 transition duration-300">Inquire</button>
+                    class="w-[120px] h-[40px] rounded-md bg-white text-gray-900 font-semibold border border-green-400 hover:bg-gray-200 hover:scale-105 transition duration-300">
+                    Inquire
+                </button>
             </div>
 
+            <!-- Card 3 -->
             <div
                 class="w-[320px] md:w-[350px] bg-gradient-to-br from-[#5CFFAB] to-[#42e697] rounded-xl p-6 flex flex-col justify-between items-center text-center shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl cursor-pointer">
                 <img src="./images/sampath.png" alt="Sampath Bank" class="w-40 h-40 md:w-60 md:h-60 object-contain">
-                <h3 class="text-lg md:text-xl font-semibold mb-2 text-gray-900">Sampath Bank</h3>
-                <p class="text-sm text-gray-800 leading-relaxed mb-4">Home loans with competitive rates and flexible
+                <h3 class="text-xl font-semibold mb-2 text-gray-900">Sampath Bank</h3>
+                <p class="text-base text-gray-800 leading-relaxed mb-4">Home loans with competitive rates and flexible
                     payment plans.</p>
                 <div class="flex flex-col md:flex-row gap-2 md:gap-4 w-full justify-center mb-4">
                     <div class="flex items-center gap-2 bg-white/40 px-3 py-1 rounded-full">
                         <img src="./images/money.png" alt="Money" class="w-5 h-5">
-                        <span class="text-sm font-semibold text-gray-900">Up to 7.5M</span>
+                        <span class="text-sm font-medium text-gray-900">Up to 7.5M</span>
                     </div>
                     <div class="flex items-center gap-2 bg-white/40 px-3 py-1 rounded-full">
                         <img src="./images/Discount.png" alt="Discount" class="w-5 h-5">
-                        <span class="text-sm font-semibold text-gray-900">Starting from 11.5%</span>
+                        <span class="text-sm font-medium text-gray-900">Starting from 11.5%</span>
                     </div>
                 </div>
                 <button
-                    class="w-[120px] h-[40px] rounded-md bg-white text-gray-900 font-semibold border border-green-400 hover:bg-gray-200 hover:scale-105 transition duration-300">Inquire</button>
+                    class="w-[120px] h-[40px] rounded-md bg-white text-gray-900 font-semibold border border-green-400 hover:bg-gray-200 hover:scale-105 transition duration-300">
+                    Inquire
+                </button>
             </div>
         </div>
     </section>

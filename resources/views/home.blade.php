@@ -70,7 +70,7 @@
 
         <!-- text  -->
         <div
-            class="flex-1 flex flex-col justify-center items-center md:items-center w-full md:w-[40%] h-full px-6 md:px-0 mt-8 md:pr-20 md:mt-15">
+            class="flex-1 flex flex-col justify-center items-center md:items-start w-full md:w-[40%] h-full px-6 md:px-0 mt-8 md:pr-20 md:pl-10 md:mt-15">
             <h1
                 class="text-[7vw] md:text-[3.5vw] font-bold text-black leading-[1.15] poppins text-center md:text-left mb-6 md:mb-6 md:px-30">
                 The Perfect Place to Manage Your Property
