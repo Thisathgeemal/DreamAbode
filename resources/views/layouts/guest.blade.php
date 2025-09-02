@@ -12,6 +12,11 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -23,6 +28,7 @@
 
     {{-- Header --}}
     <header x-data="{ open: false }" class="bg-white shadow">
+        <!-- Desktop Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
                 {{-- logo --}}
@@ -46,12 +52,33 @@
                 <div class="hidden sm:flex flex-shrink-0">
                     @if (Route::has('login'))
                         @auth
-                            <a href="{{ url('/dashboard') }}">
-                                <button
-                                    class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
-                                    Dashboard
-                                </button>
-                            </a>
+                            @php
+                                $userRoles = session('user_roles') ?? [];
+                                $dashboardRoutes = [
+                                    'admin' => route('admin.dashboard'),
+                                    'agent' => route('agent.dashboard'),
+                                    'member' => route('member.dashboard'),
+                                ];
+                            @endphp
+
+                            @if (count($userRoles) === 1)
+                                {{-- Only 1 role -> show Dashboard button --}}
+                                @php $role = strtolower($userRoles[0]); @endphp
+                                <a href="{{ $dashboardRoutes[$role] ?? '#' }}">
+                                    <button
+                                        class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
+                                        Dashboard
+                                    </button>
+                                </a>
+                            @elseif(count($userRoles) > 1)
+                                {{-- Multiple roles -> show Select Role button --}}
+                                <a href="{{ route('role.selection') }}">
+                                    <button
+                                        class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
+                                        Select Role
+                                    </button>
+                                </a>
+                            @endif
                         @else
                             <a href="{{ route('login') }}">
                                 <button
@@ -135,31 +162,50 @@
                     </a>
                 </li>
                 <li class="flex justify-center space-x-2 pt-2">
-                    @if (Route::has('login'))
-                        @auth
-                            <a href="{{ url('/dashboard') }}">
+                    @auth
+                        @php
+                            $userRoles = session('user_roles') ?? [];
+                            $dashboardRoutes = [
+                                'admin' => route('admin.dashboard'),
+                                'agent' => route('agent.dashboard'),
+                                'member' => route('member.dashboard'),
+                            ];
+                        @endphp
+
+                        @if (count($userRoles) === 1)
+                            {{-- Only 1 role -> show Dashboard button --}}
+                            @php $role = strtolower($userRoles[0]); @endphp
+                            <a href="{{ $dashboardRoutes[$role] ?? '#' }}">
                                 <button
                                     class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
                                     Dashboard
                                 </button>
                             </a>
-                        @else
-                            <a href="{{ route('login') }}">
+                        @elseif(count($userRoles) > 1)
+                            {{-- Multiple roles -> show Select Role button --}}
+                            <a href="{{ route('role.selection') }}">
                                 <button
-                                    class="text-sm font-semibold border border-[#5CFFAB] text-green-600 px-5 py-2 rounded hover:bg-[#4de79a] hover:text-black transition">
-                                    Sign in
+                                    class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
+                                    Select Role
                                 </button>
                             </a>
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}">
-                                    <button
-                                        class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
-                                        Sign up
-                                    </button>
-                                </a>
-                            @endif
-                        @endauth
-                    @endif
+                        @endif
+                    @else
+                        <a href="{{ route('login') }}">
+                            <button
+                                class="text-sm font-semibold border border-[#5CFFAB] text-green-600 px-5 py-2 rounded hover:bg-[#4de79a] hover:text-black transition">
+                                Sign in
+                            </button>
+                        </a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}">
+                                <button
+                                    class="text-sm font-semibold bg-[#5CFFAB] text-black px-5 py-2 rounded hover:bg-[#4de79a] transition">
+                                    Sign up
+                                </button>
+                            </a>
+                        @endif
+                    @endauth
                 </li>
 
             </ul>

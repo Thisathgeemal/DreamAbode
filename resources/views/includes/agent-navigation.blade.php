@@ -13,90 +13,28 @@
         <ul class="flex-grow space-y-2 px-4 text-sm text-gray-800 font-medium mt-6">
             <!-- Dashboard -->
             <li>
-                <a href="{{ route('memberDashboard') }}"
+                <a href="{{ route('agent.dashboard') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('memberDashboard') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                  {{ request()->routeIs('agent.dashboard') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <i class="fas fa-house"></i> Dashboard
                 </a>
             </li>
 
-            <!-- Manage Property Dropdown -->
-            <li x-data="{ open: false }">
-                <button @click="open = !open"
-                    class="flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-gray-100">
-                    <span class="flex items-center gap-3">
-                        <i class="fas fa-building"></i> Manage Property
-                    </span>
-                    <i :class="open ? 'fa fa-chevron-circle-up' : 'fa fa-chevron-circle-down'"></i>
-                </button>
-                <ul x-show="open" x-transition class="mt-1 space-y-1 pl-7">
-                    <li>
-                        <a href="{{ route('property.pending') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('property.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
-                            <i class="fas fa-clock pr-1"></i> Pending Property
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('property.accepted') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('property.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
-                            <i class="fas fa-check-circle pr-1"></i> Accepted Property
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('property.rejected') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('property.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
-                            <i class="fas fa-times-circle pr-1"></i> Rejected Property
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <!-- Manage Project Dropdown -->
-            <li x-data="{ open: false }">
-                <button @click="open = !open"
-                    class="flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-gray-100">
-                    <span class="flex items-center gap-3">
-                        <i class="fas fa-project-diagram"></i> Manage Project
-                    </span>
-                    <i :class="open ? 'fa fa-chevron-circle-up' : 'fa fa-chevron-circle-down'"></i>
-                </button>
-                <ul x-show="open" x-transition class="mt-1 space-y-1 pl-7">
-                    <li>
-                        <a href="{{ route('project.pending') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('project.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
-                            <i class="fas fa-clock pr-1"></i> Pending Project
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('project.accepted') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('project.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
-                            <i class="fas fa-check-circle pr-1"></i> Accepted Project
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('project.rejected') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('project.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
-                            <i class="fas fa-times-circle pr-1"></i> Rejected Project
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <!-- Membership -->
+            <!-- Property -->
             <li>
-                <a href="{{ route('membership') }}"
+                <a href="{{ route('property') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('membership') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
-                    <i class="fas fa-id-card"></i> Membership
+                  {{ request()->routeIs('property') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    <i class="fas fa-comment-alt"></i> Property
                 </a>
             </li>
 
-            <!-- Payment -->
+            <!-- Project -->
             <li>
-                <a href="{{ route('payment') }}"
+                <a href="{{ route('project') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('payment') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
-                    <i class="fas fa-credit-card"></i> Payment
+                  {{ request()->routeIs('project') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    <i class="fas fa-comment-alt"></i> Project
                 </a>
             </li>
 
@@ -106,15 +44,6 @@
                     class="flex items-center gap-3 px-3 py-2 rounded-md
                   {{ request()->routeIs('messages') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <i class="fas fa-comment-alt"></i> Messages
-                </a>
-            </li>
-
-            <!-- Review -->
-            <li>
-                <a href="{{ route('review') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('review') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
-                    <i class="fas fa-comment-dots"></i> Review
                 </a>
             </li>
         </ul>

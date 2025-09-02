@@ -28,7 +28,7 @@
     <x-banner />
 
     <div class="min-h-screen bg-gray-100">
-        @include('includes.member-navigation', ['slot' => $slot])
+        @include('includes.agent-navigation', ['slot' => $slot])
     </div>
 
     @stack('modals')
