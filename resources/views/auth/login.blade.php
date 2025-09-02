@@ -53,7 +53,7 @@
             <div class="mt-5">
                 <x-button
                     class="w-full h-10 flex justify-center bg-green-600 hover:bg-green-700 text-white font-semibold px-4 rounded-lg shadow">
-                    {{ __('Log in') }}
+                    {{ __('Log In') }}
                 </x-button>
             </div>
 
@@ -61,14 +61,16 @@
             <div class="mt-3">
                 <p class="text-center text-gray-500 text-sm mb-3">Or continue with</p>
                 <div class="flex gap-4">
-                    <x-button
-                        class="w-1/2 flex justify-center bg-red-500 hover:bg-red-600 text-white h-10 rounded-lg shadow">
+                    <!-- Google Login Button -->
+                    <a href="{{ route('login.google') }}"
+                        class="w-1/2 flex justify-center items-center bg-red-500 hover:bg-red-600 text-white h-10 rounded-lg shadow">
                         {{ __('Google') }}
-                    </x-button>
-                    <x-button
-                        class="w-1/2 flex justify-center bg-blue-600 hover:bg-blue-700 text-white h-10 rounded-lg shadow">
+                    </a>
+                    <!-- Facebook Login Button -->
+                    <a href="{{ route('login.facebook') }}"
+                        class="w-1/2 flex justify-center items-center bg-blue-600 hover:bg-blue-700 text-white h-10 rounded-lg shadow">
                         {{ __('Facebook') }}
-                    </x-button>
+                    </a>
                 </div>
             </div>
 

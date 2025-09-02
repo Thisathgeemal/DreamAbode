@@ -10,7 +10,7 @@
         </div>
 
         <!-- Menu -->
-        <ul class="flex-grow space-y-2 px-4 text-sm text-gray-800 font-medium mt-6">
+        <ul class="flex-grow space-y-4 px-4 text-sm text-gray-800 font-medium mt-6">
             <!-- Dashboard -->
             <li>
                 <a href="{{ route('member.dashboard') }}"
@@ -29,22 +29,22 @@
                     </span>
                     <i :class="open ? 'fa fa-chevron-circle-up' : 'fa fa-chevron-circle-down'"></i>
                 </button>
-                <ul x-show="open" x-transition class="mt-1 space-y-1 pl-7">
+                <ul x-show="open" x-transition class="mt-1 space-y-2 pl-7">
                     <li>
-                        <a href="{{ route('property.pending') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('property.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('member.property.pending') }}"
+                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.property.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
                             <i class="fas fa-clock pr-1"></i> Pending Property
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('property.accepted') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('property.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('member.property.accepted') }}"
+                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.property.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
                             <i class="fas fa-check-circle pr-1"></i> Accepted Property
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('property.rejected') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('property.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('member.property.rejected') }}"
+                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.property.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
                             <i class="fas fa-times-circle pr-1"></i> Rejected Property
                         </a>
                     </li>
@@ -60,22 +60,22 @@
                     </span>
                     <i :class="open ? 'fa fa-chevron-circle-up' : 'fa fa-chevron-circle-down'"></i>
                 </button>
-                <ul x-show="open" x-transition class="mt-1 space-y-1 pl-7">
+                <ul x-show="open" x-transition class="mt-1 space-y-2 pl-7">
                     <li>
-                        <a href="{{ route('project.pending') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('project.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('member.project.pending') }}"
+                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.project.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
                             <i class="fas fa-clock pr-1"></i> Pending Project
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('project.accepted') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('project.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('member.project.accepted') }}"
+                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.project.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
                             <i class="fas fa-check-circle pr-1"></i> Accepted Project
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('project.rejected') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('project.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('member.project.rejected') }}"
+                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.project.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
                             <i class="fas fa-times-circle pr-1"></i> Rejected Project
                         </a>
                     </li>
@@ -84,37 +84,46 @@
 
             <!-- Membership -->
             <li>
-                <a href="{{ route('membership') }}"
+                <a href="{{ route('member.membership') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('membership') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                  {{ request()->routeIs('member.membership') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <i class="fas fa-id-card"></i> Membership
                 </a>
             </li>
 
             <!-- Payment -->
             <li>
-                <a href="{{ route('payment') }}"
+                <a href="{{ route('member.payment') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('payment') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                  {{ request()->routeIs('member.payment') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <i class="fas fa-credit-card"></i> Payment
                 </a>
             </li>
 
             <!-- Messages -->
             <li>
-                <a href="{{ route('messages') }}"
+                <a href="{{ route('member.messages') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('messages') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                  {{ request()->routeIs('member.messages') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <i class="fas fa-comment-alt"></i> Messages
                 </a>
             </li>
 
             <!-- Feedback -->
             <li>
-                <a href="{{ route('feedback') }}"
+                <a href="{{ route('member.feedback') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('feedback') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                  {{ request()->routeIs('member.feedback') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <i class="fas fa-comment-dots"></i> Feedback
+                </a>
+            </li>
+
+            <!-- Explore Listings -->
+            <li>
+                <a href="{{ route('home') }}"
+                    class="flex items-center gap-3 px-3 py-2 rounded-md
+                  {{ request()->routeIs('home') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    <i class="fas fa-globe"></i> Explore Listings
                 </a>
             </li>
         </ul>
@@ -158,15 +167,10 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-red-300 transition">
+                            class="flex items-center text-sm border-2 border-transparent rounded-full bg-[#5CFFAB] focus:outline-none focus:border-[#4de79a] transition">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
-                                <img class="h-8 w-8 rounded-full object-cover"
+                                <img class="h-9 w-9 rounded-full object-cover"
                                     src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">
-                            @else
-                                <span
-                                    class="h-9 w-9 rounded-full bg-[#5CFFAB] text-black flex items-center justify-center font-semibold">
-                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                                </span>
                             @endif
                         </button>
                     </x-slot>

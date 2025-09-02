@@ -10,7 +10,7 @@
         </div>
 
         <!-- Menu -->
-        <ul class="flex-grow space-y-2 px-4 text-sm text-gray-800 font-medium mt-6">
+        <ul class="flex-grow space-y-4 px-4 text-sm text-gray-800 font-medium mt-6">
             <!-- Dashboard -->
             <li>
                 <a href="{{ route('agent.dashboard') }}"
@@ -22,28 +22,37 @@
 
             <!-- Property -->
             <li>
-                <a href="{{ route('property') }}"
+                <a href="{{ route('agent.property') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('property') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                  {{ request()->routeIs('agent.property') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <i class="fas fa-comment-alt"></i> Property
                 </a>
             </li>
 
             <!-- Project -->
             <li>
-                <a href="{{ route('project') }}"
+                <a href="{{ route('agent.project') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('project') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                  {{ request()->routeIs('agent.project') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <i class="fas fa-comment-alt"></i> Project
                 </a>
             </li>
 
             <!-- Messages -->
             <li>
-                <a href="{{ route('messages') }}"
+                <a href="{{ route('agent.messages') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('messages') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                  {{ request()->routeIs('agent.messages') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <i class="fas fa-comment-alt"></i> Messages
+                </a>
+            </li>
+
+            <!-- Explore Listings -->
+            <li>
+                <a href="{{ route('home') }}"
+                    class="flex items-center gap-3 px-3 py-2 rounded-md
+                  {{ request()->routeIs('home') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    <i class="fas fa-globe"></i> Explore Listings
                 </a>
             </li>
         </ul>
@@ -87,15 +96,10 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-red-300 transition">
+                            class="flex items-center text-sm border-2 border-transparent rounded-full bg-[#5CFFAB] focus:outline-none focus:border-[#4de79a] transition">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
-                                <img class="h-8 w-8 rounded-full object-cover"
+                                <img class="h-9 w-9 rounded-full object-cover"
                                     src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">
-                            @else
-                                <span
-                                    class="h-9 w-9 rounded-full bg-[#5CFFAB] text-black flex items-center justify-center font-semibold">
-                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                                </span>
                             @endif
                         </button>
                     </x-slot>

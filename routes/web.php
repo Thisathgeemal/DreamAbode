@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\FacebookController;
+use App\Http\Controllers\Auth\GoogleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,9 +29,20 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
-Route::middleware(['auth:sanctum',
+// Routes for Google login (guests)
+Route::get('login/google', [GoogleController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+// Routes for Facebook login (guests)
+Route::get('login/facebook', [FacebookController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
+
+// Routes for authenticated users
+Route::middleware([
+    'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'])->group(function () {
+    'verified',
+])->group(function () {
     Route::get('/select-role', [AuthController::class, 'select'])->name('role.selection');
     Route::post('/select-role', [AuthController::class, 'store'])->name('role.selection.store');
 });
