@@ -2,15 +2,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Mail\AdminCreatedMail;
-use App\Mail\AdminDeletedMail;
-use App\Mail\AdminUpdatedMail;
+use App\Mail\AgentCreatedMail;
+use App\Mail\AgentDeletedMail;
+use App\Mail\AgentUpdatedMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
-class AdminController extends Controller
+class AgentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class AdminController extends Controller
     {
         $search = $request->query('search');
 
-        $query = User::whereJsonContains('user_roles', 'admin');
+        $query = User::whereJsonContains('user_roles', 'agent');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -30,9 +30,9 @@ class AdminController extends Controller
             });
         }
 
-        $admins = $query->paginate(5);
+        $agents = $query->paginate(5);
 
-        return response()->json($admins);
+        return response()->json($agents);
     }
 
     /**
@@ -50,7 +50,7 @@ class AdminController extends Controller
         DB::beginTransaction();
 
         try {
-            $result = $this->createAdmin($request);
+            $result = $this->createAgent($request);
             DB::commit();
             return $result;
 
@@ -63,9 +63,9 @@ class AdminController extends Controller
     }
 
     /**
-     * Private helper to handle admin creation
+     * Private helper to handle agent creation
      */
-    private function createAdmin($request)
+    private function createAgent($request)
     {
         $password = '123456789';
 
@@ -77,40 +77,40 @@ class AdminController extends Controller
                 $roles = json_decode($roles, true) ?? [];
             }
 
-            if (in_array('admin', $roles)) {
+            if (in_array('agent', $roles)) {
                 return response()->json([
-                    'message' => 'This user is already an admin',
+                    'message' => 'This user is already an agent',
                 ], 409);
             }
 
-            $roles[]                  = 'admin';
+            $roles[]                  = 'agent';
             $existingUser->user_roles = $roles;
             $existingUser->save();
 
             return response()->json([
-                'success' => 'Admin role added to existing user',
+                'success' => 'Agent role added to existing user',
             ], 200);
         }
 
-        $admin = User::create([
+        $agent = User::create([
             'name'          => $request->name,
             'email'         => $request->email,
             'mobile_number' => $request->mobile_number,
             'password'      => $password,
             'address'       => $request->address,
-            'user_roles'    => ['admin'],
+            'user_roles'    => ['agent'],
             'status'        => true,
         ]);
 
-        Mail::to($admin->email)->send(new AdminCreatedMail(
-            $admin->name,
-            $admin->email,
+        Mail::to($agent->email)->send(new AgentCreatedMail(
+            $agent->name,
+            $agent->email,
             $password,
-            $admin->mobile_number
+            $agent->mobile_number
         ));
 
         return response()->json([
-            'success' => 'Admin created successfully',
+            'success' => 'Agent created successfully',
         ], 201);
     }
 
@@ -119,13 +119,13 @@ class AdminController extends Controller
      */
     public function show(string $id)
     {
-        $admin = User::whereJsonContains('user_roles', 'admin')->find($id);
+        $agent = User::whereJsonContains('user_roles', 'agent')->find($id);
 
-        if (! $admin) {
-            return response()->json(['message' => 'Admin not found'], 404);
+        if (! $agent) {
+            return response()->json(['message' => 'Agent not found'], 404);
         }
 
-        return response()->json($admin);
+        return response()->json($agent);
     }
 
     /**
@@ -143,7 +143,7 @@ class AdminController extends Controller
         DB::beginTransaction();
 
         try {
-            $result = $this->updateAdmin($request, $id);
+            $result = $this->updateAgent($request, $id);
             DB::commit();
             return $result;
 
@@ -156,39 +156,38 @@ class AdminController extends Controller
     }
 
     /**
-     * Private helper to handle admin update
+     * Private helper to handle agent update
      */
-    private function updateAdmin($request, $id)
+    private function updateAgent($request, $id)
     {
         $password = '123456789';
-        $admin    = User::find($id);
+        $agent    = User::find($id);
 
-        if (! $admin) {
+        if (! $agent) {
             return response()->json([
-                'message' => 'Admin not found',
+                'message' => 'Agent not found',
             ], 404);
         }
 
-        // Check if the new email already exists
         $existingUser = User::where('email', $request->email)->first();
 
-        if ($existingUser && $existingUser->id !== $admin->id) {
+        if ($existingUser && $existingUser->id !== $agent->id) {
             return response()->json([
                 'message' => 'This email is already taken by another user',
             ], 409);
         }
 
-        $admin->name          = $request->name;
-        $admin->email         = $request->email;
-        $admin->mobile_number = $request->mobile_number;
-        $admin->address       = $request->address;
-        $admin->password      = $password;
-        $admin->save();
+        $agent->name          = $request->name;
+        $agent->email         = $request->email;
+        $agent->mobile_number = $request->mobile_number;
+        $agent->address       = $request->address;
+        $agent->password      = $password;
+        $agent->save();
 
-        Mail::to($admin->email)->send(new AdminUpdatedMail($admin, $password));
+        Mail::to($agent->email)->send(new AgentUpdatedMail($agent, $password));
 
         return response()->json([
-            'success' => 'Admin updated successfully',
+            'success' => 'Agent updated successfully',
         ], 200);
     }
 
@@ -213,32 +212,31 @@ class AdminController extends Controller
                 $roles = json_decode($roles, true) ?? [];
             }
 
-            if (in_array('admin', $roles)) {
+            if (in_array('agent', $roles)) {
                 if (count($roles) > 1) {
-                    // User has other roles, just remove 'admin'
-                    $roles            = array_filter($roles, fn($r) => $r !== 'admin');
+                    $roles            = array_filter($roles, fn($r) => $r !== 'agent');
                     $user->user_roles = array_values($roles);
                     $user->save();
 
-                    Mail::to($user->email)->send(new AdminDeletedMail($user));
+                    Mail::to($user->email)->send(new AgentDeletedMail($user));
                     DB::commit();
                     return response()->json([
-                        'success' => 'Admin role removed from user.',
+                        'success' => 'Agent role removed from user.',
                     ], 200);
                 } else {
                     $user->delete();
 
-                    Mail::to($user->email)->send(new AdminDeletedMail($user));
+                    Mail::to($user->email)->send(new AgentDeletedMail($user));
                     DB::commit();
                     return response()->json([
-                        'success' => 'Admin account deleted successfully.',
+                        'success' => 'Agent account deleted successfully.',
                     ], 200);
                 }
             }
 
             DB::rollBack();
             return response()->json([
-                'message' => 'User is not an admin.',
+                'message' => 'User is not an agent.',
             ], 409);
 
         } catch (\Exception $e) {
@@ -247,7 +245,5 @@ class AdminController extends Controller
                 'error' => 'Something went wrong: ' . $e->getMessage(),
             ], 500);
         }
-
     }
-
 }
