@@ -24,7 +24,7 @@ class FacebookController extends Controller
             ['email' => $facebookUser->getEmail()],
             [
                 'name'     => $facebookUser->getName(),
-                'password' => bcrypt(uniqid()), // random password
+                'password' => bcrypt(uniqid()),
             ]
         );
 

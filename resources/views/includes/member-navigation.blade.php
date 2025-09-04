@@ -10,7 +10,7 @@
         </div>
 
         <!-- Menu -->
-        <ul class="flex-grow space-y-4 px-4 text-sm text-gray-800 font-medium mt-6">
+        <ul class="flex-grow space-y-3 px-4 text-sm text-gray-800 font-medium mt-6">
             <!-- Dashboard -->
             <li>
                 <a href="{{ route('member.dashboard') }}"
@@ -21,30 +21,38 @@
             </li>
 
             <!-- Manage Property Dropdown -->
-            <li x-data="{ open: false }">
+            <li x-data="{ open: {{ request()->routeIs('admin.property.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open"
-                    class="flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-gray-100">
+                    class="flex items-center justify-between w-full px-3 py-2 rounded-md 
+                {{ request()->routeIs('admin.property.*') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <span class="flex items-center gap-3">
                         <i class="fas fa-building"></i> Manage Property
                     </span>
                     <i :class="open ? 'fa fa-chevron-circle-up' : 'fa fa-chevron-circle-down'"></i>
                 </button>
-                <ul x-show="open" x-transition class="mt-1 space-y-2 pl-7">
+                <ul x-show="open" x-transition class="mt-2 space-y-2 pl-7">
                     <li>
-                        <a href="{{ route('member.property.pending') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.property.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('admin.property.pending') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('admin.property.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                             <i class="fas fa-clock pr-1"></i> Pending Property
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('member.property.accepted') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.property.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('admin.property.accepted') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('admin.property.accepted')
+                        ? 'bg-[#5CFFAB] text-black font-semibold'
+                        : 'hover:bg-gray-100' }}">
                             <i class="fas fa-check-circle pr-1"></i> Accepted Property
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('member.property.rejected') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.property.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('admin.property.rejected') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('admin.property.rejected')
+                        ? 'bg-[#5CFFAB] text-black font-semibold'
+                        : 'hover:bg-gray-100' }}">
                             <i class="fas fa-times-circle pr-1"></i> Rejected Property
                         </a>
                     </li>
@@ -52,30 +60,34 @@
             </li>
 
             <!-- Manage Project Dropdown -->
-            <li x-data="{ open: false }">
+            <li x-data="{ open: {{ request()->routeIs('admin.project.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open"
-                    class="flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-gray-100">
+                    class="flex items-center justify-between w-full px-3 py-2 rounded-md 
+                {{ request()->routeIs('admin.project.*') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <span class="flex items-center gap-3">
                         <i class="fas fa-project-diagram"></i> Manage Project
                     </span>
                     <i :class="open ? 'fa fa-chevron-circle-up' : 'fa fa-chevron-circle-down'"></i>
                 </button>
-                <ul x-show="open" x-transition class="mt-1 space-y-2 pl-7">
+                <ul x-show="open" x-transition class="mt-2 space-y-2 pl-7">
                     <li>
-                        <a href="{{ route('member.project.pending') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.project.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('admin.project.pending') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('admin.project.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                             <i class="fas fa-clock pr-1"></i> Pending Project
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('member.project.accepted') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.project.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('admin.project.accepted') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('admin.project.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                             <i class="fas fa-check-circle pr-1"></i> Accepted Project
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('member.project.rejected') }}"
-                            class="block px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('member.project.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : '' }}">
+                        <a href="{{ route('admin.project.rejected') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('admin.project.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                             <i class="fas fa-times-circle pr-1"></i> Rejected Project
                         </a>
                     </li>
@@ -136,12 +148,12 @@
     <!-- Main content -->
     <div class="flex-1 flex flex-col md:pl-64">
         <!-- Header -->
-        <header class="h-20 bg-white border-b border-gray-200 flex justify-between items-center px-6">
+        <header class="h-20 bg-black border-b border-gray-800 flex justify-between items-center px-4 md:px-6 shadow-md">
             <div class="flex items-center space-x-4">
                 <!-- Mobile menu button -->
                 <button @click="sidebarOpen = !sidebarOpen"
-                    class="md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none">
-                    <svg class="h-6 w-6 text-gray-600" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                    class="md:hidden p-2 rounded-md hover:bg-gray-700 focus:outline-none">
+                    <svg class="h-6 w-6 text-white" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{ 'hidden': sidebarOpen, 'inline-flex': !sidebarOpen }" class="inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
@@ -149,18 +161,19 @@
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-                <span class="text-lg font-semibold">Welcome, {{ Auth::user()->name }}</span>
+                <i class="fas fa-user-tie text-md hidden md:inline-flex text-white"></i>
+                <span class="text-lg font-semibold text-white">Welcome, {{ Auth::user()->name }}</span>
             </div>
 
             <div class="flex items-center space-x-4">
                 <!-- Notification -->
-                <button class="relative p-2 rounded-full hover:bg-green-100 focus:outline-none">
-                    <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button class="relative p-2 rounded-full hover:bg-gray-800 focus:outline-none">
+                    <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-9.33-5.032M9 21h6" />
                     </svg>
                     <span
-                        class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">3</span>
+                        class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">3</span>
                 </button>
 
                 <!-- Profile Dropdown -->

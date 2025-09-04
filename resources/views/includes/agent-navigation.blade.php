@@ -10,7 +10,7 @@
         </div>
 
         <!-- Menu -->
-        <ul class="flex-grow space-y-4 px-4 text-sm text-gray-800 font-medium mt-6">
+        <ul class="flex-grow space-y-3 px-4 text-sm text-gray-800 font-medium mt-6">
             <!-- Dashboard -->
             <li>
                 <a href="{{ route('agent.dashboard') }}"
@@ -65,12 +65,12 @@
     <!-- Main content -->
     <div class="flex-1 flex flex-col md:pl-64">
         <!-- Header -->
-        <header class="h-20 bg-white border-b border-gray-200 flex justify-between items-center px-6">
+        <header class="h-20 bg-black border-b border-gray-800 flex justify-between items-center px-4 md:px-6 shadow-md">
             <div class="flex items-center space-x-4">
                 <!-- Mobile menu button -->
                 <button @click="sidebarOpen = !sidebarOpen"
-                    class="md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none">
-                    <svg class="h-6 w-6 text-gray-600" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                    class="md:hidden p-2 rounded-md hover:bg-gray-700 focus:outline-none">
+                    <svg class="h-6 w-6 text-white" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{ 'hidden': sidebarOpen, 'inline-flex': !sidebarOpen }" class="inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
@@ -78,18 +78,19 @@
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-                <span class="text-lg font-semibold">Welcome, {{ Auth::user()->name }}</span>
+                <i class="fas fa-user-tie text-md hidden md:inline-flex text-white"></i>
+                <span class="text-lg font-semibold text-white">Welcome, {{ Auth::user()->name }}</span>
             </div>
 
             <div class="flex items-center space-x-4">
                 <!-- Notification -->
-                <button class="relative p-2 rounded-full hover:bg-green-100 focus:outline-none">
-                    <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button class="relative p-2 rounded-full hover:bg-gray-800 focus:outline-none">
+                    <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-9.33-5.032M9 21h6" />
                     </svg>
                     <span
-                        class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">3</span>
+                        class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">3</span>
                 </button>
 
                 <!-- Profile Dropdown -->
