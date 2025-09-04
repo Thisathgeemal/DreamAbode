@@ -2,10 +2,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AdminCreatedMail;
+use App\Mail\AdminDeletedMail;
+use App\Mail\AdminUpdatedMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -70,6 +73,8 @@ class AdminController extends Controller
      */
     private function createAdmin($request)
     {
+        $password = '123456789';
+
         $existingUser = User::where('email', $request->email)->first();
 
         if ($existingUser) {
@@ -93,17 +98,22 @@ class AdminController extends Controller
             ], 200);
         }
 
-        $password = '123456789';
-
         $admin = User::create([
             'name'          => $request->name,
             'email'         => $request->email,
             'mobile_number' => $request->mobile_number,
-            'password'      => Hash::make($password),
+            'password'      => $password,
             'address'       => $request->address,
             'user_roles'    => ['admin'],
             'status'        => true,
         ]);
+
+        Mail::to($admin->email)->send(new AdminCreatedMail(
+            $admin->name,
+            $admin->email,
+            $password,
+            $admin->mobile_number
+        ));
 
         return response()->json([
             'success' => 'Admin created successfully',
@@ -156,7 +166,8 @@ class AdminController extends Controller
      */
     private function updateAdmin($request, $id)
     {
-        $admin = User::find($id);
+        $password = '123456789';
+        $admin    = User::find($id);
 
         if (! $admin) {
             return response()->json([
@@ -177,8 +188,10 @@ class AdminController extends Controller
         $admin->email         = $request->email;
         $admin->mobile_number = $request->mobile_number;
         $admin->address       = $request->address;
-        $admin->password      = Hash::make('123456789');
+        $admin->password      = $password;
         $admin->save();
+
+        Mail::to($admin->email)->send(new AdminUpdatedMail($admin, $password));
 
         return response()->json([
             'success' => 'Admin updated successfully',
@@ -213,12 +226,15 @@ class AdminController extends Controller
                     $user->user_roles = array_values($roles);
                     $user->save();
 
+                    Mail::to($user->email)->send(new AdminDeletedMail($user));
                     DB::commit();
                     return response()->json([
                         'success' => 'Admin role removed from user.',
                     ], 200);
                 } else {
                     $user->delete();
+
+                    Mail::to($user->email)->send(new AdminDeletedMail($user));
                     DB::commit();
                     return response()->json([
                         'success' => 'Admin account deleted successfully.',

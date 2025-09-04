@@ -25,7 +25,7 @@
                 <a href="{{ route('agent.property') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
                   {{ request()->routeIs('agent.property') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
-                    <i class="fas fa-comment-alt"></i> Property
+                    <i class="fas fa-building"></i> Property
                 </a>
             </li>
 
@@ -34,7 +34,7 @@
                 <a href="{{ route('agent.project') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
                   {{ request()->routeIs('agent.project') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
-                    <i class="fas fa-comment-alt"></i> Project
+                    <i class="fas fa-project-diagram"></i> Project
                 </a>
             </li>
 

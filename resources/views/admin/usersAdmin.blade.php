@@ -36,9 +36,9 @@
                     </button>
                 </form>
 
-                <form target="_blank" class="relative group" onclick="exportAdmins()">
+                <form target="_blank" class="relative group" onsubmit="exportAdmins(event)">
                     @csrf
-                    <input type="hidden" name="role" value="Admin">
+                    <input type="hidden" name="role" value="admin">
                     <button type="submit"
                         class="bg-blue-500 text-white p-1.5 rounded-lg hover:bg-blue-600 flex items-center justify-center w-10 h-10">
                         <i class="fas fa-download text-white text-sm"></i>
@@ -47,7 +47,6 @@
                         class="absolute hidden group-hover:block bg-gray-700 text-white text-xs rounded py-1 px-2 -bottom-6 left-1/2 transform -translate-x-1/2">Export
                     </span>
                 </form>
-
             </div>
 
         </div>
@@ -64,7 +63,6 @@
                         <th class="py-3 text-left px-4 border-b border-gray-300">Email</th>
                         <th class="py-3 text-left px-4 border-b border-gray-300">Mobile</th>
                         <th class="py-3 text-left px-4 border-b border-gray-300">Address</th>
-                        <th class="py-3 text-left px-4 border-b border-gray-300">Status</th>
                         <th class="py-3 text-left px-4 border-b border-gray-300">Actions</th>
                     </tr>
                 </thead>
@@ -163,11 +161,6 @@
                             <td class="py-3 px-4 border-b">${admin.email}</td>
                             <td class="py-3 px-4 border-b">${admin.mobile_number ?? ''}</td>
                             <td class="py-3 px-4 border-b">${admin.address ?? ''}</td>
-                            <td class="py-3 px-4 border-b">
-                                <span class="${admin.is_active ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'}">
-                                    ${admin.is_active ? 'Active' : 'Inactive'}
-                                </span>
-                            </td>
                             <td class="py-3 px-4 border-b border-gray-200">
                                 <button onclick="openEditModal(${admin.id})" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-green-100 hover:bg-green-200 transition duration-200 text-green-500 hover:text-green-700" title="Edit">
                                     <i class="fas fa-pen"></i>
@@ -333,8 +326,34 @@
                 loadAdmins(1, search);
             }
 
-            function exportAdmins() {
-                window.open(`/api/admins/export?role=Admin`, '_blank');
+            function exportAdmins(e) {
+                e.preventDefault();
+                const role = document.querySelector('input[name="role"]').value;
+
+                axios.post('/api/reports/', {
+                        role: role
+                    }, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/pdf'
+                        },
+                        responseType: 'blob'
+                    })
+                    .then(res => {
+                        const url = window.URL.createObjectURL(new Blob([res.data], {
+                            type: 'application/pdf'
+                        }));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', `${role}_Report.pdf`);
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        showError('Failed to export PDF.');
+                    });
             }
 
             // Utilities
