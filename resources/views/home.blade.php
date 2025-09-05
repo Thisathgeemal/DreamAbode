@@ -13,7 +13,7 @@
                     </div>
 
                     <!-- Mobile: Only show image in right corner below -->
-                    <a href="./postAd"
+                    <a href="{{ route('member.property.postAd') }}"
                         class="absolute bottom-[-25px] right-2 w-12 h-12 md:hidden flex items-center justify-center z-50">
                         <div
                             class="w-full h-full bg-[#5CFFAB] border border-black rounded-full transition duration-300 ease-in-out hover:scale-105 cursor-pointer relative flex items-center justify-center">
@@ -22,7 +22,7 @@
                     </a>
 
                     <!-- Desktop: Show full button -->
-                    <a href="./postAd"
+                    <a href="{{ route('member.property.postAd') }}"
                         class="hidden md:flex absolute md:bottom-[2%] md:right-[15%] w-[15%] h-[7.5%] items-center justify-end z-50">
                         <div
                             class="w-full h-full bg-[#5CFFAB] border border-black rounded-full transition duration-300 ease-in-out hover:scale-105 cursor-pointer relative flex items-center">

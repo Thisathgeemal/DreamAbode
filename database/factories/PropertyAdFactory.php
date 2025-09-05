@@ -31,7 +31,7 @@ class PropertyAdFactory extends Factory
             'floors'        => $this->faker->numberBetween(0, 3),
             'price'         => $this->faker->numberBetween(1000000, 100000000),
             'post_type'     => $this->faker->randomElement(['sale', 'rent']),
-            'status'        => $this->faker->randomElement(['active', 'sold', 'rented']),
+            'status'        => $this->faker->randomElement(['pending', 'approve', 'reject', 'done']),
         ];
     }
 }

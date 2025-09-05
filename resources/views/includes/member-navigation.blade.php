@@ -21,10 +21,10 @@
             </li>
 
             <!-- Manage Property Dropdown -->
-            <li x-data="{ open: {{ request()->routeIs('admin.property.*') ? 'true' : 'false' }} }">
+            <li x-data="{ open: {{ request()->routeIs('member.property.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open"
                     class="flex items-center justify-between w-full px-3 py-2 rounded-md 
-                {{ request()->routeIs('admin.property.*') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                {{ request()->routeIs('member.property.*') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <span class="flex items-center gap-3">
                         <i class="fas fa-building"></i> Manage Property
                     </span>
@@ -32,25 +32,25 @@
                 </button>
                 <ul x-show="open" x-transition class="mt-2 space-y-2 pl-7">
                     <li>
-                        <a href="{{ route('admin.property.pending') }}"
+                        <a href="{{ route('member.property.pending') }}"
                             class="block px-3 py-2 rounded-md 
-                    {{ request()->routeIs('admin.property.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    {{ request()->routeIs('member.property.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                             <i class="fas fa-clock pr-1"></i> Pending Property
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.property.accepted') }}"
+                        <a href="{{ route('member.property.accepted') }}"
                             class="block px-3 py-2 rounded-md 
-                    {{ request()->routeIs('admin.property.accepted')
+                    {{ request()->routeIs('member.property.accepted')
                         ? 'bg-[#5CFFAB] text-black font-semibold'
                         : 'hover:bg-gray-100' }}">
                             <i class="fas fa-check-circle pr-1"></i> Accepted Property
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.property.rejected') }}"
+                        <a href="{{ route('member.property.rejected') }}"
                             class="block px-3 py-2 rounded-md 
-                    {{ request()->routeIs('admin.property.rejected')
+                    {{ request()->routeIs('member.property.rejected')
                         ? 'bg-[#5CFFAB] text-black font-semibold'
                         : 'hover:bg-gray-100' }}">
                             <i class="fas fa-times-circle pr-1"></i> Rejected Property
@@ -60,10 +60,10 @@
             </li>
 
             <!-- Manage Project Dropdown -->
-            <li x-data="{ open: {{ request()->routeIs('admin.project.*') ? 'true' : 'false' }} }">
+            <li x-data="{ open: {{ request()->routeIs('member.project.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open"
                     class="flex items-center justify-between w-full px-3 py-2 rounded-md 
-                {{ request()->routeIs('admin.project.*') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                {{ request()->routeIs('member.project.*') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                     <span class="flex items-center gap-3">
                         <i class="fas fa-project-diagram"></i> Manage Project
                     </span>
@@ -71,23 +71,23 @@
                 </button>
                 <ul x-show="open" x-transition class="mt-2 space-y-2 pl-7">
                     <li>
-                        <a href="{{ route('admin.project.pending') }}"
+                        <a href="{{ route('member.project.pending') }}"
                             class="block px-3 py-2 rounded-md 
-                    {{ request()->routeIs('admin.project.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    {{ request()->routeIs('member.project.pending') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                             <i class="fas fa-clock pr-1"></i> Pending Project
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.project.accepted') }}"
+                        <a href="{{ route('member.project.accepted') }}"
                             class="block px-3 py-2 rounded-md 
-                    {{ request()->routeIs('admin.project.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    {{ request()->routeIs('member.project.accepted') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                             <i class="fas fa-check-circle pr-1"></i> Accepted Project
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.project.rejected') }}"
+                        <a href="{{ route('member.project.rejected') }}"
                             class="block px-3 py-2 rounded-md 
-                    {{ request()->routeIs('admin.project.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    {{ request()->routeIs('member.project.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                             <i class="fas fa-times-circle pr-1"></i> Rejected Project
                         </a>
                     </li>
@@ -99,7 +99,7 @@
                 <a href="{{ route('member.membership') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md
                   {{ request()->routeIs('member.membership') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
-                    <i class="fas fa-id-card"></i> Membership
+                    <i class="fas fa-id-card"></i> Subscription
                 </a>
             </li>
 

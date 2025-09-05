@@ -58,24 +58,24 @@ Route::middleware([
     Route::get('/admin/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
 
     // Manage Users
-    Route::prefix('admin/users')->group(function () {
-        Route::get('/admin', fn() => view('admin.usersAdmin'))->name('admin.users.admin');
-        Route::get('/agents', fn() => view('admin.usersAgents'))->name('admin.users.agents');
-        Route::get('/members', fn() => view('admin.usersMembers'))->name('admin.users.members');
+    Route::prefix('admin/users')->name('admin.users.')->group(function () {
+        Route::get('/admin', fn() => view('admin.usersAdmin'))->name('admin');
+        Route::get('/agents', fn() => view('admin.usersAgents'))->name('agents');
+        Route::get('/members', fn() => view('admin.usersMembers'))->name('members');
     });
 
     // Manage Property
-    Route::prefix('admin/property')->group(function () {
-        Route::get('/pending', fn() => view('admin.propertyPending'))->name('admin.property.pending');
-        Route::get('/accepted', fn() => view('admin.propertyAccepted'))->name('admin.property.accepted');
-        Route::get('/rejected', fn() => view('admin.propertyRejected'))->name('admin.property.rejected');
+    Route::prefix('admin/property')->name('admin.property.')->group(function () {
+        Route::get('/pending', fn() => view('admin.propertyPending'))->name('pending');
+        Route::get('/accepted', fn() => view('admin.propertyAccepted'))->name('accepted');
+        Route::get('/rejected', fn() => view('admin.propertyRejected'))->name('rejected');
     });
 
     // Manage Project
-    Route::prefix('admin/project')->group(function () {
-        Route::get('/pending', fn() => view('admin.projectPending'))->name('admin.project.pending');
-        Route::get('/accepted', fn() => view('admin.projectAccepted'))->name('admin.project.accepted');
-        Route::get('/rejected', fn() => view('admin.projectRejected'))->name('admin.project.rejected');
+    Route::prefix('admin/project')->name('admin.project.')->group(function () {
+        Route::get('/pending', fn() => view('admin.projectPending'))->name('pending');
+        Route::get('/accepted', fn() => view('admin.projectAccepted'))->name('accepted');
+        Route::get('/rejected', fn() => view('admin.projectRejected'))->name('rejected');
     });
 
     // Membership
@@ -124,16 +124,19 @@ Route::middleware([
 
     // Manage Property Routes
     Route::prefix('member/property')->name('member.property.')->group(function () {
-        Route::get('/pending', fn() => view('member.propertyPending'))->name('member.pending');
-        Route::get('/accepted', fn() => view('member.propertyAccepted'))->name('member.accepted');
-        Route::get('/rejected', fn() => view('member.propertyRejected'))->name('member.rejected');
+        Route::get('/pending', fn() => view('member.propertyPending'))->name('pending');
+        Route::get('/accepted', fn() => view('member.propertyAccepted'))->name('accepted');
+        Route::get('/rejected', fn() => view('member.propertyRejected'))->name('rejected');
+        Route::get('/postAd', fn() => view('member.postProperty'))->name('postAd');
+        Route::get('/editAd/{id}', fn() => view('member.editProperty'))->name('editAd');
     });
 
     // Manage Project Routes
     Route::prefix('member/project')->name('member.project.')->group(function () {
-        Route::get('/pending', fn() => view('member.projectPending'))->name('member.pending');
-        Route::get('/accepted', fn() => view('member.projectAccepted'))->name('member.accepted');
-        Route::get('/rejected', fn() => view('member.projectRejected'))->name('member.rejected');
+        Route::get('/pending', fn() => view('member.projectPending'))->name('pending');
+        Route::get('/accepted', fn() => view('member.projectAccepted'))->name('accepted');
+        Route::get('/rejected', fn() => view('member.projectRejected'))->name('rejected');
+        Route::get('/postAd', fn() => view('member.postProject'))->name('postAd');
     });
 
     // Membership
