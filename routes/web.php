@@ -69,6 +69,8 @@ Route::middleware([
         Route::get('/pending', fn() => view('admin.propertyPending'))->name('pending');
         Route::get('/accepted', fn() => view('admin.propertyAccepted'))->name('accepted');
         Route::get('/rejected', fn() => view('admin.propertyRejected'))->name('rejected');
+        Route::get('/completed', fn() => view('admin.propertyCompleted'))->name('completed');
+        Route::get('/viewAd/{id}', fn($id) => view('admin.viewProperty', ['propertyId' => $id]))->name('viewAd');
     });
 
     // Manage Project
@@ -76,6 +78,7 @@ Route::middleware([
         Route::get('/pending', fn() => view('admin.projectPending'))->name('pending');
         Route::get('/accepted', fn() => view('admin.projectAccepted'))->name('accepted');
         Route::get('/rejected', fn() => view('admin.projectRejected'))->name('rejected');
+        Route::get('/completed', fn() => view('admin.projectCompleted'))->name('completed');
     });
 
     // Membership
@@ -127,8 +130,10 @@ Route::middleware([
         Route::get('/pending', fn() => view('member.propertyPending'))->name('pending');
         Route::get('/accepted', fn() => view('member.propertyAccepted'))->name('accepted');
         Route::get('/rejected', fn() => view('member.propertyRejected'))->name('rejected');
+        Route::get('/completed', fn() => view('member.propertyCompleted'))->name('completed');
         Route::get('/postAd', fn() => view('member.postProperty'))->name('postAd');
-        Route::get('/editAd/{id}', fn() => view('member.editProperty'))->name('editAd');
+        Route::get('/editAd/{id}', fn($id) => view('member.editProperty', ['propertyId' => $id]))->name('editAd');
+        Route::get('/viewAd/{id}', fn($id) => view('member.viewProperty', ['propertyId' => $id]))->name('viewAd');
     });
 
     // Manage Project Routes
@@ -136,6 +141,7 @@ Route::middleware([
         Route::get('/pending', fn() => view('member.projectPending'))->name('pending');
         Route::get('/accepted', fn() => view('member.projectAccepted'))->name('accepted');
         Route::get('/rejected', fn() => view('member.projectRejected'))->name('rejected');
+        Route::get('/completed', fn() => view('member.projectCompleted'))->name('completed');
         Route::get('/postAd', fn() => view('member.postProject'))->name('postAd');
     });
 

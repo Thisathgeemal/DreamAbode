@@ -140,7 +140,7 @@
                     <span>Post</span>
                 </button>
 
-                <a href="{{ route('member.property.pending') }}"
+                <a href="{{ url()->previous() ?? route('member.property.pending') }}"
                     class="flex items-center justify-center gap-2 px-6 py-2.5 bg-red-500 text-white font-medium rounded-lg shadow-md hover:bg-red-600 transition-all w-[120px]">
                     <i class="fas fa-times"></i>
                     <span>Discard</span>

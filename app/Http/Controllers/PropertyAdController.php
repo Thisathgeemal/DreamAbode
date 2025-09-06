@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\PropertyAd;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,9 +34,10 @@ class PropertyAdController extends Controller
         $userId = Auth::id();
 
         return [
-            'pending'  => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'pending')->get(),
-            'approved' => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'approve')->get(),
-            'rejected' => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'reject')->get(),
+            'pending'   => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'pending')->get(),
+            'approved'  => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'approve')->get(),
+            'rejected'  => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'reject')->get(),
+            'completed' => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'done')->get(),
         ];
     }
 
@@ -45,9 +47,10 @@ class PropertyAdController extends Controller
     private function getAllProperties()
     {
         return [
-            'pending'  => PropertyAd::with('images')->where('status', 'pending')->get(),
-            'approved' => PropertyAd::with('images')->where('status', 'approve')->get(),
-            'rejected' => PropertyAd::with('images')->where('status', 'reject')->get(),
+            'pending'   => PropertyAd::with('images')->where('status', 'pending')->get(),
+            'approved'  => PropertyAd::with(['images', 'agent'])->where('status', 'approve')->get(),
+            'rejected'  => PropertyAd::with('images')->where('status', 'reject')->get(),
+            'completed' => PropertyAd::with('images')->where('status', 'done')->get(),
         ];
     }
 
@@ -66,7 +69,7 @@ class PropertyAdController extends Controller
             'bedroomCount'  => 'nullable|integer|min:0',
             'bathroomCount' => 'nullable|integer|min:0',
             'floorCount'    => 'nullable|integer|min:0',
-            'measurement'   => 'nullable|numeric|max:255',
+            'measurement'   => 'nullable|numeric|min:0',
             'perches'       => 'nullable|numeric|min:0',
 
             'images'        => 'required',
@@ -124,7 +127,11 @@ class PropertyAdController extends Controller
      */
     public function show(string $id)
     {
-        
+        $property = PropertyAd::with('images')->findOrFail($id);
+
+        return response()->json([
+            'property' => $property,
+        ]);
     }
 
     /**
@@ -132,7 +139,70 @@ class PropertyAdController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+
+            DB::beginTransaction();
+            $property = PropertyAd::findOrFail($id);
+
+            $request->validate([
+                'propertyName'  => 'required|string|max:255',
+                'propertyType'  => 'required|string',
+                'location'      => 'required|string|max:255',
+                'price'         => 'required|numeric|min:0',
+                'postType'      => 'required|string|in:Sale,Rent',
+
+                'bedroomCount'  => 'nullable|integer|min:0',
+                'bathroomCount' => 'nullable|integer|min:0',
+                'floorCount'    => 'nullable|integer|min:0',
+                'measurement'   => 'nullable|numeric|min:0',
+                'perches'       => 'nullable|numeric|min:0',
+
+                'images.*'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            $property->update([
+                'property_name' => $request->propertyName,
+                'price'         => $request->price,
+                'post_type'     => $request->postType,
+                'location'      => $request->location,
+                'property_type' => $request->propertyType,
+                'bedrooms'      => $request->bedroomCount,
+                'bathrooms'     => $request->bathroomCount,
+                'floors'        => $request->floorCount,
+                'perches'       => $request->perches,
+                'measurement'   => $request->measurement,
+            ]);
+
+            if ($request->hasFile('images')) {
+                foreach ($property->images as $img) {
+                    Storage::delete($img->image_path);
+                    $img->delete();
+                }
+
+                foreach ($request->file('images') as $imageFile) {
+                    $path = $imageFile->store('property_images', 'public');
+
+                    Image::create([
+                        'property_id' => $property->property_id,
+                        'image_path'  => $path,
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success'  => 'Property updated successfully',
+                'property' => $property->load('images'),
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'error' => 'Failed to update property: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -162,6 +232,76 @@ class PropertyAdController extends Controller
             return response()->json([
                 'error' => 'Failed to delete property: ' . $e->getMessage(),
             ], 500);
+        }
+    }
+
+    /**
+     * Accept property
+     */
+    public function accept(PropertyAd $property)
+    {
+        try {
+            DB::transaction(function () use ($property) {
+                $property->status   = 'approve';
+                $property->admin_id = auth()->user()->id;
+                $property->save();
+
+                $this->assignAgentWithLeastProperties($property);
+            });
+
+            return response()->json(['success' => 'Property approved and assigned successfully.']);
+        } catch (\Exception $e) {
+            \Log::error('Accept Property Error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Failed to Accept property: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Reject property
+     */
+    public function reject(PropertyAd $property)
+    {
+        try {
+            DB::transaction(function () use ($property) {
+                $property->status   = 'reject';
+                $property->admin_id = auth()->user()->id;
+                $property->save();
+            });
+
+            return response()->json([
+                'success' => 'Property rejected successfully.',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Reject Property Error: ' . $e->getMessage());
+
+            return response()->json([
+                'error' => 'Failed to reject property: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Assign agent with least properties
+     */
+    private function assignAgentWithLeastProperties(PropertyAd $property)
+    {
+        try {
+            DB::transaction(function () use ($property) {
+                $agent = User::whereJsonContains('user_roles', 'agent')
+                    ->withCount('propertyAgents')
+                    ->orderBy('property_agents_count', 'asc')
+                    ->first();
+
+                if ($agent) {
+                    $property->agent_id = $agent->id;
+                    $property->save();
+                }
+            });
+        } catch (\Exception $e) {
+            \Log::error('Failed to assign agent: ' . $e->getMessage());
+            throw $e;
         }
     }
 

@@ -1,27 +1,16 @@
-<x-app-layout>
+<x-admin-layout>
 
     <!-- Header -->
     <div class="w-full px-8 py-6 bg-[#161616] rounded-lg text-left mx-auto shadow-md mb-6">
-        <div class="flex justify-between items-center">
-            <div>
-                <h2 class="text-2xl text-white font-bold">Pending Property</h2>
-                <p class="text-sm text-gray-300 mt-1">Manage and review your property listings.</p>
-            </div>
-
-            <a href="{{ route('member.property.postAd') }}"
-                class="flex items-center gap-2 px-5 py-2.5 bg-[#5CFFAB] text-black rounded-xl font-medium shadow-md 
-                hover:bg-[#35db88] hover:shadow-lg transition-all duration-200 ease-in-out">
-                <i class="fas fa-plus inline sm:hidden"></i>
-                <span class="hidden sm:inline">Post Your Ad</span>
-            </a>
-        </div>
+        <h2 class="text-2xl text-white font-bold">Pending Property</h2>
+        <p class="text-sm text-gray-300 mt-1">Manage and review pending property listings.</p>
     </div>
 
     <!-- Main Card -->
     <div class="w-full p-8 bg-white rounded-lg text-left mx-auto shadow-md mb-6">
         <div id="pending-property"
             class="flex flex-wrap gap-8 justify-center p-6 md:h-[500px] overflow-y-auto custom-scrollbar">
-            <!-- Cards will be injected here dynamically -->
+            <!-- Dynamic property cards will appear here -->
         </div>
     </div>
 
@@ -33,7 +22,6 @@
                 fetchPendingProperties();
             });
 
-            // Show pending property
             async function fetchPendingProperties() {
                 try {
                     const response = await axios.get('/api/propertyAd', {
@@ -42,8 +30,7 @@
                         }
                     });
 
-                    // Only user pending properties
-                    const properties = response.data.user_properties.pending;
+                    const properties = response.data.all_properties.pending;
                     const container = document.getElementById('pending-property');
                     container.innerHTML = '';
 
@@ -60,15 +47,14 @@
                         card.className =
                             'bg-[#5CFFAB] rounded-2xl shadow-lg hover:shadow-xl overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer';
 
-                        // Property Image Section
+                        // Image Section
                         const imgSection = document.createElement('div');
                         imgSection.className = 'relative';
 
                         // Show only first image if exists
                         if (prop.images && prop.images.length > 0) {
-                            const firstImage = prop.images[0];
                             const img = document.createElement('img');
-                            img.src = `/storage/${firstImage.image_path}`;
+                            img.src = `/storage/${prop.images[0].image_path}`;
                             img.alt = 'Property Image';
                             img.className = 'w-full h-60 object-cover block';
                             imgSection.appendChild(img);
@@ -81,14 +67,13 @@
                         }
 
                         // Post Type Badge
-                        const postTypeBadge = document.createElement('div');
-                        postTypeBadge.className =
+                        const badge = document.createElement('div');
+                        badge.className =
                             'absolute top-3 right-3 bg-white rounded-lg p-2 shadow transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 cursor-pointer';
-                        postTypeBadge.innerHTML =
-                            `<span class="font-semibold text-sm">${prop.post_type || ''}</span>`;
-                        imgSection.appendChild(postTypeBadge);
+                        badge.innerHTML = `<span class="font-semibold text-sm">${prop.post_type || ''}</span>`;
+                        imgSection.appendChild(badge);
 
-                        // Property Data Section
+                        // Data Section
                         const dataSection = document.createElement('div');
                         dataSection.className = 'p-4 bg-[#5CFFAB] text-black text-center';
                         dataSection.innerHTML = `
@@ -109,13 +94,17 @@
                             </div>
                         `;
 
-                        // Buttons for pending properties
+                        // Action Buttons
                         if (prop.status === 'pending') {
                             const actions = document.createElement('div');
-                            actions.className = 'mt-4 flex justify-center gap-4';
+                            actions.className = 'mt-4 flex justify-center gap-2';
                             actions.innerHTML = `
-                                <button onclick="handlePropertyAction('${prop.property_id}', 'Edit')" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">Edit</button>
-                                <button onclick="handlePropertyAction('${prop.property_id}', 'Remove')" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">Remove</button>
+                                <a href="/admin/property/viewAd/${prop.property_id}" 
+                                    class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">
+                                    View
+                                </a>
+                                <button onclick="handlePropertyAction('${prop.property_id}', 'Accept')" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">Accept</button>
+                                <button onclick="handlePropertyAction('${prop.property_id}', 'Reject')" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">Reject</button>
                             `;
                             dataSection.appendChild(actions);
                         }
@@ -131,41 +120,24 @@
                 }
             }
 
-            // Handle Edit/Remove action
-            function handlePropertyAction(propertyId, action) {
-                if (action === 'Edit') {
-                    window.location.href = `/member/property/editAd/${propertyId}`;
-                }
+            // Handle Accept/Reject action
+            async function handlePropertyAction(propertyId, action) {
+                try {
+                    const url = action === 'Accept' ?
+                        `/api/propertyAd/accept/${propertyId}` :
+                        `/api/propertyAd/reject/${propertyId}`;
 
-                if (action === 'Remove') {
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "This property and its images will be permanently deleted.",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#dc3545',
-                        cancelButtonColor: '#6c757d',
-                        confirmButtonText: 'Yes',
-                        cancelButtonText: 'Cancel'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            axios.delete(`/api/propertyAd/${propertyId}`, {
-                                headers: {
-                                    Authorization: `Bearer ${token}`
-                                }
-                            }).then(res => {
-                                showSuccess(res.data.success);
-                                fetchPendingProperties();
-                            }).catch(err => {
-                                console.error(err);
-                                if (err.response && err.response.data && err.response.data.error) {
-                                    showError(err.response.data.error);
-                                } else {
-                                    showError('Failed to delete property.');
-                                }
-                            });
+                    const response = await axios.put(url, {}, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
                         }
                     });
+
+                    showSuccess(response.data.success);
+                    fetchPendingProperties();
+                } catch (error) {
+                    console.log(error);
+                    showError(error.response?.data?.error || 'Action failed.');
                 }
             }
 
@@ -199,4 +171,4 @@
         </script>
     @endpush
 
-</x-app-layout>
+</x-admin-layout>

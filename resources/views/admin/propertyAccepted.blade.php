@@ -1,25 +1,14 @@
-<x-app-layout>
+<x-admin-layout>
 
     <!-- Header -->
     <div class="w-full px-8 py-6 bg-[#161616] rounded-lg text-left mx-auto shadow-md mb-6">
-        <div class="flex justify-between items-center">
-            <div>
-                <h2 class="text-2xl text-white font-bold">Pending Property</h2>
-                <p class="text-sm text-gray-300 mt-1">Manage and review your property listings.</p>
-            </div>
-
-            <a href="{{ route('member.property.postAd') }}"
-                class="flex items-center gap-2 px-5 py-2.5 bg-[#5CFFAB] text-black rounded-xl font-medium shadow-md 
-                hover:bg-[#35db88] hover:shadow-lg transition-all duration-200 ease-in-out">
-                <i class="fas fa-plus inline sm:hidden"></i>
-                <span class="hidden sm:inline">Post Your Ad</span>
-            </a>
-        </div>
+        <h2 class="text-2xl text-white font-bold">Accepted Property</h2>
+        <p class="text-sm text-gray-300 mt-1">Review all accepted property listings.</p>
     </div>
 
     <!-- Main Card -->
     <div class="w-full p-8 bg-white rounded-lg text-left mx-auto shadow-md mb-6">
-        <div id="pending-property"
+        <div id="approved-property"
             class="flex flex-wrap gap-8 justify-center p-6 md:h-[500px] overflow-y-auto custom-scrollbar">
             <!-- Cards will be injected here dynamically -->
         </div>
@@ -30,11 +19,11 @@
             const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
 
             document.addEventListener('DOMContentLoaded', () => {
-                fetchPendingProperties();
+                fetchAcceptedProperties();
             });
 
-            // Show pending property
-            async function fetchPendingProperties() {
+            // Show approved property
+            async function fetchAcceptedProperties() {
                 try {
                     const response = await axios.get('/api/propertyAd', {
                         headers: {
@@ -43,14 +32,14 @@
                     });
 
                     // Only user pending properties
-                    const properties = response.data.user_properties.pending;
-                    const container = document.getElementById('pending-property');
+                    const properties = response.data.all_properties.approved;
+                    const container = document.getElementById('approved-property');
                     container.innerHTML = '';
 
                     if (!properties || properties.length === 0) {
                         container.innerHTML = `
                             <p class="flex justify-center items-center text-center text-green-500 text-lg mt-10">
-                                No pending properties found.
+                                No approved properties found.
                             </p>`;
                         return;
                     }
@@ -83,14 +72,37 @@
                         // Post Type Badge
                         const postTypeBadge = document.createElement('div');
                         postTypeBadge.className =
-                            'absolute top-3 right-3 bg-white rounded-lg p-2 shadow transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 cursor-pointer';
+                            'absolute top-3 left-3 bg-white rounded-lg p-2 shadow transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 cursor-pointer';
                         postTypeBadge.innerHTML =
                             `<span class="font-semibold text-sm">${prop.post_type || ''}</span>`;
                         imgSection.appendChild(postTypeBadge);
 
+                        // Hoverable icon with agent tooltip
+                        const agentDiv = document.createElement('div');
+                        agentDiv.className = 'absolute top-3 right-3 group';
+
+                        const icon = document.createElement('div');
+                        icon.className =
+                            'bg-white rounded-full p-2 shadow transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 cursor-pointer';
+                        const iconImg = document.createElement('img');
+                        iconImg.src = '/images/Assign.png';
+                        iconImg.alt = 'Assign';
+                        iconImg.className = 'h-8 w-8';
+                        icon.appendChild(iconImg);
+
+                        const tooltip = document.createElement('div');
+                        tooltip.className =
+                            'hidden group-hover:block absolute top-15 right-0 bg-white text-black font-semibold text-xs px-2 py-1 rounded shadow-lg z-50';
+                        tooltip.textContent = prop.agent?.name || 'Unassigned';
+
+                        agentDiv.appendChild(icon);
+                        agentDiv.appendChild(tooltip);
+                        imgSection.appendChild(agentDiv);
+
                         // Property Data Section
                         const dataSection = document.createElement('div');
-                        dataSection.className = 'p-4 bg-[#5CFFAB] text-black text-center';
+                        dataSection.className =
+                            'p-4 bg-[#5CFFAB] text-black text-center flex-1 flex flex-col justify-between';
                         dataSection.innerHTML = `
                             <h2 class="text-xl font-bold m-1 truncate">${prop.property_name}</h2>
                             <div class="flex justify-center items-center space-x-2 my-3">
@@ -110,11 +122,14 @@
                         `;
 
                         // Buttons for pending properties
-                        if (prop.status === 'pending') {
+                        if (prop.status === 'approve') {
                             const actions = document.createElement('div');
                             actions.className = 'mt-4 flex justify-center gap-4';
                             actions.innerHTML = `
-                                <button onclick="handlePropertyAction('${prop.property_id}', 'Edit')" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">Edit</button>
+                                <a href="/admin/property/viewAd/${prop.property_id}" 
+                                    class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 text-center inline-block">
+                                    View
+                                </a>
                                 <button onclick="handlePropertyAction('${prop.property_id}', 'Remove')" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">Remove</button>
                             `;
                             dataSection.appendChild(actions);
@@ -126,17 +141,13 @@
                     });
 
                 } catch (error) {
-                    console.error('Error fetching pending properties:', error);
+                    console.error('Error fetching approved properties:', error);
                     showError('Failed to fetch properties. Please try again.');
                 }
             }
 
             // Handle Edit/Remove action
             function handlePropertyAction(propertyId, action) {
-                if (action === 'Edit') {
-                    window.location.href = `/member/property/editAd/${propertyId}`;
-                }
-
                 if (action === 'Remove') {
                     Swal.fire({
                         title: 'Are you sure?',
@@ -155,7 +166,7 @@
                                 }
                             }).then(res => {
                                 showSuccess(res.data.success);
-                                fetchPendingProperties();
+                                fetchAcceptedProperties();
                             }).catch(err => {
                                 console.error(err);
                                 if (err.response && err.response.data && err.response.data.error) {
@@ -199,4 +210,4 @@
         </script>
     @endpush
 
-</x-app-layout>
+</x-admin-layout>

@@ -13,4 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('members', UserController::class);
     Route::apiResource('propertyAd', PropertyAdController::class);
     Route::apiResource('reports', ReportController::class);
+
+    Route::put('/propertyAd/accept/{property}', [PropertyAdController::class, 'accept'])->name('property.accept');
+    Route::put('/propertyAd/reject/{property}', [PropertyAdController::class, 'reject'])->name('property.reject');
 });

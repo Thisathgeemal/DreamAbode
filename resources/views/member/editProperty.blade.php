@@ -8,8 +8,8 @@
 
     <!-- Main Card -->
     <div class="w-full p-8 bg-white rounded-lg text-left mx-auto shadow-md mb-6">
-        <form id="postAdForm" class="space-y-8" enctype="multipart/form-data">
-
+        <form id="editAdForm" class="space-y-8" enctype="multipart/form-data" data-id="{{ $propertyId }}">
+            @csrf
             <!-- Image Upload Section -->
             <div>
                 <label class="block text-lg font-medium text-gray-700 mb-3 text-center">Property Images</label>
@@ -65,7 +65,7 @@
                     </div>
 
                     <!-- Bathroom Count -->
-                    <div id="bathroomFields" style="display: none;">
+                    <div id="bathroomFields" style="display:none;">
                         <label for="bathroomCount" class="block text-sm font-medium text-gray-700">Bathroom
                             Count</label>
                         <input type="number" id="bathroomCount" name="bathroomCount"
@@ -74,7 +74,7 @@
                     </div>
 
                     <!-- Measurement -->
-                    <div id="measurementFields" style="display: none;">
+                    <div id="measurementFields" style="display:none;">
                         <label for="measurement" class="block text-sm font-medium text-gray-700">Measurement</label>
                         <input type="number" id="measurement" name="measurement" placeholder="E.g. 2000 sqft"
                             class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
@@ -108,7 +108,7 @@
                     </div>
 
                     <!-- Bedroom Count -->
-                    <div id="bedroomFields" style="display: none;">
+                    <div id="bedroomFields" style="display:none;">
                         <label for="bedroomCount" class="block text-sm font-medium text-gray-700">Bedroom Count</label>
                         <input type="number" id="bedroomCount" name="bedroomCount"
                             placeholder="Enter number of bedrooms"
@@ -116,7 +116,7 @@
                     </div>
 
                     <!-- Floor Count -->
-                    <div id="floorsFields" style="display: none;">
+                    <div id="floorsFields" style="display:none;">
                         <label for="floorCount" class="block text-sm font-medium text-gray-700">Number of
                             Floors</label>
                         <input type="number" id="floorCount" name="floorCount" placeholder="Enter number of floors"
@@ -124,7 +124,7 @@
                     </div>
 
                     <!-- Perches -->
-                    <div id="perchesFields" style="display: none;">
+                    <div id="perchesFields" style="display:none;">
                         <label for="perches" class="block text-sm font-medium text-gray-700">Perches</label>
                         <input type="number" id="perches" name="perches" placeholder="Enter number of perches"
                             class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
@@ -137,7 +137,7 @@
                 <button type="submit"
                     class="flex items-center justify-center gap-2 px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-all w-[120px]">
                     <i class="fas fa-paper-plane"></i>
-                    <span>Post</span>
+                    <span>Update</span>
                 </button>
 
                 <a href="{{ route('member.property.pending') }}"
@@ -152,6 +152,140 @@
     @push('scripts')
         <script>
             const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
+
+            // Load property data
+            document.addEventListener("DOMContentLoaded", function() {
+                const propertyId = document.getElementById('editAdForm').dataset.id;
+
+                if (!propertyId) return;
+
+                // Fetch property details
+                axios.get(`/api/propertyAd/${propertyId}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    .then(response => {
+                        const property = response.data.property;
+
+                        document.getElementById('propertyName').value = property.property_name || '';
+                        document.getElementById('price').value = property.price || '';
+                        document.getElementById('location').value = property.location || '';
+                        document.getElementById('bedroomCount').value = property.bedrooms || '';
+                        document.getElementById('bathroomCount').value = property.bathrooms || '';
+                        document.getElementById('floorCount').value = property.floors || '';
+                        document.getElementById('perches').value = property.perches || '';
+                        document.getElementById('measurement').value = property.measurement || '';
+
+                        const postTypeEl = document.getElementById('postType');
+                        if (property.post_type) {
+                            for (let option of postTypeEl.options) {
+                                if (option.value.toLowerCase() === property.post_type.toLowerCase()) {
+                                    option.selected = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Set Property Type
+                        const propertyTypeEl = document.getElementById('propertyType');
+                        if (property.property_type) {
+                            for (let option of propertyTypeEl.options) {
+                                if (option.value.toLowerCase() === property.property_type.toLowerCase()) {
+                                    option.selected = true;
+                                    break;
+                                }
+                            }
+                        }
+                        toggleFields();
+
+                        // Load images
+                        const imageContainer = document.getElementById('imagePreviewContainer');
+                        imageContainer.innerHTML = '';
+                        if (property.images && property.images.length) {
+                            property.images.forEach(img => {
+                                const imgEl = document.createElement('img');
+                                imgEl.src = `/storage/${img.image_path}`;
+                                imgEl.classList.add('w-32', 'h-32', 'object-cover', 'rounded-lg', 'border',
+                                    'shadow');
+                                imageContainer.appendChild(imgEl);
+                            });
+                        } else {
+                            imageContainer.innerHTML =
+                                '<span class="col-span-3 text-gray-500 text-sm py-6">Upload up to 6 images</span>';
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        showError('Failed to fetch property details.');
+                    });
+            });
+
+            // Input field visibility
+            function toggleFields() {
+                const type = document.getElementById("propertyType").value;
+                const showCommon = ["House", "Villa", "Bungalow"];
+                const bedroom = document.getElementById("bedroomFields");
+                const bathroom = document.getElementById("bathroomFields");
+                const floors = document.getElementById("floorsFields");
+                const measurement = document.getElementById("measurementFields");
+                const perches = document.getElementById("perchesFields");
+
+                // Reset visibility
+                bedroom.style.display = "none";
+                bathroom.style.display = "none";
+                floors.style.display = "none";
+                measurement.style.display = "none";
+                perches.style.display = "none";
+
+                if (showCommon.includes(type)) {
+                    bedroom.style.display = "block";
+                    bathroom.style.display = "block";
+                    floors.style.display = "block";
+                    measurement.style.display = "block";
+                    perches.style.display = "block";
+                } else if (type === "Commercial") {
+                    measurement.style.display = "block";
+                    floors.style.display = "block";
+                } else if (type === "Apartment") {
+                    bedroom.style.display = "block";
+                    bathroom.style.display = "block";
+                    measurement.style.display = "block";
+                    floors.style.display = "block";
+                } else if (type === "Land") {
+                    perches.style.display = "block";
+                }
+            }
+
+            // // Update post
+            document.getElementById('editAdForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const propertyId = this.dataset.id;
+                const formData = new FormData(this); // Collect all inputs including files
+
+                try {
+                    const response = await fetch(`/api/propertyAd/${propertyId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `Bearer {{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}`
+                        },
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        showSuccess(data.success);
+                    } else {
+                        const message = data.error || 'Failed to update property.';
+                        showError(message);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showError('An unexpected error occurred.');
+                }
+            });
 
             // Show message
             function showSuccess(msg) {

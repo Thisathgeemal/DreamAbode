@@ -56,6 +56,15 @@
                             <i class="fas fa-times-circle pr-1"></i> Rejected Property
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('member.property.completed') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('member.property.completed')
+                        ? 'bg-[#5CFFAB] text-black font-semibold'
+                        : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-handshake pr-1"></i> Completed Deals
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -89,6 +98,15 @@
                             class="block px-3 py-2 rounded-md 
                     {{ request()->routeIs('member.project.rejected') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
                             <i class="fas fa-times-circle pr-1"></i> Rejected Project
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('member.project.completed') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('member.project.completed')
+                        ? 'bg-[#5CFFAB] text-black font-semibold'
+                        : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-handshake pr-1"></i> Completed Deals
                         </a>
                     </li>
                 </ul>
