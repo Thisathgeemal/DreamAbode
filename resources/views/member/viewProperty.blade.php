@@ -373,6 +373,9 @@
                 document.getElementById('measurement').textContent = `${property.measurement} Sq.Ft.`;
                 document.getElementById("propertyType").textContent = capitalizeFirstLetter(property.property_type);
 
+                const propertyTypeValue = document.getElementById("propertyType").innerText;
+                updatePropertyFeatures(propertyTypeValue);
+
                 // Handle Buy/Rent button
                 const actionButton = document.getElementById("actionButton");
                 const actionButtonText = document.getElementById("actionButtonText");
@@ -391,6 +394,30 @@
                     actionButton.style.display = "inline-flex";
                 } else {
                     actionButton.style.display = "none";
+                }
+            }
+
+            function updatePropertyFeatures(propertyType) {
+                const bedrooms = document.getElementById("bedrooms").parentElement;
+                const bathrooms = document.getElementById("bathrooms").parentElement;
+                const floors = document.getElementById("floors").parentElement;
+                const purchase = document.getElementById("perches").parentElement;
+
+                // Reset visibility
+                bedrooms.style.display = "flex";
+                bathrooms.style.display = "flex";
+                floors.style.display = "flex";
+                purchase.style.display = "flex";
+
+                // Hide features based on property type
+                if (propertyType.toLowerCase() === "commercial") {
+                    bedrooms.style.display = "none";
+                    bathrooms.style.display = "none";
+                    purchase.style.display = "none";
+                } else if (propertyType.toLowerCase() === "land") {
+                    bedrooms.style.display = "none";
+                    bathrooms.style.display = "none";
+                    floors.style.display = "none";
                 }
             }
 
