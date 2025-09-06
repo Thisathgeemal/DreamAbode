@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('payment_id');
             $table->unsignedBigInteger('member_id');
             $table->decimal('amount', 10, 2)->check('amount > 0');
+            $table->string('title');
             $table->string('description')->nullable();
             $table->timestamps();
 

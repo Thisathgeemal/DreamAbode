@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use App\Models\Payment;
 use App\Models\PropertyAd;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -305,4 +306,51 @@ class PropertyAdController extends Controller
         }
     }
 
+    /**
+     * Store payment record
+     */
+    public function payment(Request $request)
+    {
+        $request->validate([
+            'property_id' => 'required|exists:property_ads,property_id',
+            'amount'      => 'required|numeric|min:1',
+        ]);
+
+        try {
+            $userId   = auth()->id();
+            $property = PropertyAd::findOrFail($request->property_id);
+
+            // Default values
+            $title       = '';
+            $description = '';
+
+            if ($property->post_type === 'sale') {
+                $title       = "Buy Property Id {$property->property_id}";
+                $description = "Buying property '{$property->property_name}' and 10% of total price paid as down payment.";
+            } elseif ($property->post_type === 'rent') {
+                $title       = "Rent Property Id {$property->property_id}";
+                $description = "Renting property '{$property->property_name}' and one month amount of total price paid as down payment.";
+            }
+
+            // Save payment
+            $payment = Payment::create([
+                'member_id'   => $userId,
+                'property_id' => $property->property_id,
+                'amount'      => $request->amount,
+                'title'       => $title,
+                'description' => $description,
+            ]);
+
+            $property->status = 'done';
+            $property->save();
+
+            return response()->json([
+                'success' => 'Payment successful and property status updated.',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Payment failed: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
 }

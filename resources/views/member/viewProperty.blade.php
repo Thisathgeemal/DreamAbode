@@ -159,8 +159,8 @@
                 <p id="adminMobile" class="text-gray-600 text-sm md:text-md"></p>
             </div>
 
-            <!-- Contact Button -->
-            <button id="contactAdminButton"
+            <!-- Chat Now Button -->
+            <button id="chatAdminButton"
                 class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-2 bg-[#5CFFAB] text-black font-semibold rounded-xl shadow-md hover:bg-[#35db88] hover:shadow-lg transition-all duration-200 ease-in-out">
                 <i class="fas fa-comments"></i>
                 Chat Now
@@ -168,11 +168,131 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div id="propertyPaymentModal" role="dialog" aria-modal="true"
+        class="fixed inset-0 backdrop-blur-sm bg-white/20 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
+            <!-- Steps -->
+            <div class="flex items-center mb-4 mt-1">
+                <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white step"
+                    id="step1">1</div>
+                <div class="flex-1 h-1 bg-gray-300" id="line"></div>
+                <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white step"
+                    id="step2">2</div>
+            </div>
 
+            <!-- Step 1: Info & Agreement -->
+            <div id="property-info-section" class="form-section">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-4" id="modalTitle">Buy Property</h2>
+                <p id="modalDescription" class="text-gray-700 mb-4">
+                    You are about to proceed with the purchase of this property. In accordance with standard policy, a
+                    10% down payment is required to secure your interest. Please review the agreement below carefully
+                    before continuing.
+                </p>
+
+                <!-- Agreement Details -->
+                <div class="bg-gray-100 p-3 rounded-md mb-4 text-sm text-gray-700 h-40 overflow-y-auto">
+                    <p class="mb-2"><strong>Agreement Terms:</strong></p>
+                    <ul class="list-disc ml-5 space-y-1">
+                        <li>The initial down payment of 10% is <strong>non-refundable</strong> once the transaction is
+                            confirmed.</li>
+                        <li>Full ownership rights will only be transferred upon settlement of the total purchase price.
+                        </li>
+                        <li>The buyer affirms that all personal, financial, and identification details provided are
+                            accurate and up to date.</li>
+                        <li>This payment constitutes a binding financial commitment between the buyer and the seller.
+                        </li>
+                        <li>All transactions will be processed securely in compliance with industry-standard data
+                            protection measures.</li>
+                    </ul>
+                </div>
+
+                <!-- Accept Terms -->
+                <div class="flex items-center mb-4">
+                    <input type="checkbox" id="agreeTerms" class="mr-2">
+                    <label for="agreeTerms" class="text-gray-700 text-sm">I agree to the terms and conditions
+                        above</label>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex justify-end space-x-2">
+                    <button type="button" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
+                        onclick="closePropertyModal()">Cancel</button>
+                    <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                        onclick="nextPropertyStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Payment -->
+            <div id="property-payment-section" class="form-section hidden">
+                <h2 class="text-xl md:text-2xl font-bold text-center mb-4">Complete Payment</h2>
+                <form id="propertyPaymentForm">
+
+                    <!-- Payment Amount -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium">Amount to Pay</label>
+                        <input type="text" id="paymentAmount" readonly
+                            class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                    </div>
+
+                    <!-- Card Type -->
+                    <div class="mb-2">
+                        <label class="block text-sm font-medium">Card Type</label>
+                        <select id="cardType" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                            <option value="">Select Card Type</option>
+                            <option value="visa">Visa</option>
+                            <option value="mastercard">MasterCard</option>
+                            <option value="amex">American Express</option>
+                            <option value="discover">Discover</option>
+                        </select>
+                    </div>
+
+                    <!-- Name on Card -->
+                    <div class="mb-2">
+                        <label class="block text-sm font-medium">Name on Card</label>
+                        <input type="text" id="cardName" required placeholder="Full Name"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                    </div>
+
+                    <!-- Card Number -->
+                    <div class="mb-2">
+                        <label class="block text-sm font-medium">Card Number</label>
+                        <input type="text" id="cardNumber" required maxlength="16"
+                            placeholder="1234 5678 9012 3456"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                    </div>
+
+                    <!-- Expiry + CVV in one row -->
+                    <div class="mb-4 flex gap-2">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium">Expiry Date</label>
+                            <input type="month" id="expiryDate" required
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium">CVV</label>
+                            <input type="text" id="cvv" required maxlength="3" placeholder="CVV"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
+                            onclick="prevPropertyStep()">Previous</button>
+                        <button type="submit"
+                            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Pay Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     @push('scripts')
         <script>
             const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
+            let currentProperty = null;
 
             // Load property details
             document.addEventListener("DOMContentLoaded", async function() {
@@ -187,6 +307,7 @@
                     });
 
                     const property = response.data.property;
+                    currentProperty = property;
                     renderImageGallery(property);
                     renderPropertyDetails(property);
                     renderMap(property);
@@ -358,9 +479,9 @@
                 adminMobile.textContent = admin.mobile_number || "No contact available";
 
                 // Chat Button
-                const chatButton = document.getElementById('chatButton');
-                chatButton.addEventListener('click', () => {
-                    showInfo(`Starting chat with ${agent.name}`);
+                const chatAdminButton = document.getElementById('chatAdminButton');
+                chatAdminButton.addEventListener('click', () => {
+                    showInfo(`Starting chat with ${admin.name}`);
                 });
             }
 
@@ -402,6 +523,151 @@
                 if (!str) return '';
                 return str.charAt(0).toUpperCase() + str.slice(1);
             }
+
+            // Attach Buy/Rent button click
+            document.getElementById('actionButton').addEventListener('click', function() {
+                const actionText = document.getElementById('actionButtonText').textContent.toLowerCase();
+                if (actionText.includes('buy')) openPropertyModal('buy');
+                else if (actionText.includes('rent')) openPropertyModal('rent');
+            });
+
+            // Open modal for Buy or Rent
+            function openPropertyModal(type) {
+                document.getElementById('propertyPaymentModal').classList.remove('hidden');
+
+                const modalTitle = document.getElementById('modalTitle');
+                const modalDesc = document.getElementById('modalDescription');
+                const paymentAmountField = document.getElementById('paymentAmount');
+
+                if (type === 'buy') {
+                    modalTitle.textContent = 'Buy Property';
+                    modalDesc.textContent =
+                        `You are about to proceed with the purchase of this property. 
+                        As per our policy, a 10% down payment is required to secure your interest. 
+                        Please review the agreement terms carefully before continuing.`;
+
+                    const downPayment = (currentProperty.price * 0.10).toFixed(2);
+                    paymentAmountField.value = `${downPayment} M`;
+
+                } else {
+                    modalTitle.textContent = 'Rent Property';
+                    modalDesc.textContent =
+                        `You are about to proceed with renting this property. 
+                        To confirm your reservation, the first month’s payment is required in advance. 
+                        Please review the agreement terms carefully before continuing.`;
+
+                    const firstMonth = (currentProperty.price / 12).toFixed(2);
+                    paymentAmountField.value = `${firstMonth} M`;
+                }
+
+                highlightPropertyStep(1);
+            }
+
+            // Close modal
+            function closePropertyModal() {
+                document.getElementById('propertyPaymentModal').classList.add('hidden');
+                document.getElementById('property-info-section').classList.remove('hidden');
+                document.getElementById('property-payment-section').classList.add('hidden');
+                document.getElementById('agreeTerms').checked = false;
+                document.getElementById('propertyPaymentForm').reset();
+                resetPropertySteps();
+            }
+
+            // Next step
+            function nextPropertyStep() {
+                const agree = document.getElementById('agreeTerms').checked;
+                if (!agree) {
+                    showError("You must agree to the terms before proceeding");
+                    return;
+                }
+                document.getElementById('property-info-section').classList.add('hidden');
+                document.getElementById('property-payment-section').classList.remove('hidden');
+                highlightPropertyStep(2);
+            }
+
+            // Previous step
+            function prevPropertyStep() {
+                document.getElementById('property-payment-section').classList.add('hidden');
+                document.getElementById('property-info-section').classList.remove('hidden');
+                highlightPropertyStep(1);
+            }
+
+            // Step highlight
+            function highlightPropertyStep(step) {
+                const step1 = document.getElementById('step1');
+                const step2 = document.getElementById('step2');
+                const line = document.getElementById('line');
+
+                step1.classList.remove('bg-blue-500');
+                step1.classList.add('bg-gray-300');
+                step2.classList.remove('bg-blue-500');
+                step2.classList.add('bg-gray-300');
+                line.classList.remove('bg-blue-500');
+                line.classList.add('bg-gray-300');
+
+                if (step === 1) {
+                    step1.classList.remove('bg-gray-300');
+                    step1.classList.add('bg-blue-500');
+                } else if (step === 2) {
+                    step1.classList.remove('bg-gray-300');
+                    step2.classList.remove('bg-gray-300');
+                    line.classList.remove('bg-gray-300');
+                    step1.classList.add('bg-blue-500');
+                    step2.classList.add('bg-blue-500');
+                    line.classList.add('bg-blue-500');
+                }
+            }
+
+            // Reset steps
+            function resetPropertySteps() {
+                highlightPropertyStep(0);
+            }
+
+            // Handle payment
+            document.getElementById("propertyPaymentForm").addEventListener("submit", async function(e) {
+                e.preventDefault();
+
+                if (!currentProperty || !currentProperty.property_id) {
+                    showError("Property ID not available");
+                    return;
+                }
+
+                const payload = {
+                    property_id: currentProperty.property_id,
+                    amount: parseFloat(document.getElementById("paymentAmount").value.replace(/[^0-9.]/g,
+                        '')),
+                };
+
+                try {
+                    const response = await fetch("/api/propertyAd/payment", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json",
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    console.log("Payment response:", result);
+
+                    if (response.ok) {
+                        showSuccess(result.success || "Payment successful and property status updated!");
+                        closePropertyModal();
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        console.error("Payment error:", result);
+                        showError("Payment failed: " + (result.error || "Unknown error"));
+                    }
+                } catch (err) {
+                    console.error("Request failed:", err);
+                    showError("Payment failed: " + err.message);
+                }
+            });
 
             // Show message
             function showSuccess(msg) {

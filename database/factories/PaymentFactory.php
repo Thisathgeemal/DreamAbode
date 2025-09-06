@@ -16,6 +16,7 @@ class PaymentFactory extends Factory
                 ->inRandomOrder()
                 ->value('id'),
             'amount'      => $this->faker->randomFloat(2, 1000, 30000),
+            'title'       => $this->faker->sentence(),
             'description' => $this->faker->sentence(),
         ];
     }
