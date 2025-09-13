@@ -166,6 +166,14 @@
             }
 
             function populateTable(subscriptions) {
+                const tbody = document.querySelector("#subscription-table tbody");
+
+                if (!subscriptions.length) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="7" class="py-3 px-4 text-center text-gray-500">No subscriptions found</td></tr>`;
+                    return;
+                }
+
                 let html = '';
                 subscriptions.forEach(sub => {
                     html += `
@@ -184,7 +192,8 @@
                         </tr>
                     `;
                 });
-                document.querySelector("#subscription-table tbody").innerHTML = html;
+
+                tbody.innerHTML = html;
             }
 
             function renderPagination(data) {

@@ -152,6 +152,14 @@
             }
 
             function populateTable(admins) {
+                const tbody = document.querySelector("#admin-table tbody");
+
+                if (!admins.length) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="6" class="py-3 px-4 text-center text-gray-500">No admins found</td></tr>`;
+                    return;
+                }
+
                 let html = '';
                 admins.forEach(admin => {
                     html += `
@@ -169,7 +177,8 @@
                         </tr>
                     `;
                 });
-                document.querySelector("#admin-table tbody").innerHTML = html;
+
+                tbody.innerHTML = html;
             }
 
             function renderPagination(data) {

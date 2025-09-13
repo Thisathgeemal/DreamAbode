@@ -152,6 +152,14 @@
             }
 
             function populateTable(members) {
+                const tbody = document.querySelector("#member-table tbody");
+
+                if (!members.length) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="6" class="py-3 px-4 text-center text-gray-500">No members found</td></tr>`;
+                    return;
+                }
+
                 let html = '';
                 members.forEach(member => {
                     html += `
@@ -169,7 +177,8 @@
                         </tr>
                     `;
                 });
-                document.querySelector("#member-table tbody").innerHTML = html;
+
+                tbody.innerHTML = html;
             }
 
             function renderPagination(data) {

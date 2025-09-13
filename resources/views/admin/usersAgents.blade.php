@@ -152,6 +152,14 @@
             }
 
             function populateTable(agents) {
+                const tbody = document.querySelector("#agent-table tbody");
+
+                if (!agents.length) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="6" class="py-3 px-4 text-center text-gray-500">No agents found</td></tr>`;
+                    return;
+                }
+
                 let html = '';
                 agents.forEach(agent => {
                     html += `
@@ -169,7 +177,8 @@
                         </tr>
                     `;
                 });
-                document.querySelector("#agent-table tbody").innerHTML = html;
+
+                tbody.innerHTML = html;
             }
 
             function renderPagination(data) {

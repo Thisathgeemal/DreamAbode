@@ -99,6 +99,14 @@
 
             // Populate table
             function populateTable(subs) {
+                const tbody = document.querySelector("#subscription-table tbody");
+
+                if (!subs.length) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="6" class="py-3 px-4 text-center text-gray-500">No subscriptions found</td></tr>`;
+                    return;
+                }
+
                 let html = '';
                 subs.forEach(sub => {
                     const startDate = sub.start_date ? new Date(sub.start_date).toISOString().split('T')[0] : 'N/A';
@@ -123,19 +131,20 @@
                     }
 
                     html += `
-                            <tr class="hover:bg-gray-100 transition duration-200">
-                                <td class="py-3 px-4 border-b"><input type="checkbox" name="selector[]" class="h-4 w-4" value="${sub.subscription_id}"></td>
-                                <td class="py-3 px-4 border-b">${sub.member?.name || 'N/A'}</td>
-                                <td class="py-3 px-4 border-b">${sub.subscription_type?.type_name || 'N/A'}</td>
-                                <td class="py-3 px-4 border-b">${startDate}</td>
-                                <td class="py-3 px-4 border-b">${endDate}</td>
-                                <td class="py-3 px-4 border-b">
-                                    <span class="${statusColor}">${capitalizeFirstLetter(sub.status)}</span>
-                                </td>
-                            </tr>
-                        `;
+                        <tr class="hover:bg-gray-100 transition duration-200">
+                            <td class="py-3 px-4 border-b"><input type="checkbox" name="selector[]" class="h-4 w-4" value="${sub.subscription_id}"></td>
+                            <td class="py-3 px-4 border-b">${sub.member?.name || 'N/A'}</td>
+                            <td class="py-3 px-4 border-b">${sub.subscription_type?.type_name || 'N/A'}</td>
+                            <td class="py-3 px-4 border-b">${startDate}</td>
+                            <td class="py-3 px-4 border-b">${endDate}</td>
+                            <td class="py-3 px-4 border-b">
+                                <span class="${statusColor}">${capitalizeFirstLetter(sub.status)}</span>
+                            </td>
+                        </tr>
+                    `;
                 });
-                document.querySelector("#subscription-table tbody").innerHTML = html;
+
+                tbody.innerHTML = html;
             }
 
             // Render pagination
