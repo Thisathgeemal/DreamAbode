@@ -325,10 +325,10 @@ class PropertyAdController extends Controller
             $description = '';
 
             if ($property->post_type === 'sale') {
-                $title       = "Buy Property Id {$property->property_id}";
+                $title       = "Buy Property";
                 $description = "Buying property '{$property->property_name}' and 10% of total price paid as down payment.";
             } elseif ($property->post_type === 'rent') {
-                $title       = "Rent Property Id {$property->property_id}";
+                $title       = "Rent Property";
                 $description = "Renting property '{$property->property_name}' and one month amount of total price paid as down payment.";
             }
 
@@ -341,7 +341,8 @@ class PropertyAdController extends Controller
                 'description' => $description,
             ]);
 
-            $property->status = 'done';
+            $property->status   = 'complete';
+            $property->buyer_id = $userId;
             $property->save();
 
             return response()->json([

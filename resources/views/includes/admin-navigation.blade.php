@@ -147,13 +147,32 @@
                 </ul>
             </li>
 
-            <!-- Membership -->
-            <li>
-                <a href="{{ route('admin.membership') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('admin.membership') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
-                    <i class="fas fa-id-card"></i> Membership
-                </a>
+            <!-- Manage Membership Dropdown -->
+            <li x-data="{ open: {{ request()->routeIs('admin.membership.*') ? 'true' : 'false' }} }">
+                <button @click="open = !open"
+                    class="flex items-center justify-between w-full px-3 py-2 rounded-md 
+                {{ request()->routeIs('admin.membership.*') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    <span class="flex items-center gap-3">
+                        <i class="fas fa-id-card"></i> Membership
+                    </span>
+                    <i :class="open ? 'fa fa-chevron-circle-up' : 'fa fa-chevron-circle-down'"></i>
+                </button>
+                <ul x-show="open" x-transition class="mt-2 space-y-2 pl-7">
+                    <li>
+                        <a href="{{ route('admin.membership.subscriptions') }}"
+                            class="block px-3 py-2 rounded-md 
+                {{ request()->routeIs('admin.membership.subscriptions') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-id-badge pr-1"></i> Subscriptions
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.membership.type') }}"
+                            class="block px-3 py-2 rounded-md 
+                {{ request()->routeIs('admin.membership.type') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-layer-group pr-1"></i> Subscription Types
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <!-- Payment -->
@@ -211,7 +230,8 @@
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{ 'hidden': !sidebarOpen, 'inline-flex': sidebarOpen }" class="hidden"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
                 <i class="fas fa-user-tie text-md hidden md:inline-flex text-white"></i>

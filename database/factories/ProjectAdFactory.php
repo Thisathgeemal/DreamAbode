@@ -18,6 +18,9 @@ class ProjectAdFactory extends Factory
             'admin_id'        => User::whereJsonContains('user_roles', 'admin')
                 ->inRandomOrder()
                 ->value('id'),
+            'buyer_id'        => User::whereJsonContains('user_roles', 'member')
+                ->inRandomOrder()
+                ->value('id'),
             'member_id'       => User::whereJsonContains('user_roles', 'member')
                 ->inRandomOrder()
                 ->value('id'),

@@ -57,7 +57,7 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'error' => 'Something went wrong: ' . $e->getMessage(),
+                'error' => 'Something went wrong! Contact support service',
             ], 500);
         }
     }
@@ -150,7 +150,7 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'error' => 'Something went wrong: ' . $e->getMessage(),
+                'error' => 'Something went wrong! Contact support service',
             ], 500);
         }
     }
@@ -244,7 +244,7 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'error' => 'Something went wrong: ' . $e->getMessage(),
+                'error' => 'Something went wrong! Contact support service',
             ], 500);
         }
 

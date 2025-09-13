@@ -99,6 +99,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Mobile</th>
@@ -106,8 +107,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)
+                @foreach ($users as $index => $user)
                     <tr>
+                        <td>{{ $index + 1 }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->mobile_number ?? '-' }}</td>

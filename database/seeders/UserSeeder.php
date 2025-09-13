@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
                 'address'            => 'No 1, Admin Street, Colombo',
                 'gender'             => 'male',
                 'dob'                => '2005-01-01',
-                'user_roles'         => ['super_admin', 'admin'],
+                'user_roles'         => ['super_admin', 'admin', 'agent', 'member'],
                 'is_active'          => true,
                 'profile_photo_path' => null,
             ]);

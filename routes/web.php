@@ -81,8 +81,11 @@ Route::middleware([
         Route::get('/completed', fn() => view('admin.projectCompleted'))->name('completed');
     });
 
-    // Membership
-    Route::get('/admin/membership', fn() => view('admin.membership'))->name('admin.membership');
+    // Manage Membership
+    Route::prefix('admin/membership')->name('admin.membership.')->group(function () {
+        Route::get('/type', fn() => view('admin.membershipType'))->name('type');
+        Route::get('/subscriptions', fn() => view('admin.membership'))->name('subscriptions');
+    });
 
     // Payment
     Route::get('/admin/payment', fn() => view('admin.payment'))->name('admin.payment');

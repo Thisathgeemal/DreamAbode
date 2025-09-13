@@ -77,7 +77,7 @@
 
     </div>
 
-    <!-- Modal: Create/Edit ,ember -->
+    <!-- Modal: Create/Edit Member -->
     <div id="memberModel" role="dialog" aria-modal="true"
         class="fixed inset-0 items-center justify-center backdrop-blur-sm bg-white/20 hidden z-50">
         <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
@@ -329,6 +329,7 @@
             function exportMembers(e) {
                 e.preventDefault();
                 const role = document.querySelector('input[name="role"]').value;
+                const roleCapitalized = role.charAt(0).toUpperCase() + role.slice(1);
 
                 axios.post('/api/reports/', {
                         role: role
@@ -345,7 +346,7 @@
                         }));
                         const link = document.createElement('a');
                         link.href = url;
-                        link.setAttribute('download', `${role}_Report.pdf`);
+                        link.setAttribute('download', `${roleCapitalized}_Report.pdf`);
                         document.body.appendChild(link);
                         link.click();
                         link.remove();
