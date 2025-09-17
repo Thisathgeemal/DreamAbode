@@ -24,6 +24,13 @@
 
             // Show rejected property
             async function fetchRejectedProperties() {
+                const container = document.getElementById('rejected-property');
+                // Show loading message while fetching data
+                container.innerHTML = `
+                <p class="flex justify-center items-center text-center text-gray-500 text-lg mt-10">
+                    Loading rejected properties, please wait...
+                </p>`;
+
                 try {
                     const response = await axios.get('/api/propertyAd', {
                         headers: {
@@ -31,9 +38,7 @@
                         }
                     });
 
-                    // Only user rejected properties
                     const properties = response.data.all_properties.rejected;
-                    const container = document.getElementById('rejected-property');
                     container.innerHTML = '';
 
                     if (!properties || properties.length === 0) {
@@ -53,7 +58,6 @@
                         const imgSection = document.createElement('div');
                         imgSection.className = 'relative';
 
-                        // Show only first image if exists
                         if (prop.images && prop.images.length > 0) {
                             const firstImage = prop.images[0];
                             const img = document.createElement('img');
@@ -89,7 +93,7 @@
                             <div class="flex justify-center items-center mt-2 space-x-8">
                                 <div class="flex items-center space-x-2">
                                     <img src="/images/money.png" alt="Price" class="h-6 w-6">
-                                    <span class="text-sm font-medium">RS ${prop.price} M</span>
+                                    <span class="text-sm font-medium">RS ${prop.price} </span>
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <img src="/images/Bedrooms.png" alt="Bedrooms" class="h-5 w-5">

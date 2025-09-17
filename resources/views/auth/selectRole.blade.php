@@ -41,7 +41,7 @@
                             @endphp
 
                             <button type="submit" name="role" value="{{ $role }}"
-                                class="flex flex-col items-center justify-center gap-3 p-5 sm:p-6 rounded-xl shadow-md transition-all duration-300 transform bg-white text-gray-800 border border-gray-200 hover:bg-green-50 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-48">
+                                class="flex flex-col items-center mb-6 justify-center gap-3 p-5 sm:p-6 rounded-xl shadow-md transition-all duration-300 transform bg-white text-gray-800 border border-gray-200 hover:bg-green-50 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-48">
                                 <i class="{{ $icons[$lowerRole] ?? 'fa-solid fa-user' }} text-3xl sm:text-4xl"></i>
                                 <span class="text-base sm:text-lg font-semibold">{{ ucfirst($role) }}</span>
                             </button>

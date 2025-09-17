@@ -162,6 +162,11 @@
             function loadSubscriptions(page = 1, search = '') {
                 currentPage = page;
                 lastSearch = search;
+
+                const tbody = document.querySelector("#subscription-table tbody");
+                tbody.innerHTML =
+                    `<tr><td colspan="5" class="py-3 px-4 text-center text-gray-500">Loading subscription data, please wait...</td></tr>`;
+
                 axios.get(`/api/subscription?page=${page}&search=${search}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -173,7 +178,11 @@
                         populateTable(subsData.data || []);
                         renderPagination(subsData);
                     })
-                    .catch(err => console.error(err));
+                    .catch(err => {
+                        tbody.innerHTML =
+                            `<tr><td colspan="5" class="py-3 px-4 text-center text-red-500">Failed to load subscriptions. Please try again.</td></tr>`;
+                        console.error(err);
+                    });
             }
 
             // Populate table
@@ -239,6 +248,10 @@
             function loadSubscriptionTypes(page = 1) {
                 currentPage = page;
 
+                const container = document.getElementById('subscription-cards');
+                container.innerHTML =
+                    `<p class="text-gray-500 text-center w-full">Loading subscription types, please wait...</p>`;
+
                 axios.get(`/api/subscriptionType?page=${page}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -249,8 +262,13 @@
                         const subscriptions = res.data.data || [];
                         populateCards(subscriptions);
                     })
-                    .catch(err => console.error(err));
+                    .catch(err => {
+                        container.innerHTML =
+                            `<p class="text-red-500 text-center w-full">Failed to load subscription types. Please try again.</p>`;
+                        console.error(err);
+                    });
             }
+
 
             // Populate cards
             function populateCards(subscriptions) {

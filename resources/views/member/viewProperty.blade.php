@@ -186,7 +186,7 @@
                 <h2 class="text-2xl md:text-3xl font-bold text-center mb-4" id="modalTitle">Buy Property</h2>
                 <p id="modalDescription" class="text-gray-700 mb-4">
                     You are about to proceed with the purchase of this property. In accordance with standard policy, a
-                    10% down payment is required to secure your interest. Please review the agreement below carefully
+                    2% down payment is required to secure your interest. Please review the agreement below carefully
                     before continuing.
                 </p>
 
@@ -194,8 +194,10 @@
                 <div class="bg-gray-100 p-3 rounded-md mb-4 text-sm text-gray-700 h-40 overflow-y-auto">
                     <p class="mb-2"><strong>Agreement Terms:</strong></p>
                     <ul class="list-disc ml-5 space-y-1">
-                        <li>The initial down payment of 10% is <strong>non-refundable</strong> once the transaction is
-                            confirmed.</li>
+                        <li id="modalAgreement">
+                            The initial down payment of 2% is <strong>non-refundable</strong> once the transaction
+                            is confirmed.
+                        </li>
                         <li>Full ownership rights will only be transferred upon settlement of the total purchase price.
                         </li>
                         <li>The buyer affirms that all personal, financial, and identification details provided are
@@ -277,6 +279,8 @@
                         </div>
                     </div>
 
+                    <input type="hidden" id="numericPaymentAmount" name="amount">
+
                     <!-- Buttons -->
                     <div class="flex justify-end space-x-2">
                         <button type="button" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
@@ -312,8 +316,8 @@
                     renderPropertyDetails(property);
                     renderMap(property);
 
-                    // Only handle contact section if status is APPROVE or DONE
-                    if (property.status === "approve" || property.status === "done") {
+                    // Only handle contact section if status is APPROVE or complete
+                    if (property.status === "approve" || property.status === "complete") {
                         const contactSection = document.getElementById('contactSection');
                         contactSection.style.display = "flex";
 
@@ -380,8 +384,8 @@
                 const actionButton = document.getElementById("actionButton");
                 const actionButtonText = document.getElementById("actionButtonText");
 
-                // Hide button if status is "done"
-                if (property.status === "done" || property.status === "pending" || property.status === "reject") {
+                // Hide button if status is "complete"
+                if (property.status === "complete" || property.status === "pending" || property.status === "reject") {
                     actionButton.style.display = "none";
                     return;
                 }
@@ -564,17 +568,22 @@
 
                 const modalTitle = document.getElementById('modalTitle');
                 const modalDesc = document.getElementById('modalDescription');
+                const modalAgreement = document.getElementById('modalAgreement');
                 const paymentAmountField = document.getElementById('paymentAmount');
+                const numericAmountField = document.getElementById("numericPaymentAmount");
 
                 if (type === 'buy') {
                     modalTitle.textContent = 'Buy Property';
                     modalDesc.textContent =
                         `You are about to proceed with the purchase of this property. 
-                        As per our policy, a 10% down payment is required to secure your interest. 
+                        As per our policy, a 2% down payment is required to secure your interest. 
                         Please review the agreement terms carefully before continuing.`;
+                    modalAgreement.innerHTML =
+                        `The initial down payment of 2% is <strong>non-refundable</strong> once the transaction is confirmed.`;
 
-                    const downPayment = (currentProperty.price * 0.10).toFixed(2);
+                    const downPayment = (currentProperty.price * 0.02).toFixed(2);
                     paymentAmountField.value = `${downPayment} M`;
+                    numericAmountField.value = downPayment;
 
                 } else {
                     modalTitle.textContent = 'Rent Property';
@@ -582,9 +591,12 @@
                         `You are about to proceed with renting this property. 
                         To confirm your reservation, the first month’s payment is required in advance. 
                         Please review the agreement terms carefully before continuing.`;
+                    modalAgreement.innerHTML =
+                        `The first month’s payment is <strong>non-refundable</strong> once the transaction is confirmed.`;
 
                     const firstMonth = (currentProperty.price / 12).toFixed(2);
                     paymentAmountField.value = `${firstMonth} M`;
+                    numericAmountField.value = firstMonth;
                 }
 
                 highlightPropertyStep(1);

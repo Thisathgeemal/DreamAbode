@@ -75,7 +75,7 @@
                 <div>
                     <label for="downPaymentPercentage" class="text-sm font-medium text-gray-700">Down Payment
                         (%)</label>
-                    <input type="number" id="downPaymentPercentage" placeholder="Enter down payment (%)"
+                    <input type="number" id="downPaymentPercentage" placeholder="Enter down payment as a percentage"
                         class="mt-1 block w-full bg-green-100 border border-gray-300 rounded-md shadow-sm p-2 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
                         min="10">
                     <p id="downPaymentWarning" class="text-red-500 text-xs mt-1 hidden">Down payment must be at least

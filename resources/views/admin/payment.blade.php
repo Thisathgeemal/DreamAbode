@@ -45,7 +45,7 @@
                         <th class="py-3 px-4 text-left border-b">No</th>
                         <th class="py-3 px-4 text-left border-b">User Name</th>
                         <th class="py-3 px-4 text-left border-b">Title</th>
-                        <th class="py-3 px-4 text-left border-b">Amount</th>
+                        <th class="py-3 px-4 text-left border-b">Amount (LKR)</th>
                         <th class="py-3 px-4 text-left border-b">Description</th>
                         <th class="py-3 px-4 text-left border-b">Payment Date</th>
                     </tr>
@@ -76,6 +76,10 @@
                 currentPaymentPage = page;
                 lastPaymentSearch = search;
 
+                const tbody = document.querySelector("#payment-table tbody");
+                tbody.innerHTML =
+                    `<tr><td colspan="6" class="py-3 px-4 text-center text-gray-500">Loading payment data, please wait...</td></tr>`;
+
                 axios.get(`/api/payments?page=${page}&search=${search}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -88,8 +92,10 @@
                         renderPaymentPagination(payments);
                     })
                     .catch(err => {
-                        console.error('Failed to load payments:', err);
-                        showError('Failed to load payments. Please try again.');
+                        console.error('Failed to load payments', err);
+                        tbody.innerHTML =
+                            `<tr><td colspan="6" class="py-3 px-4 text-center text-red-500">Failed to load payment data. Please try again.</td></tr>`;
+                        showError('Failed to load payment data. Please try again.');
                     });
             }
 
@@ -108,7 +114,7 @@
                         <td class="py-3 px-4 border-b">${payment.member?.name ?? 'N/A'}</td>
                         <td class="py-3 px-4 border-b">${payment.title}</td>
                         <td class="py-3 px-4 border-b">${payment.amount}</td>
-                        <td class="py-3 px-4 border-b">${payment.description}</td>
+                        <td class="py-3 px-4 border-b max-w-[250px]">${payment.description}</td>
                         <td class="py-3 px-4 border-b">${formatDateTime(payment.created_at)}</td>
                     </tr>
                 `).join('');

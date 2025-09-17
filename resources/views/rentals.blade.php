@@ -46,4 +46,8 @@
             </a>
         </div>
     </section>
+
+    <!-- property listings -->
+    @livewire('property-card', ['postType' => 'rent'])
+
 </x-guest-layout>

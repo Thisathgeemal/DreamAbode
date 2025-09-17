@@ -23,6 +23,13 @@
             });
 
             async function fetchPendingProperties() {
+                const container = document.getElementById('pending-property');
+                // Show loading message while data is being fetched
+                container.innerHTML = `
+                <p class="flex justify-center items-center text-center text-gray-500 text-lg mt-10">
+                    Loading pending properties, please wait...
+                </p>`;
+
                 try {
                     const response = await axios.get('/api/propertyAd', {
                         headers: {
@@ -31,14 +38,13 @@
                     });
 
                     const properties = response.data.all_properties.pending;
-                    const container = document.getElementById('pending-property');
                     container.innerHTML = '';
 
                     if (!properties || properties.length === 0) {
                         container.innerHTML = `
-                            <p class="flex justify-center items-center text-center text-green-500 text-lg mt-10">
-                                No pending properties found.
-                            </p>`;
+                        <p class="flex justify-center items-center text-center text-green-500 text-lg mt-10">
+                            No pending properties found.
+                        </p>`;
                         return;
                     }
 
@@ -85,7 +91,7 @@
                             <div class="flex justify-center items-center mt-2 space-x-8">
                                 <div class="flex items-center space-x-2">
                                     <img src="/images/money.png" alt="Price" class="h-6 w-6">
-                                    <span class="text-sm font-medium">RS ${prop.price} M</span>
+                                    <span class="text-sm font-medium">RS ${prop.price} </span>
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <img src="/images/Bedrooms.png" alt="Bedrooms" class="h-5 w-5">
@@ -119,6 +125,7 @@
                     showError('Failed to fetch properties. Please try again.');
                 }
             }
+
 
             // Handle Accept/Reject action
             async function handlePropertyAction(propertyId, action) {

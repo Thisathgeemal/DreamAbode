@@ -24,6 +24,13 @@
 
             // Show approved property
             async function fetchAcceptedProperties() {
+                const container = document.getElementById('approved-property');
+                // Show loading message while fetching data
+                container.innerHTML = `
+                <p class="flex justify-center items-center text-center text-gray-500 text-lg mt-10">
+                    Loading approved properties, please wait...
+                </p>`;
+
                 try {
                     const response = await axios.get('/api/propertyAd', {
                         headers: {
@@ -31,16 +38,14 @@
                         }
                     });
 
-                    // Only user pending properties
                     const properties = response.data.all_properties.approved;
-                    const container = document.getElementById('approved-property');
                     container.innerHTML = '';
 
                     if (!properties || properties.length === 0) {
                         container.innerHTML = `
-                            <p class="flex justify-center items-center text-center text-green-500 text-lg mt-10">
-                                No approved properties found.
-                            </p>`;
+                        <p class="flex justify-center items-center text-center text-green-500 text-lg mt-10">
+                            No approved properties found.
+                        </p>`;
                         return;
                     }
 
@@ -53,7 +58,6 @@
                         const imgSection = document.createElement('div');
                         imgSection.className = 'relative';
 
-                        // Show only first image if exists
                         if (prop.images && prop.images.length > 0) {
                             const firstImage = prop.images[0];
                             const img = document.createElement('img');
@@ -112,7 +116,7 @@
                             <div class="flex justify-center items-center mt-2 space-x-8">
                                 <div class="flex items-center space-x-2">
                                     <img src="/images/money.png" alt="Price" class="h-6 w-6">
-                                    <span class="text-sm font-medium">RS ${prop.price} M</span>
+                                    <span class="text-sm font-medium">RS ${prop.price} </span>
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <img src="/images/Bedrooms.png" alt="Bedrooms" class="h-5 w-5">
@@ -121,7 +125,7 @@
                             </div>
                         `;
 
-                        // Buttons for pending properties
+                        // Buttons for approved properties
                         if (prop.status === 'approve') {
                             const actions = document.createElement('div');
                             actions.className = 'mt-4 flex justify-center gap-4';
@@ -145,6 +149,7 @@
                     showError('Failed to fetch properties. Please try again.');
                 }
             }
+
 
             // Handle Edit/Remove action
             function handlePropertyAction(propertyId, action) {

@@ -136,6 +136,11 @@
             function loadAgents(page = 1, search = '') {
                 currentPage = page;
                 lastSearch = search;
+
+                const tbody = document.querySelector("#agent-table tbody");
+                tbody.innerHTML =
+                    `<tr><td colspan="6" class="py-3 px-4 text-center text-gray-500">Loading agent data, please wait...</td></tr>`;
+
                 axios.get(`/api/agents?page=${page}&search=${search}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -148,7 +153,11 @@
                         populateTable(agents);
                         renderPagination(res.data);
                     })
-                    .catch(err => console.error(err));
+                    .catch(err => {
+                        console.error(err);
+                        tbody.innerHTML =
+                            `<tr><td colspan="6" class="py-3 px-4 text-center text-red-500">Failed to load agent data.</td></tr>`;
+                    });
             }
 
             function populateTable(agents) {

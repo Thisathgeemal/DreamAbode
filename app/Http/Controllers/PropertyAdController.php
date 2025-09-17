@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\BuyerMail;
+use App\Mail\PropertyOwnerMail;
 use App\Models\Image;
 use App\Models\Payment;
 use App\Models\PropertyAd;
@@ -9,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class PropertyAdController extends Controller
@@ -38,7 +41,13 @@ class PropertyAdController extends Controller
             'pending'   => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'pending')->get(),
             'approved'  => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'approve')->get(),
             'rejected'  => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'reject')->get(),
-            'completed' => PropertyAd::with('images')->where('member_id', $userId)->where('status', 'done')->get(),
+            'completed' => PropertyAd::with('images')
+                ->where('status', 'complete')
+                ->where(function ($query) use ($userId) {
+                    $query->where('member_id', $userId)
+                        ->orWhere('buyer_id', $userId);
+                })
+                ->get(),
         ];
     }
 
@@ -51,7 +60,7 @@ class PropertyAdController extends Controller
             'pending'   => PropertyAd::with('images')->where('status', 'pending')->get(),
             'approved'  => PropertyAd::with(['images', 'agent'])->where('status', 'approve')->get(),
             'rejected'  => PropertyAd::with('images')->where('status', 'reject')->get(),
-            'completed' => PropertyAd::with('images')->where('status', 'done')->get(),
+            'completed' => PropertyAd::with('images')->where('status', 'complete')->get(),
         ];
     }
 
@@ -326,7 +335,7 @@ class PropertyAdController extends Controller
 
             if ($property->post_type === 'sale') {
                 $title       = "Buy Property";
-                $description = "Buying property '{$property->property_name}' and 10% of total price paid as down payment.";
+                $description = "Buying property '{$property->property_name}' and 2% of total price paid as down payment.";
             } elseif ($property->post_type === 'rent') {
                 $title       = "Rent Property";
                 $description = "Renting property '{$property->property_name}' and one month amount of total price paid as down payment.";
@@ -344,6 +353,16 @@ class PropertyAdController extends Controller
             $property->status   = 'complete';
             $property->buyer_id = $userId;
             $property->save();
+
+            $buyer  = User::findOrFail($property->buyer_id);
+            $member = User::findOrFail($property->member_id);
+            $agent  = User::findOrFail($property->agent_id);
+
+            // Send email to Buyer (with Member details)
+            Mail::to($buyer->email)->send(new BuyerMail($buyer, $member, $agent, $property));
+
+            // Send email to Member (with Buyer details)
+            Mail::to($member->email)->send(new PropertyOwnerMail($buyer, $member, $agent, $property));
 
             return response()->json([
                 'success' => 'Payment successful and property status updated.',

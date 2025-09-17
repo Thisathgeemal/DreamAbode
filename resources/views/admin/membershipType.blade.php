@@ -151,6 +151,11 @@
             function loadSubscriptions(page = 1, search = '') {
                 currentPage = page;
                 lastSearch = search;
+
+                const tbody = document.querySelector("#subscription-table tbody");
+                tbody.innerHTML =
+                    `<tr><td colspan="7" class="py-3 px-4 text-center text-gray-500">Loading subscription data, please wait...</td></tr>`;
+
                 axios.get(`/api/subscriptionType?page=${page}&search=${search}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -162,7 +167,11 @@
                         populateTable(subscriptions);
                         renderPagination(res.data);
                     })
-                    .catch(err => console.error(err));
+                    .catch(err => {
+                        tbody.innerHTML =
+                            `<tr><td colspan="7" class="py-3 px-4 text-center text-red-500">Failed to load subscription types. Please try again.</td></tr>`;
+                        console.error(err);
+                    });
             }
 
             function populateTable(subscriptions) {

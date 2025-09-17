@@ -15,6 +15,7 @@ class PropertyAd extends Model
         'agent_id',
         'admin_id',
         'member_id',
+        'buyer_id',
         'property_name',
         'property_type',
         'location',

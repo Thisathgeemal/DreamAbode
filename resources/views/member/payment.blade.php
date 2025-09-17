@@ -45,7 +45,7 @@
                     <tr>
                         <th class="py-3 px-4 text-left border-b">No</th>
                         <th class="py-3 px-4 text-left border-b">Title</th>
-                        <th class="py-3 px-4 text-left border-b">Amount</th>
+                        <th class="py-3 px-4 text-left border-b">Amount (LKR)</th>
                         <th class="py-3 px-4 text-left border-b">Description</th>
                         <th class="py-3 px-4 text-left border-b">Payment Date</th>
                     </tr>
@@ -76,6 +76,10 @@
                 currentPaymentPage = page;
                 lastPaymentSearch = search;
 
+                const tableBody = document.querySelector('#payment-table tbody');
+                tableBody.innerHTML =
+                    `<tr><td colspan="5" class="py-3 px-4 text-center text-gray-500">Loading payments, please wait...</td></tr>`;
+
                 axios.get(`/api/payments?page=${page}&search=${search}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -93,6 +97,7 @@
                     });
             }
 
+
             // Populate the payment table
             function populatePaymentTable(payments) {
                 const tbody = document.querySelector("#payment-table tbody");
@@ -107,7 +112,7 @@
                         <td class="py-3 px-4 border-b">${(currentPaymentPage - 1) * 5 + (index + 1)}</td>
                         <td class="py-3 px-4 border-b">${payment.title}</td>
                         <td class="py-3 px-4 border-b">${payment.amount}</td>
-                        <td class="py-3 px-4 border-b">${payment.description}</td>
+                        <td class="py-3 px-4 border-b max-w-[250px]">${payment.description}</td>
                         <td class="py-3 px-4 border-b">${formatDateTime(payment.created_at)}</td>
                     </tr>
                 `).join('');
