@@ -155,7 +155,9 @@ Route::middleware([
     Route::get('/member/payment', fn() => view('member.payment'))->name('member.payment');
 
     // Messages
-    Route::get('/member/messages', fn() => view('member.messages'))->name('member.messages');
+    Route::get('/member/messages/{userId?}', function ($userId = null) {
+        return view('member.messages', ['userId' => $userId]);
+    })->name('member.messages');
 
     // Feedback / Review
     Route::get('/member/feedback', fn() => view('member.feedback'))->name('member.feedback');

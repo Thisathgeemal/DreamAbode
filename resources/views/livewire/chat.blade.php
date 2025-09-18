@@ -7,88 +7,49 @@
             <!-- Header -->
             <div class="p-5 border-b border-gray-200 flex justify-between items-center">
                 <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Chat</h2>
-                <button wire:click="toggleNewChat"
-                    class="text-black rounded-full shadow-md hover:scale-110 transition transform duration-200 ease-in-out"
-                    aria-label="Start new chat" title="Start new chat">
-                    <i class="fas fa-edit fa-lg"></i>
-                </button>
-            </div>
-
-            <!-- New Chat Modal -->
-            <div id="newChatModal" role="dialog" aria-modal="true"
-                class="fixed inset-0 backdrop-blur-sm bg-white/20 {{ $showNewChat ? 'flex' : 'hidden' }} items-center justify-center z-50">
-
-                <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-[0_0_15px_4px_rgba(241,30,19,0.5)]">
-                    <h2 class="text-xl md:text-2xl font-bold text-center mb-4">Start New Chat</h2>
-
-                    <!-- Search Input -->
-                    <input type="text" wire:model.live="search" placeholder="Search users..."
-                        class="w-full px-3 py-2 mb-3 rounded-lg border border-gray-300 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-
-                    <!-- Search Results -->
-                    @if (!empty($searchResults))
-                        <div class="border rounded-lg overflow-hidden">
-                            @foreach ($searchResults as $user)
-                                <div wire:click="selectUser({{ $user->id }})"
-                                    class="p-3 flex items-center gap-3 hover:bg-blue-100 cursor-pointer">
-                                    <div
-                                        class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center font-semibold">
-                                        {{ strtoupper(substr($user->first_name, 0, 1)) }}
-                                    </div>
-                                    <div class="truncate">
-                                        <p class="font-medium">{{ $user->first_name }} {{ $user->last_name }}</p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @elseif(strlen($search) > 0)
-                        <p class="text-sm text-gray-500 mt-2">No users found.</p>
-                    @endif
-
-                    <!-- Modal Buttons -->
-                    <div class="flex justify-end space-x-2 mt-4">
-                        <button type="button" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
-                            wire:click="toggleNewChat">Cancel</button>
-                    </div>
-                </div>
             </div>
 
             <!-- Search -->
             <div class="p-3.5 border-b border-gray-200">
                 <input type="text" wire:model.live="searchFilter" placeholder="Search your chat"
-                    class="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    class="w-full px-3 py-2 rounded-lg border border-gray-300 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400" />
             </div>
 
             <!-- Users List -->
-            <div
-                class="flex-1 overflow-y-auto divide-y divide-gray-200 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            <div class="flex-1 overflow-y-auto divide-y divide-gray-200 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+                wire:poll.1s="loadUsersWithChat">
                 @foreach ($users as $user)
                     <div wire:click="{{ 'selectUser(' . $user->id . ')' }}"
                         class="flex items-center gap-3 p-4 cursor-pointer hover:bg-blue-100 transition rounded-r-lg
-                    {{ $selectedUser && $selectedUser->id === $user->id ? 'bg-blue-50' : '' }}">
+                        {{ $selectedUser && $selectedUser->id === $user->id ? 'bg-blue-50' : '' }}">
                         <div
                             class="w-12 h-12 rounded-full flex items-center justify-center select-none overflow-hidden">
-                            @if (!empty($user->profile_image))
+                            @if (!empty($user->profile_photo_path))
                                 <!-- Show profile_image -->
-                                <img src="{{ asset($user->profile_image) }}?v={{ time() }}"
-                                    alt="{{ $user->first_name }}" class="w-full h-full object-cover" />
+                                <img src="{{ asset($user->profile_photo_path) }}?v={{ time() }}"
+                                    alt="{{ $user->name }}" class="w-full h-full object-cover" />
                             @else
                                 <!-- Show first letter fallback -->
                                 <div
                                     class="bg-gray-300 text-gray-600 font-semibold text-lg flex items-center justify-center w-full h-full">
-                                    {{ strtoupper(substr($user->first_name, 0, 1)) }}
+                                    {{ strtoupper(substr($user->name, 0, 1)) }}
                                 </div>
                             @endif
                         </div>
 
-
-                        <div class="flex flex-col truncate">
-                            <span class="text-gray-900 font-medium truncate text-left">
-                                {{ $user->first_name }} {{ $user->last_name }}
-                            </span>
-                            <span class="text-sm text-gray-500 truncate text-left">
-                                {{ $user->lastMessageTime ? \Carbon\Carbon::parse($user->lastMessageTime)->format('h:i A') : '' }}
-                            </span>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center">
+                                <span
+                                    class="text-gray-900 font-medium truncate text-left mr-2">{{ $user->name }}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <p class="text-sm text-left text-gray-600 truncate w-3/4">
+                                    {{ $user->lastMessagePreview ? Str::limit($user->lastMessagePreview, 25) : '' }}
+                                </p>
+                                <span class="ml-auto text-xs text-gray-500 whitespace-nowrap">
+                                    {{ $user->lastMessageTime ? $user->lastMessageTime->format('h:i A') : '' }}
+                                </span>
+                            </div>
                         </div>
 
                         @if (!empty($unreadCounts[$user->id]) && $unreadCounts[$user->id] > 0)
@@ -110,23 +71,26 @@
                     <div class="flex items-center gap-3">
                         <div
                             class="w-12 h-12 rounded-full flex items-center justify-center select-none overflow-hidden">
-                            @if (!empty($selectedUser->profile_image))
+                            @if (!empty($selectedUser->profile_photo_path))
                                 <!-- Show profile_image -->
-                                <img src="{{ asset($selectedUser->profile_image) }}?v={{ time() }}"
-                                    alt="{{ $selectedUser->first_name }}" class="w-full h-full object-cover" />
+                                <img src="{{ asset($selectedUser->profile_photo_path) }}?v={{ time() }}"
+                                    alt="{{ $selectedUser->name }}" class="w-full h-full object-cover" />
                             @else
                                 <!-- Show first letter fallback -->
                                 <div
                                     class="bg-gray-300 text-gray-600 font-semibold text-lg flex items-center justify-center w-full h-full">
-                                    {{ strtoupper(substr($selectedUser->first_name, 0, 1)) }}
+                                    {{ strtoupper(substr($selectedUser->name, 0, 1)) }}
                                 </div>
                             @endif
                         </div>
                         <div>
                             <h3 class="text-md text-left font-semibold text-gray-900">
-                                {{ $selectedUser->first_name }} {{ $selectedUser->last_name }}
+                                {{ $selectedUser->name }}
+                                @if ($selectedUser->id === auth()->id())
+                                    (You)
+                                @endif
                             </h3>
-                            <p class="text-xs text-gray-500">{{ $selectedUser->email }}</p>
+                            <p class="text-xs text-left text-gray-500">{{ $selectedUser->email }}</p>
                         </div>
                     </div>
 
@@ -163,12 +127,11 @@
 
             <!-- Messages -->
             <div id="chatInbox" class="flex-1 w-full p-6 overflow-y-auto space-y-4 bg-gray-50"
-                style="scroll-behavior: smooth;">
+                style="scroll-behavior: smooth;" wire:poll.2s="loadMessages">
                 @foreach ($messages as $message)
-                    <div wire:poll.2s
-                        class="flex {{ $message->sender_id === Auth::id() ? 'justify-end' : 'justify-start' }}"
-                        wire:key="message-{{ $message->id }}"
-                        @if ($message->sender_id === Auth::id()) oncontextmenu="event.preventDefault(); if(confirm('Delete this message?')) { @this.deleteMessage({{ $message->id }}); }"
+                    <div class="flex {{ $message->sender_id === Auth::id() ? 'justify-end' : 'justify-start' }}"
+                        wire:key="message-{{ $message->chat_id }}"
+                        @if ($message->sender_id === Auth::id()) oncontextmenu="event.preventDefault(); if(confirm('Delete this message?')) { @this.deleteMessage({{ $message->chat_id }}); }"
                             style="cursor: context-menu;" @endif>
                         <div
                             class="max-w-[80%] px-5 py-2 rounded-3xl {{ $message->sender_id === Auth::id() ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-200 text-gray-800 shadow-sm' }}">
@@ -205,9 +168,9 @@
             <form wire:submit.prevent="sendMessage"
                 class="p-5 border-t border-gray-200 bg-white flex items-center gap-4">
                 <input wire:model="newMessage" type="text" placeholder="Type your message..."
-                    class="flex-1 border border-gray-300 rounded-full px-5 py-3 text-sm placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none transition" />
+                    class="flex-1 border border-gray-300 rounded-full px-5 py-3 text-sm placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none transition" />
                 <button type="submit"
-                    class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold px-6 py-3 rounded-full shadow-md transition">
+                    class="bg-[#5CFFAB] hover:bg-[#35db88] text-black text-sm font-semibold px-6 py-3 rounded-full shadow-md transition">
                     Send
                 </button>
             </form>

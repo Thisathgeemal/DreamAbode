@@ -486,7 +486,7 @@
                 // Chat Button
                 const chatButton = document.getElementById('chatButton');
                 chatButton.addEventListener('click', () => {
-                    showInfo(`Starting chat with ${agent.name}`);
+                    window.location.href = `/member/messages/${agent.id}`;
                 });
             }
 
@@ -512,7 +512,7 @@
                 // Chat Button
                 const chatAdminButton = document.getElementById('chatAdminButton');
                 chatAdminButton.addEventListener('click', () => {
-                    showInfo(`Starting chat with ${admin.name}`);
+                    window.location.href = `/member/messages/${admin.id}`;
                 });
             }
 

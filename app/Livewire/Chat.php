@@ -3,7 +3,6 @@ namespace App\Livewire;
 
 use App\Events\MessageSent;
 use App\Models\ChatMessage;
-use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,10 +24,15 @@ class Chat extends Component
     public $unreadCounts = [];
 
     // user list
-    public function mount()
+    public function mount($userId = null)
     {
         $this->loginId  = Auth::id();
         $this->messages = collect();
+        $this->loadUsersWithChat();
+
+        if ($userId) {
+            $this->selectUser($userId);
+        }
     }
 
     // Load logged in user chat with last chat time
@@ -53,8 +57,7 @@ class Chat extends Component
 
         if ($this->searchFilter !== '') {
             $query->where(function ($q) {
-                $q->where('first_name', 'like', '%' . $this->searchFilter . '%')
-                    ->orWhere('last_name', 'like', '%' . $this->searchFilter . '%');
+                $q->where('name', 'like', '%' . $this->searchFilter . '%');
             });
         }
 
@@ -70,7 +73,13 @@ class Chat extends Component
                 ->latest('created_at')
                 ->first();
 
-            $user->lastMessageTime = $lastMessage ? $lastMessage->created_at : null;
+            $user->lastMessageTime = $lastMessage
+                ? \Carbon\Carbon::parse($lastMessage->created_at)
+                : ($user->lastMessageTime ?? null);
+
+            $user->lastMessagePreview = $lastMessage
+                ? $lastMessage->message
+                : ($user->lastMessagePreview ?? null);
         }
 
         $counts = DB::table('chat_messages')
@@ -84,17 +93,15 @@ class Chat extends Component
         $this->unreadCounts = $counts;
 
         $this->users = $this->users->sortByDesc(function ($user) {
-            return $user->lastMessageTime ?? now();
+            return $user->lastMessageTime ? $user->lastMessageTime->timestamp : 0;
         })->values();
     }
 
-    // // Toggle new chat modal
-    // public function toggleNewChat()
-    // {
-    //     $this->showNewChat   = ! $this->showNewChat;
-    //     $this->search        = '';
-    //     $this->searchResults = [];
-    // }
+    // Filter users
+    public function updatedSearchFilter()
+    {
+        $this->loadUsersWithChat();
+    }
 
     // Search users
     public function updatedSearch()
@@ -102,8 +109,7 @@ class Chat extends Component
         if (strlen($this->search) > 0) {
             $this->searchResults = User::where('id', '!=', Auth::id())
                 ->where(function ($query) {
-                    $query->where('first_name', 'like', "%{$this->search}%")
-                        ->orWhere('last_name', 'like', "%{$this->search}%");
+                    $query->where('name', 'like', "%{$this->search}%");
                 })
                 ->take(5)
                 ->get();
@@ -130,6 +136,10 @@ class Chat extends Component
     // Load messages
     public function loadMessages()
     {
+        if (! $this->selectedUser) {
+            $this->messages = collect();
+            return;
+        }
         $this->messages = ChatMessage::where(function ($query) {
             $query->where('sender_id', Auth::id())
                 ->where('receiver_id', $this->selectedUser->id)
@@ -142,6 +152,16 @@ class Chat extends Component
             })
             ->orderBy('created_at', 'asc')
             ->get();
+
+        // Mark all messages from selected user as read
+        DB::table('chat_messages')
+            ->where('sender_id', $this->selectedUser->id)
+            ->where('receiver_id', auth()->id())
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
+        // Reload unread counts
+        $this->loadUsersWithChat();
     }
 
     // Send message
@@ -163,24 +183,28 @@ class Chat extends Component
             'message'     => $this->newMessage,
         ]);
 
+        // Mark all messages from selected user as read (in case new ones arrived)
         DB::table('chat_messages')
             ->where('sender_id', $this->selectedUser->id)
             ->where('receiver_id', auth()->id())
             ->where('is_read', false)
             ->update(['is_read' => true]);
 
-        Notification::create([
-            'user_id' => $this->selectedUser->id,
-            'title'   => 'New Message',
-            'message' => 'You received a new message from ' . Auth::user()->first_name,
-            'type'    => 'Chat',
-            'is_read' => false,
-        ]);
+        // Notification::create([
+        //     'user_id' => $this->selectedUser->id,
+        //     'title'   => 'New Message',
+        //     'message' => 'You received a new message from ' . Auth::user()->first_name,
+        //     'type'    => 'Chat',
+        //     'is_read' => false,
+        // ]);
 
         $this->messages->push($chatMessage);
         $this->newMessage   = '';
         $this->errorMessage = null;
         broadcast(new MessageSent($chatMessage));
+
+        // Reload unread counts
+        $this->loadUsersWithChat();
     }
 
     // Get listeners for the Livewire component
@@ -194,13 +218,28 @@ class Chat extends Component
     // New chat message notification
     public function newChatMessageNotification($message)
     {
-        if (! $this->selectedUser || ! isset($message['sender_id'])) {
+        if (! isset($message['sender_id']) || ! isset($message['chat_id'])) {
             return;
         }
 
-        if ($message['sender_id'] === $this->selectedUser->id) {
-            $messageObject = ChatMessage::find($message['id']);
-            $this->messages->push($messageObject);
+        if ($this->selectedUser && $message['sender_id'] === $this->selectedUser->id) {
+            $messageObject = ChatMessage::find($message['chat_id']);
+            if ($messageObject) {
+                $this->messages->push($messageObject);
+            }
+
+            // Mark all messages from this user as read
+            DB::table('chat_messages')
+                ->where('sender_id', $this->selectedUser->id)
+                ->where('receiver_id', auth()->id())
+                ->where('is_read', false)
+                ->update(['is_read' => true]);
+
+            // Reload unread counts
+            $this->loadUsersWithChat();
+        } else {
+            // If not the selected user, just reload unread counts
+            $this->loadUsersWithChat();
         }
     }
 
@@ -217,11 +256,12 @@ class Chat extends Component
             return;
         }
 
-        $message->delete();
+        $message->deleted_by_sender_at = now();
+        $message->save();
 
         $this->messages = $this->messages->filter(function ($msg) use ($messageId) {
-            return $msg->id !== $messageId;
-        });
+            return $msg->chat_id !== $messageId;
+        })->values();
     }
 
     // Close chat
@@ -229,6 +269,8 @@ class Chat extends Component
     {
         $this->selectedUser = null;
         $this->messages     = collect();
+
+        $this->loadUsersWithChat();
     }
 
     // Delete chat from single user

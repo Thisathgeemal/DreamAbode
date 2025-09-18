@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-layout>
 
     <!-- Header -->
     <div class="w-full px-8 py-6 bg-[#161616] rounded-lg text-left mx-auto shadow-md mb-6">
@@ -486,7 +486,7 @@
                 // Chat Button
                 const chatButton = document.getElementById('chatButton');
                 chatButton.addEventListener('click', () => {
-                    showInfo(`Starting chat with ${agent.name}`);
+                    window.location.href = `/member/messages/${agent.id}`;
                 });
             }
 
@@ -512,7 +512,7 @@
                 // Chat Button
                 const chatAdminButton = document.getElementById('chatAdminButton');
                 chatAdminButton.addEventListener('click', () => {
-                    showInfo(`Starting chat with ${admin.name}`);
+                    window.location.href = `/member/messages/${admin.id}`;
                 });
             }
 
@@ -738,4 +738,4 @@
         </script>
     @endpush
 
-</x-admin-layout>
+</x-app-layout>
