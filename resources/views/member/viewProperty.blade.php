@@ -369,7 +369,7 @@
             function renderPropertyDetails(property) {
                 document.getElementById('propertyName').textContent = property.property_name || '';
                 document.getElementById('location').textContent = property.location || '';
-                document.getElementById('price').textContent = `RS ${property.price} M`;
+                document.getElementById('price').textContent = `RS ${formatPrice(property.price)}`;
                 document.getElementById('bedrooms').textContent = `${property.bedrooms} Bedrooms`;
                 document.getElementById('bathrooms').textContent = `${property.bathrooms} Bathrooms`;
                 document.getElementById('floors').textContent = `${property.floors} Floor(s)`;
@@ -709,6 +709,19 @@
                     showError("Payment failed: " + err.message);
                 }
             });
+
+            // Price formatting
+            function formatPrice(price) {
+                if (!price) return '0';
+                let value = Number(price);
+                if (value >= 1000000) {
+                    return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+                } else if (value >= 1000) {
+                    return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+                } else {
+                    return value.toString();
+                }
+            }
 
             // Show message
             function showSuccess(msg) {

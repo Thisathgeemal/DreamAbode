@@ -98,7 +98,7 @@
                 <!-- Card Type -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium">Card Type</label>
-                    <select id="cardType" required
+                    <select id="card_type" required
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                         <option value="">Select Card Type</option>
                         <option value="visa">Visa</option>
@@ -111,14 +111,14 @@
                 <!-- Name on Card -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium">Name on Card</label>
-                    <input type="text" id="cardName" required placeholder="Full Name"
+                    <input type="text" id="card_name" required placeholder="Full Name"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 </div>
 
                 <!-- Card Number -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium">Card Number</label>
-                    <input type="text" id="cardNumber" required maxlength="16" placeholder="1234 5678 9012 3456"
+                    <input type="text" id="card_number" required maxlength="16" placeholder="1234 5678 9012 3456"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 </div>
 
@@ -131,7 +131,7 @@
                     </div>
                     <div class="flex-1">
                         <label class="block text-sm font-medium">Expiry Date</label>
-                        <input type="month" id="expiryDate" required
+                        <input type="month" id="expiry_date" required
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
                 </div>
@@ -405,17 +405,29 @@
                 const form = e.target;
                 const typeId = form.type_id.value;
                 const amount = form.amount.value;
+                const card_type = form.card_type.value;
+                const card_name = form.card_name.value;
+                const card_number = form.card_number.value;
+                const cvv = form.cvv.value;
+                const expiry_date = form.expiry_date.value;
 
                 const headers = {
                     'Accept': 'application/json',
                     'Authorization': `Bearer ${token}`
                 };
 
+                const payload = {
+                    type_id: typeId,
+                    amount,
+                    card_type,
+                    card_name,
+                    card_number,
+                    cvv,
+                    expiry_date
+                };
+
                 try {
-                    const response = await axios.post('/api/subscription', {
-                        type_id: typeId,
-                        amount
-                    }, {
+                    const response = await axios.post('/api/subscription', payload, {
                         headers
                     });
                     closePaymentModal();
@@ -446,11 +458,11 @@
                         if (!action) return;
 
                         try {
-                            const response2 = await axios.post('/api/subscription', {
-                                type_id: typeId,
-                                amount,
+                            const retryPayload = {
+                                ...payload,
                                 action
-                            }, {
+                            };
+                            const response2 = await axios.post('/api/subscription', retryPayload, {
                                 headers
                             });
 
