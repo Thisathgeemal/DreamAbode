@@ -54,7 +54,7 @@
 
                     if (!properties || properties.length === 0) {
                         container.innerHTML = `
-                        <p class="flex justify-center items-center text-center text-green-500 text-lg mt-10">
+                        <p class="flex justify-center items-center text-center text-green-500 text-lg">
                             No approved properties found.
                         </p>`;
                         return;

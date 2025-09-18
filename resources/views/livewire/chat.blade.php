@@ -1,5 +1,4 @@
-<div class="w-full max-w-xs md:max-w-7xl p-8 bg-white rounded-lg my-4 text-center shadow-md mx-auto animate-fade-in"
-    x-data>
+<div class="w-full max-w-sm md:max-w-7xl p-8 bg-white rounded-lg text-center shadow-md animate-fade-in" x-data>
     <div class="flex h-[600px] border rounded-2xl shadow-sm overflow-hidden bg-white">
         <!-- Left Sidebar -->
         <div class="w-1/3 border-r border-gray-200 flex flex-col bg-gray-50">
@@ -143,7 +142,6 @@
                         </div>
                     </div>
 
-                    {{-- icons --}}
                     <div x-data="{ open: false }" class="relative inline-block text-left">
                         <button @click="open = !open" title="Chat Options"
                             class="hover:text-blue-600 focus:outline-none">
@@ -186,7 +184,7 @@
                             class="max-w-[80%] px-5 py-2 rounded-3xl {{ $message->sender_id === Auth::id() ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-200 text-gray-800 shadow-sm' }}">
                             {{ $message->message }}
 
-                            {{-- Time + Tick container --}}
+                            <!-- Time + Tick container -->
                             @if ($message->sender_id === Auth::id())
                                 <div class="flex justify-end items-center mt-1 space-x-1 text-xs">
                                     <span>{{ $message->created_at->format('H:i') }}</span>
@@ -203,7 +201,7 @@
                                     </svg>
                                 </div>
                             @else
-                                {{-- For received messages, just show time --}}
+                                <!-- For received messages, just show time -->
                                 <div class="text-xs mt-1 text-gray-400 text-left">
                                     {{ $message->created_at->format('H:i') }}
                                 </div>
@@ -224,6 +222,5 @@
                 </button>
             </form>
         </div>
-
     </div>
 </div>
