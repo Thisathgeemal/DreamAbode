@@ -2,12 +2,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\BuyerProjectMail;
+use App\Mail\ProjectOwnerMail;
 use App\Models\Image;
+use App\Models\Payment;
 use App\Models\ProjectAd;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectAdController extends Controller
@@ -91,6 +95,7 @@ class ProjectAdController extends Controller
                 'location'        => $validated['location'],
                 'price'           => $validated['price'],
                 'total_units'     => $validated['totalUnits'],
+                'available_units' => $validated['totalUnits'],
                 'bedrooms'        => $validated['bedrooms'] ?? null,
                 'bathrooms'       => $validated['bathrooms'] ?? null,
                 'parking_spaces'  => $validated['parkingSpaces'] ?? null,
@@ -317,5 +322,68 @@ class ProjectAdController extends Controller
     /**
      * Store payment record
      */
+    public function Payment(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|exists:project_ads,project_id',
+            'amount'     => 'required|numeric|min:1',
+        ]);
+
+        try {
+            $userId  = auth()->id();
+            $project = ProjectAd::findOrFail($request->project_id);
+
+            // Set title & description (only Buy flow, 2% down payment)
+            $title       = "Buy Project";
+            $description = "Buying project '{$project->project_name}' and 2% of total price paid as down payment.";
+
+            // Save payment
+            $payment = Payment::create([
+                'member_id'   => $userId,
+                'project_id'  => $project->project_id,
+                'amount'      => $request->amount,
+                'title'       => $title,
+                'description' => $description,
+            ]);
+
+            // Add buyer ID into array (avoid duplicates)
+            $buyers = $project->buyer_ids ?? [];
+            if (! in_array($userId, $buyers)) {
+                $buyers[]           = $userId;
+                $project->buyer_ids = $buyers;
+            }
+
+            // Reduce available units by 1 (only if > 0)
+            if ($project->available_units > 0) {
+                $project->available_units -= 1;
+            }
+
+            // Only set status to "complete" when all units are sold
+            if ($project->available_units <= 0) {
+                $project->status = 'complete';
+            }
+
+            $project->save();
+
+            $buyer  = User::findOrFail($userId);
+            $member = User::findOrFail($project->member_id);
+            $agent  = $project->agent_id ? User::findOrFail($project->agent_id) : null;
+
+            // Send email to Buyer (with Member details)
+            Mail::to($buyer->email)->send(new BuyerProjectMail($buyer, $member, $agent, $project));
+
+            // Send email to Member (with Buyer details)
+            Mail::to($member->email)->send(new ProjectOwnerMail($buyer, $member, $agent, $project));
+
+            return response()->json([
+                'success' => 'Payment successful and project status updated.',
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Payment failed: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
 
 }

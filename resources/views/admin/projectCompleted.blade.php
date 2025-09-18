@@ -2,15 +2,16 @@
 
     <!-- Header -->
     <div class="w-full px-8 py-6 bg-[#161616] rounded-lg text-left mx-auto shadow-md mb-6">
-        <h2 class="text-2xl text-white font-bold">Pending Project</h2>
-        <p class="text-sm text-gray-300 mt-1">Manage and review pending project listings.</p>
+        <h2 class="text-2xl text-white font-bold">Deal Completed Projects</h2>
+        <p class="text-sm text-gray-300 mt-1">Here you can view projects that have been successfully closed and marked as
+            completed.</p>
     </div>
 
     <!-- Main Card -->
     <div class="w-full p-8 bg-white rounded-lg text-left mx-auto shadow-md mb-6">
-        <div id="pending-project"
+        <div id="completed-projects"
             class="flex flex-wrap gap-8 justify-center p-6 md:h-[500px] overflow-y-auto custom-scrollbar">
-            <!-- Dynamic project cards will appear here -->
+            <!-- Project cards will be injected here dynamically -->
         </div>
     </div>
 
@@ -19,15 +20,17 @@
             const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
 
             document.addEventListener('DOMContentLoaded', () => {
-                fetchPendingProjects();
+                fetchCompletedProjects();
             });
 
-            async function fetchPendingProjects() {
-                const container = document.getElementById('pending-project');
+            // Fetch and show completed projects
+            async function fetchCompletedProjects() {
+                const container = document.getElementById('completed-projects');
                 container.innerHTML = `
                     <p class="flex justify-center items-center text-center text-gray-500 text-lg mt-10">
-                        Loading pending projects, please wait...
-                    </p>`;
+                        Loading completed projects, please wait...
+                    </p>
+                `;
 
                 try {
                     const response = await axios.get('/api/projectAd', {
@@ -36,13 +39,13 @@
                         }
                     });
 
-                    const projects = response.data.all_projects.pending;
+                    const projects = response.data.all_projects.completed;
                     container.innerHTML = '';
 
                     if (!projects || projects.length === 0) {
                         container.innerHTML = `
                             <p class="flex justify-center items-center text-center text-green-500 text-lg">
-                                No pending projects found.
+                                No completed projects found.
                             </p>`;
                         return;
                     }
@@ -52,7 +55,7 @@
                         card.className =
                             'bg-[#5CFFAB] rounded-2xl shadow-lg hover:shadow-xl overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer';
 
-                        // Image Section
+                        // Project Image Section
                         const imgSection = document.createElement('div');
                         imgSection.className = 'relative';
 
@@ -78,9 +81,10 @@
                             `<span class="font-semibold text-sm">${project.property_type || ''}</span>`;
                         imgSection.appendChild(badge);
 
-                        // Data Section
+                        // Project Data Section
                         const dataSection = document.createElement('div');
-                        dataSection.className = 'p-4 bg-[#5CFFAB] text-black text-center';
+                        dataSection.className =
+                            'p-4 bg-[#5CFFAB] text-black text-center flex-1 flex flex-col justify-between';
                         dataSection.innerHTML = `
                             <h2 class="text-xl font-bold m-1 truncate">${project.project_name}</h2>
                             <div class="flex justify-center items-center space-x-2 my-3">
@@ -99,24 +103,15 @@
                             </div>
                         `;
 
-                        // Action Buttons
-                        if (project.status === 'pending') {
+                        // View button for completed projects
+                        if (project.status === 'complete') {
                             const actions = document.createElement('div');
-                            actions.className = 'mt-4 flex justify-center gap-2';
+                            actions.className = 'mt-4 flex justify-center';
                             actions.innerHTML = `
                                 <a href="/admin/project/viewAd/${project.project_id}" 
-                                    class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">
+                                    class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 text-center inline-block">
                                     View
-                                </a>
-                                <button onclick="handleProjectAction('${project.project_id}', 'Accept')" 
-                                    class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">
-                                    Accept
-                                </button>
-                                <button onclick="handleProjectAction('${project.project_id}', 'Reject')" 
-                                    class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">
-                                    Reject
-                                </button>
-                            `;
+                                </a>`;
                             dataSection.appendChild(actions);
                         }
 
@@ -126,29 +121,11 @@
                     });
 
                 } catch (error) {
-                    console.error('Error fetching pending projects:', error);
-                    showError('Failed to fetch projects. Please try again.');
-                }
-            }
-
-            // Handle Accept/Reject action
-            async function handleProjectAction(projectId, action) {
-                try {
-                    const url = action === 'Accept' ?
-                        `/api/projectAd/accept/${projectId}` :
-                        `/api/projectAd/reject/${projectId}`;
-
-                    const response = await axios.put(url, {}, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-
-                    showSuccess(response.data.success);
-                    fetchPendingProjects();
-                } catch (error) {
-                    console.error(error);
-                    showError(error.response?.data?.error || 'Action failed.');
+                    console.error('Error fetching completed projects:', error);
+                    container.innerHTML = `
+                        <p class="flex justify-center items-center text-center text-red-500 text-lg mt-10">
+                            Failed to fetch projects. Please try again.
+                        </p>`;
                 }
             }
 
@@ -161,32 +138,9 @@
             function formatPrice(price) {
                 if (!price) return '0';
                 let value = Number(price);
-                if (value >= 1000000) {
-                    return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-                } else if (value >= 1000) {
-                    return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-                } else {
-                    return value.toString();
-                }
-            }
-
-            // Show messages
-            function showSuccess(msg) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: msg,
-                    confirmButtonColor: '#28a745'
-                });
-            }
-
-            function showError(msg) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: msg,
-                    confirmButtonColor: '#dc3545'
-                });
+                if (value >= 1000000) return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+                if (value >= 1000) return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+                return value.toString();
             }
         </script>
     @endpush

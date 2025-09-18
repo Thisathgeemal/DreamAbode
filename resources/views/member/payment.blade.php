@@ -111,7 +111,7 @@
                     <tr class="hover:bg-gray-100 transition duration-200">
                         <td class="py-3 px-4 border-b">${(currentPaymentPage - 1) * 5 + (index + 1)}</td>
                         <td class="py-3 px-4 border-b">${payment.title}</td>
-                        <td class="py-3 px-4 border-b">${payment.amount}</td>
+                        <td class="py-3 px-4 border-b">${formatPrice(payment.amount)}</td>
                         <td class="py-3 px-4 border-b max-w-[250px]">${payment.description}</td>
                         <td class="py-3 px-4 border-b">${formatDateTime(payment.created_at)}</td>
                     </tr>
@@ -186,6 +186,19 @@
                 const minutes = String(date.getMinutes()).padStart(2, '0');
 
                 return `${year}-${month}-${day} | ${hours}.${minutes}`;
+            }
+
+            // Convert number to readable format in millions
+            function formatPrice(price) {
+                if (!price) return '0';
+                let value = Number(price);
+                if (value >= 1000000) {
+                    return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+                } else if (value >= 1000) {
+                    return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+                } else {
+                    return value.toString();
+                }
             }
 
             // Show message

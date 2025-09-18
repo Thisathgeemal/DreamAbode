@@ -232,6 +232,36 @@
                 });
             });
 
+            // Image uploader (limit 6 images, show preview, match postProject logic)
+            function handleImageUpload(event) {
+                const files = event.target.files;
+                const previewContainer = document.getElementById('imagePreviewContainer');
+                const placeholderText = document.getElementById('placeholderText');
+
+                previewContainer.innerHTML = '';
+
+                if (files.length > 6) {
+                    showInfo('You can upload up to 6 images only.');
+                    event.target.value = '';
+                    if (placeholderText) placeholderText.style.display = "block";
+                    return;
+                }
+
+                if (placeholderText) placeholderText.style.display = "none";
+
+                for (let i = 0; i < files.length; i++) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = "Preview";
+                        img.classList.add('w-32', 'h-32', 'object-cover', 'rounded-lg', 'border', 'shadow');
+                        previewContainer.appendChild(img);
+                    };
+                    reader.readAsDataURL(files[i]);
+                }
+            }
+
             // Update project
             document.getElementById('editProjectForm').addEventListener('submit', async function(e) {
                 e.preventDefault();

@@ -47,4 +47,8 @@
             </a>
         </div>
     </section>
+
+    <!-- project listings -->
+    @livewire('project-card')
+
 </x-guest-layout>

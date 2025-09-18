@@ -108,8 +108,8 @@
                                         <span class="text-sm font-medium">RS ${formatPrice(project.price)} </span>
                                     </div>
                                     <div class="flex items-center space-x-2">
-                                        <img src="/images/Floor.png" alt="Total Units" class="h-5 w-5">
-                                        <span class="text-sm font-medium">${project.total_units} Units</span>
+                                        <img src="/images/Status.png" alt="Total Units" class="h-6 w-6">
+                                        <span class="text-sm font-medium">${capitalizeFirstLetter(project.project_status)}</span>
                                     </div>
                                 </div>
                             `;
@@ -185,6 +185,11 @@
                 } else {
                     return value.toString();
                 }
+            }
+
+            function capitalizeFirstLetter(str) {
+                if (!str) return '';
+                return str.charAt(0).toUpperCase() + str.slice(1);
             }
 
             // Show messages
