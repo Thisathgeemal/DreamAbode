@@ -22,13 +22,16 @@ class Chat extends Component
     protected $listeners  = ['deleteMessage'];
     public $errorMessage;
     public $unreadCounts = [];
+    public $isAdminRoute;
 
     // user list
-    public function mount($userId = null)
+    public function mount($userId = null, $isAdminRoute = false)
     {
         $this->loginId  = Auth::id();
         $this->messages = collect();
         $this->loadUsersWithChat();
+
+        $this->isAdminRoute = $isAdminRoute;
 
         if ($userId) {
             $this->selectUser($userId);
@@ -95,6 +98,14 @@ class Chat extends Component
         $this->users = $this->users->sortByDesc(function ($user) {
             return $user->lastMessageTime ? $user->lastMessageTime->timestamp : 0;
         })->values();
+    }
+
+    // Toggle new chat modal
+    public function toggleNewChat()
+    {
+        $this->showNewChat   = ! $this->showNewChat;
+        $this->search        = '';
+        $this->searchResults = [];
     }
 
     // Filter users

@@ -170,7 +170,7 @@
 
     <!-- Modal -->
     <div id="propertyPaymentModal" role="dialog" aria-modal="true"
-        class="fixed inset-0 backdrop-blur-sm bg-white/20 hidden z-50 flex items-center justify-center">
+        class="fixed inset-0 backdrop-blur-sm bg-white/20 hidden z-50 items-center justify-center">
         <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
             <!-- Steps -->
             <div class="flex items-center mb-4 mt-1">
@@ -565,6 +565,7 @@
             // Open modal for Buy or Rent
             function openPropertyModal(type) {
                 document.getElementById('propertyPaymentModal').classList.remove('hidden');
+                document.getElementById('propertyPaymentModal').classList.add('flex');
 
                 const modalTitle = document.getElementById('modalTitle');
                 const modalDesc = document.getElementById('modalDescription');
@@ -605,6 +606,7 @@
             // Close modal
             function closePropertyModal() {
                 document.getElementById('propertyPaymentModal').classList.add('hidden');
+                document.getElementById('propertyPaymentModal').classList.remove('flex');
                 document.getElementById('property-info-section').classList.remove('hidden');
                 document.getElementById('property-payment-section').classList.add('hidden');
                 document.getElementById('agreeTerms').checked = false;
