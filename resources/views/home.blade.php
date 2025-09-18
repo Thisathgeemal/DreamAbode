@@ -31,7 +31,7 @@
                                 <img src="./images/ReviewButton.png" alt="Review"
                                     class="w-full h-full object-contain">
                             </div>
-                            <span class="absolute top-[23%] left-[35%] text-[0.9vw] text-black font-medium">Post Your
+                            <span class="absolute top-[24%] left-[35%] text-[0.9vw] text-black font-medium">Post Your
                                 Ad</span>
                         </div>
                     </a>

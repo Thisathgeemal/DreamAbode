@@ -44,7 +44,7 @@
 
                     if (!properties || properties.length === 0) {
                         container.innerHTML = `
-                        <p class="flex justify-center items-center text-center text-green-500 text-lg mt-10">
+                        <p class="flex justify-center items-center text-center text-green-500 text-lg">
                             No completed properties found.
                         </p>`;
                         return;
@@ -95,7 +95,7 @@
                             <div class="flex justify-center items-center mt-2 space-x-8">
                                 <div class="flex items-center space-x-2">
                                     <img src="/images/money.png" alt="Price" class="h-6 w-6">
-                                    <span class="text-sm font-medium">RS ${prop.price} </span>
+                                    <span class="text-sm font-medium">RS ${formatPrice(prop.price)} </span>
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <img src="/images/Bedrooms.png" alt="Bedrooms" class="h-5 w-5">
@@ -124,6 +124,19 @@
                 } catch (error) {
                     console.error('Error fetching completed properties:', error);
                     showError('Failed to fetch properties. Please try again.');
+                }
+            }
+
+            // Price formatting
+            function formatPrice(price) {
+                if (!price) return '0';
+                let value = Number(price);
+                if (value >= 1000000) {
+                    return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+                } else if (value >= 1000) {
+                    return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+                } else {
+                    return value.toString();
                 }
             }
         </script>

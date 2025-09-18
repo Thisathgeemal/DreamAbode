@@ -55,6 +55,11 @@ class PropertyAd extends Model
         return $this->belongsTo(User::class, 'member_id', 'id');
     }
 
+    public function buyers()
+    {
+        return $this->belongsTo(User::class, 'buyer_id', 'id');
+    }
+
     public function images()
     {
         return $this->hasMany(Image::class, 'property_id', 'property_id');

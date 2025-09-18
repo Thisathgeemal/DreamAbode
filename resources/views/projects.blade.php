@@ -25,7 +25,7 @@
             </div>
 
             <!-- Mobile: Only small floating button -->
-            <a href="./postProject"
+            <a href="{{ route('member.project.postAd') }}"
                 class="absolute bottom-[-35px] right-4 md:hidden flex items-center justify-center z-50">
                 <div
                     class="w-12 h-12 bg-[#5CFFAB] border border-black rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:scale-105 cursor-pointer">
@@ -34,15 +34,15 @@
             </a>
 
             <!-- Desktop: Full button -->
-            <a href="./postProject"
-                class="hidden md:flex absolute md:bottom-[-1%] md:right-[18%] w-[16%] h-[7.5%] items-center justify-end z-50">
+            <a href="{{ route('member.project.postAd') }}"
+                class="hidden md:flex absolute md:bottom-[-5%] md:right-[18%] w-[16%] h-[7.5%] items-center justify-end z-50">
                 <div
                     class="w-full h-full bg-[#5CFFAB] border border-black rounded-full transition duration-300 ease-in-out hover:scale-105 cursor-pointer relative flex items-center">
                     <div
                         class="absolute top-[5%] left-[3.25%] w-[26.5%] h-[90%] bg-white rounded-full flex items-center justify-center">
                         <img src="./images/ReviewButton.png" alt="Review" class="w-full h-full object-contain">
                     </div>
-                    <span class="absolute top-[23%] left-[35%] text-[0.9vw] text-black font-medium">Post Your Ad</span>
+                    <span class="absolute top-[24%] left-[35%] text-[0.9vw] text-black font-medium">Post Your Ad</span>
                 </div>
             </a>
         </div>

@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
 
             User::create([
                 'name'               => 'Sankalpa Withanaarachchi',
-                'email'              => 'withanaarachchisankalpa16@gmail.com',
+                'email'              => 'withanaarachchisankalpa@gmail.com',
                 'password'           => '123456789',
                 'mobile_number'      => '0701733646',
                 'address'            => 'No 1, Admin Street, Colombo',
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
 
             User::create([
                 'name'               => 'Nikila Nirmal',
-                'email'              => 'nikilanirmal16@gmail.com',
+                'email'              => 'nikilanirmal@gmail.com',
                 'password'           => '123456789',
                 'mobile_number'      => '0701733646',
                 'address'            => 'No 1, Admin Street, Colombo',

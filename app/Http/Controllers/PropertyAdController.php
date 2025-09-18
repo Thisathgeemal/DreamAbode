@@ -128,7 +128,6 @@ class PropertyAdController extends Controller
             return response()->json([
                 'error' => 'Failed to create property ad: ' . $e->getMessage(),
             ], 500);
-            dd(Auth::id());
         }
     }
 

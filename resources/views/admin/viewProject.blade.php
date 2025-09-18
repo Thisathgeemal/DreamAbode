@@ -4,12 +4,12 @@
     <div class="w-full px-8 py-6 bg-[#161616] rounded-lg text-left mx-auto shadow-md mb-6">
         <div class="flex justify-between items-center">
             <div>
-                <h2 class="text-2xl text-white font-bold">View Property Information</h2>
-                <p class="text-sm text-gray-300 mt-1">Here you can view detailed information about the selected property.
+                <h2 class="text-2xl text-white font-bold">View Project Information</h2>
+                <p class="text-sm text-gray-300 mt-1">Here you can view detailed information about the selected project.
                 </p>
             </div>
 
-            <a href="{{ url()->previous() ?? route('admin.property.accepted') }}"
+            <a href="{{ url()->previous() ?? route('admin.project.accepted') }}"
                 class="flex items-center gap-2 px-5 py-2.5 bg-[#5CFFAB] text-black rounded-xl font-medium shadow-md 
                 hover:bg-[#35db88] hover:shadow-lg transition-all duration-200 ease-in-out">
                 <i class="fas fa-arrow-left inline sm:hidden"></i>
@@ -18,9 +18,9 @@
         </div>
     </div>
 
-    <div id="propertyContainer" data-id="{{ $propertyId }}"></div>
+    <div id="projectContainer" data-id="{{ $projectId }}"></div>
 
-    <!-- Gallery Images -->
+    {{-- <!-- Gallery Images -->
     <div class="w-full p-8 bg-white rounded-lg shadow-md mb-6 flex flex-col items-center justify-center">
         <!-- Main Preview Image -->
         <div class="w-full max-w-3xl grid grid-cols-2 gap-6">
@@ -291,7 +291,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     @push('scripts')
         <script>
@@ -369,7 +369,7 @@
             function renderPropertyDetails(property) {
                 document.getElementById('propertyName').textContent = property.property_name || '';
                 document.getElementById('location').textContent = property.location || '';
-                document.getElementById('price').textContent = `RS ${formatPrice(property.price)}`;
+                document.getElementById('price').textContent = `RS ${property.price} M`;
                 document.getElementById('bedrooms').textContent = `${property.bedrooms} Bedrooms`;
                 document.getElementById('bathrooms').textContent = `${property.bathrooms} Bathrooms`;
                 document.getElementById('floors').textContent = `${property.floors} Floor(s)`;
@@ -486,7 +486,7 @@
                 // Chat Button
                 const chatButton = document.getElementById('chatButton');
                 chatButton.addEventListener('click', () => {
-                    window.location.href = `/admin/messages/${agent.id}`;
+                    window.location.href = `/member/messages/${agent.id}`;
                 });
             }
 
@@ -512,7 +512,7 @@
                 // Chat Button
                 const chatAdminButton = document.getElementById('chatAdminButton');
                 chatAdminButton.addEventListener('click', () => {
-                    window.location.href = `/admin/messages/${admin.id}`;
+                    window.location.href = `/member/messages/${admin.id}`;
                 });
             }
 
@@ -583,7 +583,7 @@
                         `The initial down payment of 2% is <strong>non-refundable</strong> once the transaction is confirmed.`;
 
                     const downPayment = (currentProperty.price * 0.02).toFixed(2);
-                    paymentAmountField.value = `${formatPrice(downPayment)}`;
+                    paymentAmountField.value = `${downPayment} M`;
                     numericAmountField.value = downPayment;
 
                 } else {
@@ -596,7 +596,7 @@
                         `The first month’s payment is <strong>non-refundable</strong> once the transaction is confirmed.`;
 
                     const firstMonth = (currentProperty.price / 12).toFixed(2);
-                    paymentAmountField.value = `${formatPrice(firstMonth)}`;
+                    paymentAmountField.value = `${firstMonth} M`;
                     numericAmountField.value = firstMonth;
                 }
 
@@ -709,20 +709,6 @@
                     showError("Payment failed: " + err.message);
                 }
             });
-
-            // Price formatting
-            function formatPrice(price) {
-                if (!price) return '0';
-                let value = Number(price);
-                if (value >= 1000000) {
-                    return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-                } else if (value >= 1000) {
-                    return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-                } else {
-                    return value.toString();
-                }
-            }
-
 
             // Show message
             function showSuccess(msg) {

@@ -49,7 +49,7 @@
                         class="absolute top-[5%] left-[3.25%] w-[26.5%] h-[90%] bg-white rounded-full flex items-center justify-center">
                         <img src="./images/ReviewButton.png" alt="Review" class="w-full h-full object-contain">
                     </div>
-                    <span class="absolute top-[23%] left-[35%] text-[0.9vw] text-black font-medium">Add review</span>
+                    <span class="absolute top-[24%] left-[35%] text-[0.9vw] text-black font-medium">Add review</span>
                 </div>
             </a>
         </div>

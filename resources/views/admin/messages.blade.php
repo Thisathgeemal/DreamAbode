@@ -19,5 +19,4 @@
     <!-- Chat List -->
     <livewire:chat :userId="$userId ?? null" :isAdminRoute="Request::is('admin/messages')" />
 
-
 </x-admin-layout>

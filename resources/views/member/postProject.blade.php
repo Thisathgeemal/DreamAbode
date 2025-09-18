@@ -2,17 +2,17 @@
 
     <!-- Header -->
     <div class="w-full px-8 py-6 bg-[#161616] rounded-lg text-left mx-auto shadow-md mb-6">
-        <h2 class="text-2xl text-white font-bold">Post Your Property Ad</h2>
-        <p class="text-sm text-gray-300 mt-1">Easily publish and manage your property listings.</p>
+        <h2 class="text-2xl text-white font-bold">Post Your Project Ad</h2>
+        <p class="text-sm text-gray-300 mt-1">Easily publish and manage your project listings.</p>
     </div>
 
     <!-- Main Card -->
     <div class="w-full p-8 bg-white rounded-lg text-left mx-auto shadow-md mb-6">
-        <form id="postAdForm" class="space-y-8" enctype="multipart/form-data">
+        <form id="postProjectForm" class="space-y-8" enctype="multipart/form-data">
 
             <!-- Image Upload Section -->
             <div>
-                <label class="block text-lg font-medium text-gray-700 mb-3 text-center">Property Images</label>
+                <label class="block text-lg font-medium text-gray-700 mb-3 text-center">Project Images</label>
                 <div id="imagePreviewContainer"
                     class="grid grid-cols-3 gap-4 justify-items-center max-w-3xl mx-auto bg-gray-100 p-6 rounded-xl border border-dashed border-gray-400">
                     <span id="placeholderText" class="col-span-3 text-gray-500 text-sm py-6">Upload up to 6
@@ -36,10 +36,10 @@
 
                 <!-- Left Column -->
                 <div class="space-y-5">
-                    <!-- Property Name -->
+                    <!-- Project Name -->
                     <div>
-                        <label for="propertyName" class="block text-sm font-medium text-gray-700">Property Name</label>
-                        <input type="text" id="propertyName" name="propertyName" placeholder="Enter property name"
+                        <label for="projectName" class="block text-sm font-medium text-gray-700">Project Name</label>
+                        <input type="text" id="projectName" name="projectName" placeholder="Enter project name"
                             class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                             required>
                     </div>
@@ -47,37 +47,48 @@
                     <!-- Price -->
                     <div>
                         <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
-                        <input type="number" id="price" name="price" step="0.01" placeholder="E.g. 19800000"
+                        <input type="number" id="price" name="price" step="0.01" placeholder="E.g. 50000000"
                             class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                             required>
                     </div>
 
-                    <!-- Post Type -->
+                    <!-- Total Units -->
                     <div>
-                        <label for="postType" class="block text-sm font-medium text-gray-700">Post Type</label>
-                        <select id="postType" name="postType"
-                            class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black focus:outline-none focus:ring-green-500 focus:border-green-500 text-sm"
+                        <label for="totalUnits" class="block text-sm font-medium text-gray-700">Total Units</label>
+                        <input type="number" id="totalUnits" name="totalUnits" placeholder="Enter total units"
+                            class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                             required>
-                            <option value="">Select type</option>
-                            <option value="Sale">Sale</option>
-                            <option value="Rent">Rental</option>
-                        </select>
-                    </div>
-
-                    <!-- Bathroom Count -->
-                    <div id="bathroomFields" style="display: none;">
-                        <label for="bathroomCount" class="block text-sm font-medium text-gray-700">Bathroom
-                            Count</label>
-                        <input type="number" id="bathroomCount" name="bathroomCount"
-                            placeholder="Enter number of bathrooms"
-                            class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
 
                     <!-- Measurement -->
-                    <div id="measurementFields" style="display: none;">
-                        <label for="measurement" class="block text-sm font-medium text-gray-700">Measurement</label>
-                        <input type="number" id="measurement" name="measurement" placeholder="E.g. 2000 sqft"
-                            class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                    <div>
+                        <label for="measurement" class="block text-sm font-medium text-gray-700">Measurement of a Unit
+                            (sqft)</label>
+                        <input type="number" id="measurement" name="measurement" placeholder="E.g. 2000"
+                            class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                            required>
+                    </div>
+
+                    <!-- Project Status -->
+                    <div>
+                        <label for="projectStatus" class="block text-sm font-medium text-gray-700">Project
+                            Status</label>
+                        <select id="projectStatus" name="projectStatus" onchange="toggleCompletionDate()"
+                            class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black focus:outline-none focus:ring-green-500 focus:border-green-500 text-sm"
+                            required>
+                            <option value="">Select status</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="ongoing">Ongoing</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+
+                    <!-- Completion Date -->
+                    <div id="completionDateField" style="display: none;">
+                        <label for="completionDate" class="block text-sm font-medium text-gray-700">Expected Completion
+                            Date</label>
+                        <input type="date" id="completionDate" name="completionDate"
+                            class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
                 </div>
 
@@ -94,42 +105,40 @@
                     <!-- Property Type -->
                     <div>
                         <label for="propertyType" class="block text-sm font-medium text-gray-700">Property Type</label>
-                        <select id="propertyType" name="propertyType" onchange="toggleFields()"
+                        <select id="propertyType" name="propertyType" onchange="toggleApartmentFields()"
                             class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black focus:outline-none focus:ring-green-500 focus:border-green-500 text-sm"
                             required>
                             <option value="">Select type</option>
-                            <option value="House">House</option>
-                            <option value="Apartment">Apartment</option>
-                            <option value="Commercial">Commercial</option>
-                            <option value="Villa">Villa</option>
-                            <option value="Bungalow">Bungalow</option>
-                            <option value="Land">Land</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="commercial">Commercial</option>
                         </select>
                     </div>
 
-                    <!-- Bedroom Count -->
-                    <div id="bedroomFields" style="display: none;">
-                        <label for="bedroomCount" class="block text-sm font-medium text-gray-700">Bedroom Count</label>
-                        <input type="number" id="bedroomCount" name="bedroomCount"
-                            placeholder="Enter number of bedrooms"
+                    <!-- Bedrooms -->
+                    <div id="bedroomsField" style="display: none;">
+                        <label for="bedrooms" class="block text-sm font-medium text-gray-700">Bedrooms</label>
+                        <input type="number" id="bedrooms" name="bedrooms" placeholder="Enter number of bedrooms"
                             class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
 
-                    <!-- Floor Count -->
-                    <div id="floorsFields" style="display: none;">
-                        <label for="floorCount" class="block text-sm font-medium text-gray-700">Number of
-                            Floors</label>
-                        <input type="number" id="floorCount" name="floorCount" placeholder="Enter number of floors"
+                    <!-- Bathrooms -->
+                    <div id="bathroomsField" style="display: none;">
+                        <label for="bathrooms" class="block text-sm font-medium text-gray-700">Bathrooms</label>
+                        <input type="number" id="bathrooms" name="bathrooms"
+                            placeholder="Enter number of bathrooms"
                             class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
 
-                    <!-- Perches -->
-                    <div id="perchesFields" style="display: none;">
-                        <label for="perches" class="block text-sm font-medium text-gray-700">Perches</label>
-                        <input type="number" id="perches" name="perches" placeholder="Enter number of perches"
+                    <!-- Parking Spaces -->
+                    <div>
+                        <label for="parkingSpaces" class="block text-sm font-medium text-gray-700">Parking
+                            Spaces</label>
+                        <input type="number" id="parkingSpaces" name="parkingSpaces"
+                            placeholder="Enter parking spaces"
                             class="mt-2 block w-full bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-3 text-black placeholder-gray-500 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
                 </div>
+
             </div>
 
             <!-- Action Buttons -->
@@ -140,7 +149,7 @@
                     <span>Post</span>
                 </button>
 
-                <a href="{{ url()->previous() ?? route('member.property.pending') }}"
+                <a href="{{ url()->previous() ?? route('member.project.pending') }}"
                     class="flex items-center justify-center gap-2 px-6 py-2.5 bg-red-500 text-white font-medium rounded-lg shadow-md hover:bg-red-600 transition-all w-[120px]">
                     <i class="fas fa-times"></i>
                     <span>Discard</span>
@@ -153,7 +162,7 @@
         <script>
             const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
 
-            // Image uploder
+            // Image uploader
             function handleImageUpload(event) {
                 const files = event.target.files;
                 const previewContainer = document.getElementById('imagePreviewContainer');
@@ -170,7 +179,6 @@
 
                 placeholderText.style.display = "none";
 
-                // Loop and show previews
                 for (let i = 0; i < files.length; i++) {
                     const reader = new FileReader();
 
@@ -178,13 +186,7 @@
                         const img = document.createElement('img');
                         img.src = e.target.result;
                         img.alt = "Preview";
-                        img.classList.add(
-                            'w-32', 'h-32',
-                            'object-cover',
-                            'rounded-lg',
-                            'border',
-                            'shadow'
-                        );
+                        img.classList.add('w-32', 'h-32', 'object-cover', 'rounded-lg', 'border', 'shadow');
                         previewContainer.appendChild(img);
                     };
 
@@ -192,44 +194,35 @@
                 }
             }
 
-            // Input field visibility
-            function toggleFields() {
+            // Show bedrooms and bathrooms only if property_type is apartment
+            function toggleApartmentFields() {
                 const type = document.getElementById("propertyType").value;
-                const showCommon = ["House", "Villa", "Bungalow"];
-                const bedroom = document.getElementById("bedroomFields");
-                const bathroom = document.getElementById("bathroomFields");
-                const floors = document.getElementById("floorsFields");
-                const measurement = document.getElementById("measurementFields");
-                const perches = document.getElementById("perchesFields");
+                const bedroomsField = document.getElementById("bedroomsField");
+                const bathroomsField = document.getElementById("bathroomsField");
 
-                // Reset visibility
-                bedroom.style.display = "none";
-                bathroom.style.display = "none";
-                floors.style.display = "none";
-                measurement.style.display = "none";
-                perches.style.display = "none";
+                if (type === "apartment") {
+                    bedroomsField.style.display = "block";
+                    bathroomsField.style.display = "block";
+                } else {
+                    bedroomsField.style.display = "none";
+                    bathroomsField.style.display = "none";
+                }
+            }
 
-                if (showCommon.includes(type)) {
-                    bedroom.style.display = "block";
-                    bathroom.style.display = "block";
-                    floors.style.display = "block";
-                    measurement.style.display = "block";
-                    perches.style.display = "block";
-                } else if (type === "Commercial") {
-                    measurement.style.display = "block";
-                    floors.style.display = "block";
-                } else if (type === "Apartment") {
-                    bedroom.style.display = "block";
-                    bathroom.style.display = "block";
-                    measurement.style.display = "block";
-                    floors.style.display = "block";
-                } else if (type === "Land") {
-                    perches.style.display = "block";
+            // Show completion date if status is upcoming or ongoing
+            function toggleCompletionDate() {
+                const status = document.getElementById("projectStatus").value;
+                const completionDateField = document.getElementById("completionDateField");
+
+                if (status === "upcoming" || status === "ongoing") {
+                    completionDateField.style.display = "block";
+                } else {
+                    completionDateField.style.display = "none";
                 }
             }
 
             // Create a post
-            document.getElementById('postAdForm').addEventListener('submit', async function(e) {
+            document.getElementById('postProjectForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
 
                 const form = e.target;
@@ -242,7 +235,7 @@
                 }
 
                 try {
-                    const response = await axios.post(`/api/propertyAd`, formData, {
+                    const response = await axios.post(`/api/projectAd`, formData, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'multipart/form-data',
@@ -262,14 +255,13 @@
                     } else {
                         showError(response.data.error || 'Something went wrong.');
                     }
+
                 } catch (error) {
-                    console.error('Axios error:', error);
                     const msg = error.response?.data?.error || 'Something went wrong.';
                     showError(msg);
                 }
             });
 
-            // Show message
             function showSuccess(msg) {
                 Swal.fire({
                     icon: 'success',

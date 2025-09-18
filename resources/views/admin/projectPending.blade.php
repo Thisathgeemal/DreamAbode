@@ -2,15 +2,15 @@
 
     <!-- Header -->
     <div class="w-full px-8 py-6 bg-[#161616] rounded-lg text-left mx-auto shadow-md mb-6">
-        <h2 class="text-2xl text-white font-bold">Pending Property</h2>
-        <p class="text-sm text-gray-300 mt-1">Manage and review pending property listings.</p>
+        <h2 class="text-2xl text-white font-bold">Pending Project</h2>
+        <p class="text-sm text-gray-300 mt-1">Manage and review pending project listings.</p>
     </div>
 
     <!-- Main Card -->
     <div class="w-full p-8 bg-white rounded-lg text-left mx-auto shadow-md mb-6">
-        <div id="pending-property"
+        <div id="pending-project"
             class="flex flex-wrap gap-8 justify-center p-6 md:h-[500px] overflow-y-auto custom-scrollbar">
-            <!-- Dynamic property cards will appear here -->
+            <!-- Dynamic project cards will appear here -->
         </div>
     </div>
 
@@ -19,36 +19,35 @@
             const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
 
             document.addEventListener('DOMContentLoaded', () => {
-                fetchPendingProperties();
+                fetchPendingProjects();
             });
 
-            async function fetchPendingProperties() {
-                const container = document.getElementById('pending-property');
-                // Show loading message while data is being fetched
+            async function fetchPendingProjects() {
+                const container = document.getElementById('pending-project');
                 container.innerHTML = `
-                <p class="flex justify-center items-center text-center text-gray-500 text-lg mt-10">
-                    Loading pending properties, please wait...
-                </p>`;
+                    <p class="flex justify-center items-center text-center text-gray-500 text-lg mt-10">
+                        Loading pending projects, please wait...
+                    </p>`;
 
                 try {
-                    const response = await axios.get('/api/propertyAd', {
+                    const response = await axios.get('/api/projectAd', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
                     });
 
-                    const properties = response.data.all_properties.pending;
+                    const projects = response.data.all_projects.pending;
                     container.innerHTML = '';
 
-                    if (!properties || properties.length === 0) {
+                    if (!projects || projects.length === 0) {
                         container.innerHTML = `
-                        <p class="flex justify-center items-center text-center text-green-500 text-lg">
-                            No pending properties found.
-                        </p>`;
+                            <p class="flex justify-center items-center text-center text-green-500 text-lg">
+                                No pending projects found.
+                            </p>`;
                         return;
                     }
 
-                    properties.forEach(prop => {
+                    projects.forEach(project => {
                         const card = document.createElement('div');
                         card.className =
                             'bg-[#5CFFAB] rounded-2xl shadow-lg hover:shadow-xl overflow-hidden w-[320px] transform transition duration-300 ease-in-out hover:scale-105 cursor-pointer';
@@ -57,11 +56,10 @@
                         const imgSection = document.createElement('div');
                         imgSection.className = 'relative';
 
-                        // Show only first image if exists
-                        if (prop.images && prop.images.length > 0) {
+                        if (project.images && project.images.length > 0) {
                             const img = document.createElement('img');
-                            img.src = `/storage/${prop.images[0].image_path}`;
-                            img.alt = 'Property Image';
+                            img.src = `/storage/${project.images[0].image_path}`;
+                            img.alt = 'Project Image';
                             img.className = 'w-full h-60 object-cover block';
                             imgSection.appendChild(img);
                         } else {
@@ -72,45 +70,52 @@
                             imgSection.appendChild(placeholder);
                         }
 
-                        // Post Type Badge
+                        // Property Type Badge
                         const badge = document.createElement('div');
                         badge.className =
                             'absolute top-3 right-3 bg-white rounded-lg p-2 shadow transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200 cursor-pointer';
-                        badge.innerHTML = `<span class="font-semibold text-sm">${prop.post_type || ''}</span>`;
+                        badge.innerHTML =
+                            `<span class="font-semibold text-sm">${project.property_type || ''}</span>`;
                         imgSection.appendChild(badge);
 
                         // Data Section
                         const dataSection = document.createElement('div');
                         dataSection.className = 'p-4 bg-[#5CFFAB] text-black text-center';
                         dataSection.innerHTML = `
-                            <h2 class="text-xl font-bold m-1 truncate">${prop.property_name}</h2>
+                            <h2 class="text-xl font-bold m-1 truncate">${project.project_name}</h2>
                             <div class="flex justify-center items-center space-x-2 my-3">
                                 <img src="/images/Location.png" alt="Location" class="h-6 w-5">
-                                <span class="text-sm font-medium truncate">${prop.location}</span>
+                                <span class="text-sm font-medium truncate">${project.location}</span>
                             </div>
                             <div class="flex justify-center items-center mt-2 space-x-8">
                                 <div class="flex items-center space-x-2">
                                     <img src="/images/money.png" alt="Price" class="h-6 w-6">
-                                    <span class="text-sm font-medium">RS ${formatPrice(prop.price)} </span>
+                                    <span class="text-sm font-medium">RS ${formatPrice(project.price)}</span>
                                 </div>
                                 <div class="flex items-center space-x-2">
-                                    <img src="/images/Bedrooms.png" alt="Bedrooms" class="h-5 w-5">
-                                    <span class="text-sm font-medium">${prop.bedrooms} Rooms</span>
+                                    <img src="/images/Floor.png" alt="Total Units" class="h-5 w-5">
+                                    <span class="text-sm font-medium">${project.total_units} Units</span>
                                 </div>
                             </div>
                         `;
 
                         // Action Buttons
-                        if (prop.status === 'pending') {
+                        if (project.status === 'pending') {
                             const actions = document.createElement('div');
                             actions.className = 'mt-4 flex justify-center gap-2';
                             actions.innerHTML = `
-                                <a href="/admin/property/viewAd/${prop.property_id}" 
+                                <a href="/admin/project/viewAd/${project.project_id}" 
                                     class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">
                                     View
                                 </a>
-                                <button onclick="handlePropertyAction('${prop.property_id}', 'Accept')" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">Accept</button>
-                                <button onclick="handlePropertyAction('${prop.property_id}', 'Reject')" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">Reject</button>
+                                <button onclick="handleProjectAction('${project.project_id}', 'Accept')" 
+                                    class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">
+                                    Accept
+                                </button>
+                                <button onclick="handleProjectAction('${project.project_id}', 'Reject')" 
+                                    class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg w-24 transition duration-300 ease-in-out hover:scale-105 hover:bg-gray-200">
+                                    Reject
+                                </button>
                             `;
                             dataSection.appendChild(actions);
                         }
@@ -121,18 +126,17 @@
                     });
 
                 } catch (error) {
-                    console.error('Error fetching pending properties:', error);
-                    showError('Failed to fetch properties. Please try again.');
+                    console.error('Error fetching pending projects:', error);
+                    showError('Failed to fetch projects. Please try again.');
                 }
             }
 
-
             // Handle Accept/Reject action
-            async function handlePropertyAction(propertyId, action) {
+            async function handleProjectAction(projectId, action) {
                 try {
                     const url = action === 'Accept' ?
-                        `/api/propertyAd/accept/${propertyId}` :
-                        `/api/propertyAd/reject/${propertyId}`;
+                        `/api/projectAd/accept/${projectId}` :
+                        `/api/projectAd/reject/${projectId}`;
 
                     const response = await axios.put(url, {}, {
                         headers: {
@@ -141,9 +145,9 @@
                     });
 
                     showSuccess(response.data.success);
-                    fetchPendingProperties();
+                    fetchPendingProjects();
                 } catch (error) {
-                    console.log(error);
+                    console.error(error);
                     showError(error.response?.data?.error || 'Action failed.');
                 }
             }
@@ -168,15 +172,6 @@
                     title: 'Success',
                     text: msg,
                     confirmButtonColor: '#28a745'
-                });
-            }
-
-            function showInfo(msg) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Notice',
-                    text: msg,
-                    confirmButtonColor: '#ff9800'
                 });
             }
 

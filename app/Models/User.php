@@ -103,6 +103,11 @@ class User extends Authenticatable
         return $this->hasMany(PropertyAd::class, 'admin_id', 'id');
     }
 
+    public function propertyBuyer()
+    {
+        return $this->hasMany(PropertyAd::class, 'buyer_id', 'id');
+    }
+
     public function projectAds()
     {
         return $this->hasMany(ProjectAd::class, 'member_id', 'id');

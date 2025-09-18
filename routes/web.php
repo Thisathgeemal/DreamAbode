@@ -79,6 +79,7 @@ Route::middleware([
         Route::get('/accepted', fn() => view('admin.projectAccepted'))->name('accepted');
         Route::get('/rejected', fn() => view('admin.projectRejected'))->name('rejected');
         Route::get('/completed', fn() => view('admin.projectCompleted'))->name('completed');
+        Route::get('/viewAd/{id}', fn($id) => view('admin.viewProject', ['projectId' => $id]))->name('viewAd');
     });
 
     // Manage Membership
@@ -91,7 +92,9 @@ Route::middleware([
     Route::get('/admin/payment', fn() => view('admin.payment'))->name('admin.payment');
 
     // Messages
-    Route::get('/admin/messages', fn() => view('admin.messages'))->name('admin.messages');
+    Route::get('/admin/messages/{userId?}', function ($userId = null) {
+        return view('admin.messages', ['userId' => $userId]);
+    })->name('admin.messages');
 
     // Feedback
     Route::get('/admin/feedback', fn() => view('admin.feedback'))->name('admin.feedback');
@@ -146,6 +149,8 @@ Route::middleware([
         Route::get('/rejected', fn() => view('member.projectRejected'))->name('rejected');
         Route::get('/completed', fn() => view('member.projectCompleted'))->name('completed');
         Route::get('/postAd', fn() => view('member.postProject'))->name('postAd');
+        Route::get('/editAd/{id}', fn($id) => view('member.editProject', ['projectId' => $id]))->name('editAd');
+        Route::get('/viewAd/{id}', fn($id) => view('member.viewProject', ['projectId' => $id]))->name('viewAd');
     });
 
     // Membership

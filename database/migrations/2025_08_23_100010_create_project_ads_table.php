@@ -13,19 +13,26 @@ return new class extends Migration
     {
         Schema::create('project_ads', function (Blueprint $table) {
             $table->bigIncrements('project_id');
-            $table->unsignedBigInteger('agent_id');
-            $table->unsignedBigInteger('admin_id');
+            $table->unsignedBigInteger('agent_id')->nullable();
+            $table->unsignedBigInteger('admin_id')->nullable();
             $table->unsignedBigInteger('member_id');
+            $table->json('buyer_ids')->nullable();
             $table->string('project_name');
-            $table->enum('property_type', ['apartment', 'commercial']);
             $table->string('location');
-            $table->integer('total_units')->check('total_units > 0');
-            $table->decimal('measurement', 10, 2)->check('measurement > 0');
             $table->decimal('price', 15, 2)->check('price > 0');
-            $table->enum('status', ['upcoming', 'ongoing', 'completed'])->default('upcoming');
+            $table->enum('property_type', ['apartment', 'commercial']);
+            $table->integer('total_units')->check('total_units > 0');
+            $table->integer('available_units')->check('available_units >= 0');
+            $table->integer('bedrooms')->nullable();
+            $table->integer('bathrooms')->nullable();
+            $table->integer('parking_spaces')->nullable();
+            $table->decimal('measurement', 10, 2)->check('measurement > 0');
+            $table->enum('project_status', ['upcoming', 'ongoing', 'completed'])->default('upcoming');
             $table->date('completion_date')->nullable();
+            $table->enum('status', ['pending', 'approve', 'reject', 'complete'])->default('pending');
             $table->timestamps();
 
+            // Foreign keys
             $table->foreign('agent_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('admin_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('member_id')->references('id')->on('users')->onDelete('cascade');
