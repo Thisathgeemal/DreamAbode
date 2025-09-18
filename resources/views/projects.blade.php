@@ -49,6 +49,6 @@
     </section>
 
     <!-- project listings -->
-    @livewire('project-card')
+    <livewire:project-card />
 
 </x-guest-layout>

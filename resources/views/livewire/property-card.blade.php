@@ -122,7 +122,8 @@
                     <div class="flex justify-center items-center gap-8 mt-2">
                         <div class="flex items-center space-x-1">
                             <img src="/images/money.png" alt="Price" class="h-6 w-6">
-                            <span class="text-sm font-semibold pl-1 text-gray-800">RS {{ $prop->price }} </span>
+                            <span class="text-sm font-semibold pl-1 text-gray-800">RS {{ $prop->formatted_price }}
+                            </span>
                         </div>
                         <div class="flex items-center space-x-1">
                             <img src="/images/houses.png" alt="PropertyType" class="h-5 w-5">

@@ -104,7 +104,7 @@
                         `;
 
                         // View button for completed projects
-                        if (project.status === 'complete') {
+                        if (project.status === 'complete' || project.status === 'approve') {
                             const actions = document.createElement('div');
                             actions.className = 'mt-4 flex justify-center';
                             actions.innerHTML = `

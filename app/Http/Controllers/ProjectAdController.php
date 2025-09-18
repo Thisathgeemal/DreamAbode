@@ -42,10 +42,15 @@ class ProjectAdController extends Controller
             'approved'  => ProjectAd::with('images')->where('member_id', $userId)->where('status', 'approve')->get(),
             'rejected'  => ProjectAd::with('images')->where('member_id', $userId)->where('status', 'reject')->get(),
             'completed' => ProjectAd::with('images')
-                ->where('status', 'complete')
                 ->where(function ($query) use ($userId) {
-                    $query->where('member_id', $userId)
-                        ->orWhereJsonContains('buyer_ids', $userId);
+                    $query->where(function ($q) use ($userId) {
+                        $q->where('status', 'complete')
+                            ->where('member_id', $userId);
+                    })
+                        ->orWhere(function ($q) use ($userId) {
+                            $q->where('status', 'approve')
+                                ->whereJsonContains('buyer_ids', $userId);
+                        });
                 })
                 ->get(),
         ];
@@ -60,7 +65,15 @@ class ProjectAdController extends Controller
             'pending'   => ProjectAd::with('images')->where('status', 'pending')->get(),
             'approved'  => ProjectAd::with(['images', 'agent'])->where('status', 'approve')->get(),
             'rejected'  => ProjectAd::with('images')->where('status', 'reject')->get(),
-            'completed' => ProjectAd::with('images')->where('status', 'complete')->get(),
+            'completed' => ProjectAd::with('images')
+                ->where(function ($query) {
+                    $query->where('status', 'complete')
+                        ->orWhere(function ($q) {
+                            $q->where('status', 'approve')
+                                ->whereJsonLength('buyer_ids', '>', 0);
+                        });
+                })
+                ->get(),
         ];
     }
 

@@ -54,9 +54,30 @@ class PropertyCard extends Component
             ->when($this->minBathrooms, fn($q) =>
                 $q->where('bathrooms', '>=', $this->minBathrooms)
             )
-            ->paginate(8);
+            ->paginate(8)
+            ->through(function ($property) {
+                $property->formatted_price = $this->formatPrice($property->price);
+                return $property;
+            });
 
         return view('livewire.property-card', compact('properties'));
     }
 
+    // Format price to K (thousands) and M (millions)
+    private function formatPrice($price)
+    {
+        if (! $price) {
+            return '0';
+        }
+
+        if ($price >= 1000000) {
+            return round($price / 1000000, 1) . 'M';
+        }
+
+        if ($price >= 1000) {
+            return round($price / 1000, 1) . 'K';
+        }
+
+        return $price;
+    }
 }

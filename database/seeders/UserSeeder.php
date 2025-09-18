@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
 
             User::create([
                 'name'               => 'Sankalpa Withanaarachchi',
-                'email'              => 'withanaarachchisankalpa@gmail.com',
+                'email'              => 'withanaarachchisankalpa16@gmail.com',
                 'password'           => '123456789',
                 'mobile_number'      => '0701733646',
                 'address'            => 'No 1, Admin Street, Colombo',
