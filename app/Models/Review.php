@@ -1,28 +1,32 @@
 <?php
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\Model;
 
 class Review extends Model
 {
     use HasFactory;
 
-    protected $table      = 'reviews';
-    protected $primaryKey = 'review_id';
+    protected $connection = 'mongodb';
+    protected $collection = 'reviews';
 
     protected $fillable = [
         'member_id',
         'rating',
         'description',
+        'visibility',
     ];
 
     protected $casts = [
-        'rating' => 'integer',
+        'rating'     => 'integer',
+        'visibility' => 'boolean',
     ];
 
     public $timestamps = true;
 
+    //  Get the member (user) that this review belongs to.
     public function member()
     {
         return $this->belongsTo(User::class, 'member_id', 'id');

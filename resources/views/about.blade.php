@@ -1,4 +1,4 @@
-<x-guest-layout>
+s<x-guest-layout>
     <!-- hero section 1 -->
     <section class="relative h-[550px] flex flex-col md:flex-row items-center mt-6">
         <!-- Text Section -->
@@ -168,7 +168,7 @@
                     class="w-32 h-32 object-contain mb-4">
                 <h3 class="text-lg font-semibold mb-1">2024</h3>
                 <h3 class="text-lg font-semibold mb-2">Top Innovator in Modern Architecture</h3>
-                <p class="text-sm text-gray-900 leading-relaxed text-center">
+                <p class="text-sm text-gray-700 leading-relaxed text-center">
                     We were proud to receive this prestigious award at the National Real Estate Awards, marking a
                     significant milestone in our pursuit of excellence.
                 </p>
@@ -181,7 +181,7 @@
                     class="w-32 h-32 object-contain mb-4">
                 <h3 class="text-lg font-semibold mb-1">2023</h3>
                 <h3 class="text-lg font-semibold mb-2">Excellence in Sustainable Development</h3>
-                <p class="text-sm text-gray-900 leading-relaxed text-center">
+                <p class="text-sm text-gray-700 leading-relaxed text-center">
                     We won the Global Real Estate Sustainability Award for building eco-friendly, energy-efficient
                     homes, supporting a greener future.
                 </p>
@@ -194,7 +194,7 @@
                     class="w-32 h-32 object-contain mb-4">
                 <h3 class="text-lg font-semibold mb-1">2022</h3>
                 <h3 class="text-lg font-semibold mb-2">Best Luxury Developer of the Year</h3>
-                <p class="text-sm text-gray-900 leading-relaxed text-center">
+                <p class="text-sm text-gray-700 leading-relaxed text-center">
                     We were honored with this prestigious award at the National Real Estate Awards, marking a major
                     achievement in our journey toward excellence.
                 </p>
@@ -220,7 +220,104 @@
 
         <!-- Cards Section -->
         <div class="mt-12 flex flex-col md:flex-row flex-wrap justify-center items-stretch gap-6">
-
+            <div id="member-reviews"
+                class="flex flex-col md:flex-row flex-wrap justify-center items-stretch gap-6 w-full">
+                <!-- Cards will be injected here dynamically -->
+            </div>
         </div>
     </section>
+
+    @push('scripts')
+        <script>
+            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
+
+            document.addEventListener('DOMContentLoaded', () => {
+                fetchMemberReviews();
+            });
+
+            async function fetchMemberReviews() {
+                const container = document.getElementById('member-reviews');
+                container.innerHTML = `
+                    <p class="flex justify-center items-center text-center text-gray-500 text-lg">
+                        Loading reviews, please wait...
+                    </p>`;
+                try {
+                    const response = await axios.get('/api/reviews', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+                    renderReviews(container, response.data.visible_reviews);
+                } catch (error) {
+                    console.error('Error fetching reviews:', error);
+                    showError('Failed to fetch your reviews. Please try again.');
+                }
+            }
+
+            function renderReviews(container, reviews) {
+                container.innerHTML = '';
+                if (!reviews || reviews.length === 0) {
+                    container.innerHTML = `
+                        <p class="flex justify-center items-center text-center text-green-500 text-lg">
+                            You haven’t added any reviews yet.
+                        </p>`;
+                    return;
+                }
+                reviews.forEach(review => container.appendChild(createReviewCard(review)));
+            }
+
+            function createReviewCard(review) {
+                const card = document.createElement('div');
+                card.className =
+                    'flex-1 max-w-sm w-full bg-[#5CFFAB] rounded-2xl p-6 flex flex-col justify-start items-center text-center shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-[#42e697] hover:shadow-2xl cursor-pointer';
+
+                // Profile image or initial
+                card.appendChild(createProfileImage(review.member));
+
+                // Username
+                const name = document.createElement('h3');
+                name.className = 'text-lg font-semibold mb-1';
+                name.textContent = review.member?.name || 'Anonymous';
+                card.appendChild(name);
+
+                // Rating stars
+                card.appendChild(createRatingStars(review.rating));
+
+                // Description
+                const desc = document.createElement('p');
+                desc.className = 'text-sm text-gray-700 leading-relaxed';
+                desc.textContent = review.description || '';
+                card.appendChild(desc);
+
+                return card;
+            }
+
+            function createProfileImage(member) {
+                if (member && member.profile_photo_path) {
+                    const img = document.createElement('img');
+                    img.src = `/storage/${member.profile_photo_path}`;
+                    img.alt = member.name ? `${member.name}'s Review` : 'User Review';
+                    img.className = 'w-[88px] h-[88px] object-cover m-6 rounded-full shadow-md';
+                    return img;
+                } else {
+                    const initial = (member?.name || 'U')[0].toUpperCase();
+                    const div = document.createElement('div');
+                    div.textContent = initial;
+                    div.className =
+                        'w-[88px] h-[88px] flex items-center justify-center mx-6 mb-6 mt-2 rounded-full shadow-md bg-gray-400 text-white text-2xl font-bold';
+                    return div;
+                }
+            }
+
+            function createRatingStars(rating) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'flex justify-center items-center mb-2';
+                for (let i = 1; i <= (rating || 0); i++) {
+                    wrapper.innerHTML += '<span class="text-yellow-500 text-xl">&#9733;</span>';
+                }
+                return wrapper;
+            }
+        </script>
+    @endpush
+
 </x-guest-layout>

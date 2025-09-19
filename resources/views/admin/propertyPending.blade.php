@@ -126,7 +126,6 @@
                 }
             }
 
-
             // Handle Accept/Reject action
             async function handlePropertyAction(propertyId, action) {
                 try {
