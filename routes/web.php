@@ -111,14 +111,24 @@ Route::middleware([
     // Dashboard
     Route::get('/agent/dashboard', fn() => view('agent.dashboard'))->name('agent.dashboard');
 
-    // Property
-    Route::get('/agent/property', fn() => view('agent.property'))->name('agent.property');
+    // Manage Property
+    Route::prefix('agent/property')->name('agent.property.')->group(function () {
+        Route::get('/assigned', fn() => view('agent.propertyAssigned'))->name('assigned');
+        Route::get('/completed', fn() => view('agent.propertyCompleted'))->name('completed');
+        Route::get('/viewAd/{id}', fn($id) => view('agent.viewProperty', ['propertyId' => $id]))->name('viewAd');
+    });
 
-    // Project
-    Route::get('/agent/project', fn() => view('agent.project'))->name('agent.project');
+    // Manage Project
+    Route::prefix('agent/project')->name('agent.project.')->group(function () {
+        Route::get('/assigned', fn() => view('agent.projectAssigned'))->name('assigned');
+        Route::get('/completed', fn() => view('agent.projectCompleted'))->name('completed');
+        Route::get('/viewAd/{id}', fn($id) => view('agent.viewProject', ['projectId' => $id]))->name('viewAd');
+    });
 
     // Messages
-    Route::get('/agent/messages', fn() => view('agent.messages'))->name('agent.messages');
+    Route::get('/agent/messages/{userId?}', function ($userId = null) {
+        return view('agent.messages', ['userId' => $userId]);
+    })->name('agent.messages');
 
 });
 

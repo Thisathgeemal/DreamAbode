@@ -21,12 +21,14 @@ class ProjectAdController extends Controller
      */
     public function index()
     {
-        $userProjects = $this->getUserProjects();
-        $allProjects  = $this->getAllProjects();
+        $userProjects  = $this->getUserProjects();
+        $allProjects   = $this->getAllProjects();
+        $agentProjects = $this->getAgentProjects();
 
         return response()->json([
-            'user_projects' => $userProjects,
-            'all_projects'  => $allProjects,
+            'user_projects'  => $userProjects,
+            'all_projects'   => $allProjects,
+            'agent_projects' => $agentProjects,
         ]);
     }
 
@@ -73,6 +75,26 @@ class ProjectAdController extends Controller
                                 ->whereJsonLength('buyer_ids', '>', 0);
                         });
                 })
+                ->get(),
+        ];
+    }
+
+    /**
+     * Get projects of logged-in agent
+     */
+    private function getAgentProjects()
+    {
+        $agentId = Auth::id();
+
+        return [
+            'approved'  => ProjectAd::with('images')
+                ->where('agent_id', $agentId)
+                ->where('status', 'approve')
+                ->get(),
+
+            'completed' => ProjectAd::with('images')
+                ->where('agent_id', $agentId)
+                ->where('status', 'complete')
                 ->get(),
         ];
     }

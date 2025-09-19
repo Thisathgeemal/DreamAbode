@@ -21,12 +21,14 @@ class PropertyAdController extends Controller
      */
     public function index()
     {
-        $userProperties = $this->getUserProperties();
-        $allProperties  = $this->getAllProperties();
+        $userProperties  = $this->getUserProperties();
+        $allProperties   = $this->getAllProperties();
+        $agentProperties = $this->getAgentProperties();
 
         return response()->json([
-            'user_properties' => $userProperties,
-            'all_properties'  => $allProperties,
+            'user_properties'  => $userProperties,
+            'all_properties'   => $allProperties,
+            'agent_properties' => $agentProperties,
         ]);
     }
 
@@ -61,6 +63,26 @@ class PropertyAdController extends Controller
             'approved'  => PropertyAd::with(['images', 'agent'])->where('status', 'approve')->get(),
             'rejected'  => PropertyAd::with('images')->where('status', 'reject')->get(),
             'completed' => PropertyAd::with('images')->where('status', 'complete')->get(),
+        ];
+    }
+
+    /**
+     * Get properties of the logged-in agent
+     */
+    private function getAgentProperties()
+    {
+        $agentId = Auth::id();
+
+        return [
+            'approved'  => PropertyAd::with('images')
+                ->where('agent_id', $agentId)
+                ->where('status', 'approve')
+                ->get(),
+
+            'completed' => PropertyAd::with('images')
+                ->where('agent_id', $agentId)
+                ->where('status', 'complete')
+                ->get(),
         ];
     }
 

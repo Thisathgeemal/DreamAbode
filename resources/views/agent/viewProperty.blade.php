@@ -1,15 +1,15 @@
-<x-app-layout>
+<x-agent-layout>
 
     <!-- Header -->
     <div class="w-full px-8 py-6 bg-[#161616] rounded-lg text-left mx-auto shadow-md mb-6">
         <div class="flex justify-between items-center">
             <div>
-                <h2 class="text-2xl text-white font-bold">View Project Information</h2>
-                <p class="text-sm text-gray-300 mt-1">Here you can view detailed information about the selected project.
+                <h2 class="text-2xl text-white font-bold">View Property Information</h2>
+                <p class="text-sm text-gray-300 mt-1">Here you can view detailed information about the selected property.
                 </p>
             </div>
 
-            <a href="{{ url()->previous() ?? route('member.project.accepted') }}"
+            <a href="{{ url()->previous() ?? route('agent.property.assigned') }}"
                 class="flex items-center gap-2 px-5 py-2.5 bg-[#5CFFAB] text-black rounded-xl font-medium shadow-md 
                 hover:bg-[#35db88] hover:shadow-lg transition-all duration-200 ease-in-out">
                 <i class="fas fa-arrow-left inline sm:hidden"></i>
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div id="projectContainer" data-id="{{ $projectId }}"></div>
+    <div id="propertyContainer" data-id="{{ $propertyId }}"></div>
 
     <!-- Gallery Images -->
     <div class="w-full p-8 bg-white rounded-lg shadow-md mb-6 flex flex-col items-center justify-center">
@@ -32,18 +32,17 @@
         <div id="thumbnailsContainer" class="grid grid-cols-6 gap-4 mt-6 place-items-center"></div>
     </div>
 
-    <!-- Project Details -->
-    <div class="w-full p-8 bg-white rounded-lg shadow-md mb-6">
-        <!-- Project Name & Location -->
+    <!-- Property Details -->
+    <div class="w-full p-8 bg-white rounded-lg text-left mx-auto shadow-md mb-6">
         <div class="text-center space-y-2">
-            <h2 id="projectName" class="text-2xl md:text-3xl font-bold text-gray-800 mt-3 mb-2"></h2>
+            <h2 id="propertyName" class="text-2xl md:text-3xl font-bold text-gray-800 mt-3 mb-5"></h2>
             <p class="text-gray-600 flex justify-center items-center gap-2 text-md font-semibold">
-                <img src="/images/Location.png" alt="Location" class="w-5 h-7">
-                <span id="projectLocation"></span>
+                <img src="/images/Location.png" alt="Location" class="w-5.5 h-7">
+                <span id="location"></span>
             </p>
         </div>
 
-        <!-- Price + Buy Button -->
+        <!-- Price + Action Button -->
         <div class="flex justify-center mt-6 gap-4">
             <!-- Price -->
             <div
@@ -52,9 +51,10 @@
                 <span id="price"></span>
             </div>
 
-            <button id="buyProjectButton"
+            <!-- Buy/Rent Button -->
+            <button id="actionButton"
                 class="inline-flex items-center md:min-w-[200px] justify-center gap-2 px-6 py-2 border border-transparent rounded-lg bg-[#5eb9ff] text-white font-semibold shadow-sm transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-[#008ffd]">
-                <span>Buy Now</span>
+                <span id="actionButtonText"></span>
                 <img width="35" height="35" src="https://img.icons8.com/comic/50/cash-in-hand.png"
                     alt="cash-in-hand" />
             </button>
@@ -64,65 +64,44 @@
         <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-8">
             <!-- Property Type -->
             <div
-                class="feature-item flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
-                <img src="/images/Apartments.png" alt="Property Type" class="w-5 h-6">
-                <span id="projectType"></span>
+                class="flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
+                <img src="/images/Houses.png" alt="House" class="w-5 h-5">
+                <span id="propertyType"></span>
             </div>
 
-            <!-- Total Units -->
+            <!-- Bedrooms -->
             <div
-                class="feature-item flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
-                <img src="/images/Units.png" alt="Total Units" class="w-6 h-6">
-                <span id="totalUnits"></span>
+                class="flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
+                <img src="/images/Bedrooms.png" alt="Bedroom" class="w-5 h-5">
+                <span id="bedrooms"></span>
             </div>
 
-            <!-- Available Units -->
+            <!-- Bathrooms -->
             <div
-                class="feature-item flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
-                <img src="/images/Units.png" alt="Available Units" class="w-6 h-6">
-                <span id="availableUnits"></span>
+                class="flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
+                <img src="/images/Bathrooms.png" alt="Bathroom" class="w-5 h-5">
+                <span id="bathrooms"></span>
             </div>
 
             <!-- Measurement -->
             <div
-                class="feature-item flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
+                class="flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
                 <img src="/images/Perches.png" alt="Measurement" class="w-5 h-5">
                 <span id="measurement"></span>
             </div>
 
-            <!-- Parking Spaces -->
+            <!-- Floors -->
             <div
-                class="feature-item flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
-                <img src="/images/Parking.png" alt="Parking Spaces" class="w-6 h-6">
-                <span id="parkingSpaces"></span>
+                class="flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
+                <img src="/images/Floor.png" alt="Floor" class="w-5 h-5">
+                <span id="floors"></span>
             </div>
 
-            <!-- Bedrooms (only for apartments) -->
-            <div class="feature-item flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200"
-                id="bedroomContainer">
-                <img src="/images/Bedrooms.png" alt="Bedrooms" class="w-5 h-5">
-                <span id="bedrooms"></span>
-            </div>
-
-            <!-- Bathrooms (only for apartments) -->
-            <div class="feature-item flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200"
-                id="bathroomContainer">
-                <img src="/images/Bathrooms.png" alt="Bathrooms" class="w-5 h-5">
-                <span id="bathrooms"></span>
-            </div>
-
-            <!-- Project Status -->
+            <!-- Perches -->
             <div
-                class="feature-item flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
-                <img src="/images/Status.png" alt="Project Status" class="w-6 h-6">
-                <span id="projectStatus"></span>
-            </div>
-
-            <!-- Completion Date (only for ongoing/upcoming projects) -->
-            <div class="feature-item flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200"
-                id="completionContainer">
-                <img src="/images/Accept.png" alt="Completion Date" class="w-5 h-5">
-                <span id="completionDate"></span>
+                class="flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-900 font-medium shadow-sm hover:shadow-md hover:bg-[#5CFFAB] transition duration-200">
+                <img src="/images/Perches.png" alt="Perches" class="w-5 h-5">
+                <span id="perches"></span>
             </div>
         </div>
     </div>
@@ -189,11 +168,10 @@
         </div>
     </div>
 
-    <!-- Project Payment Modal -->
-    <div id="projectPaymentModal" role="dialog" aria-modal="true"
+    <!-- Modal -->
+    <div id="propertyPaymentModal" role="dialog" aria-modal="true"
         class="fixed inset-0 backdrop-blur-sm bg-white/20 hidden z-50 items-center justify-center">
         <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-[0_0_15px_4px_rgba(92,255,171,0.4)]">
-
             <!-- Steps -->
             <div class="flex items-center mb-4 mt-1">
                 <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white step"
@@ -203,13 +181,13 @@
                     id="step2">2</div>
             </div>
 
-            <!-- Step 1: Agreement -->
-            <div id="project-info-section" class="form-section">
-                <h2 class="text-2xl md:text-3xl font-bold text-center mb-4" id="modalTitle">Buy Project</h2>
+            <!-- Step 1: Info & Agreement -->
+            <div id="property-info-section" class="form-section">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-4" id="modalTitle">Buy Property</h2>
                 <p id="modalDescription" class="text-gray-700 mb-4">
-                    You are about to proceed with the purchase one of the unit in this project. A 2% down payment is
-                    required to secure
-                    your interest. Please review the agreement below carefully before continuing.
+                    You are about to proceed with the purchase of this property. In accordance with standard policy, a
+                    2% down payment is required to secure your interest. Please review the agreement below carefully
+                    before continuing.
                 </p>
 
                 <!-- Agreement Details -->
@@ -217,14 +195,17 @@
                     <p class="mb-2"><strong>Agreement Terms:</strong></p>
                     <ul class="list-disc ml-5 space-y-1">
                         <li id="modalAgreement">
-                            The initial down payment of 2% is <strong>non-refundable</strong> once the transaction is
-                            confirmed.
+                            The initial down payment of 2% is <strong>non-refundable</strong> once the transaction
+                            is confirmed.
                         </li>
                         <li>Full ownership rights will only be transferred upon settlement of the total purchase price.
                         </li>
                         <li>The buyer affirms that all personal, financial, and identification details provided are
-                            accurate.</li>
-                        <li>All transactions are processed securely with industry-standard data protection.</li>
+                            accurate and up to date.</li>
+                        <li>This payment constitutes a binding financial commitment between the buyer and the seller.
+                        </li>
+                        <li>All transactions will be processed securely in compliance with industry-standard data
+                            protection measures.</li>
                     </ul>
                 </div>
 
@@ -238,29 +219,29 @@
                 <!-- Buttons -->
                 <div class="flex justify-end space-x-2">
                     <button type="button" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
-                        onclick="closeProjectModal()">Cancel</button>
+                        onclick="closePropertyModal()">Cancel</button>
                     <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-                        onclick="nextProjectStep()">Next</button>
+                        onclick="nextPropertyStep()">Next</button>
                 </div>
             </div>
 
             <!-- Step 2: Payment -->
-            <div id="project-payment-section" class="form-section hidden">
+            <div id="property-payment-section" class="form-section hidden">
                 <h2 class="text-xl md:text-2xl font-bold text-center mb-4">Complete Payment</h2>
-                <form id="projectPaymentForm">
+                <form id="propertyPaymentForm">
 
                     <!-- Payment Amount -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium">Amount to Pay</label>
                         <input type="text" id="paymentAmount" readonly
-                            class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                            class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
 
                     <!-- Card Type -->
                     <div class="mb-2">
                         <label class="block text-sm font-medium">Card Type</label>
                         <select id="cardType" required
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                             <option value="">Select Card Type</option>
                             <option value="visa">Visa</option>
                             <option value="mastercard">MasterCard</option>
@@ -273,7 +254,7 @@
                     <div class="mb-2">
                         <label class="block text-sm font-medium">Name on Card</label>
                         <input type="text" id="cardName" required placeholder="Full Name"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
 
                     <!-- Card Number -->
@@ -281,20 +262,20 @@
                         <label class="block text-sm font-medium">Card Number</label>
                         <input type="text" id="cardNumber" required maxlength="16"
                             placeholder="1234 5678 9012 3456"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
 
-                    <!-- Expiry + CVV -->
+                    <!-- Expiry + CVV in one row -->
                     <div class="mb-4 flex gap-2">
                         <div class="flex-1">
                             <label class="block text-sm font-medium">Expiry Date</label>
                             <input type="month" id="expiryDate" required
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                         </div>
                         <div class="flex-1">
                             <label class="block text-sm font-medium">CVV</label>
                             <input type="text" id="cvv" required maxlength="3" placeholder="CVV"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                         </div>
                     </div>
 
@@ -303,10 +284,9 @@
                     <!-- Buttons -->
                     <div class="flex justify-end space-x-2">
                         <button type="button" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
-                            onclick="prevProjectStep()">Previous</button>
-                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
-                            Pay Now
-                        </button>
+                            onclick="prevPropertyStep()">Previous</button>
+                        <button type="submit"
+                            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Pay Now</button>
                     </div>
                 </form>
             </div>
@@ -316,58 +296,58 @@
     @push('scripts')
         <script>
             const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
-            let currentProject = null;
+            let currentProperty = null;
 
-            // Load project details
+            // Load property details
             document.addEventListener("DOMContentLoaded", async function() {
-                const projectId = document.getElementById('projectContainer')?.dataset.id;
-                if (!projectId) return;
+                const propertyId = document.getElementById('propertyContainer')?.dataset.id;
+                if (!propertyId) return;
 
                 try {
-                    const response = await axios.get(`/api/projectAd/${projectId}`, {
+                    const response = await axios.get(`/api/propertyAd/${propertyId}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
                     });
 
-                    const project = response.data.project;
-                    currentProject = project;
-                    renderImageGallery(project);
-                    renderProjectDetails(project);
-                    renderMap(project);
+                    const property = response.data.property;
+                    currentProperty = property;
+                    renderImageGallery(property);
+                    renderPropertyDetails(property);
+                    renderMap(property);
 
                     // Only handle contact section if status is APPROVE or complete
-                    if (project.status === "approve" || project.status === "complete") {
+                    if (property.status === "approve" || property.status === "complete") {
                         const contactSection = document.getElementById('contactSection');
                         contactSection.style.display = "flex";
 
-                        await fetchAgentDetails(project.agent_id);
-                        await fetchAdminDetails(project.admin_id);
+                        await fetchAgentDetails(property.agent_id);
+                        await fetchAdminDetails(property.admin_id);
                     } else {
                         document.getElementById('contactSection').style.display = "none";
                     }
 
                 } catch (err) {
                     console.error(err);
-                    showError("Failed to fetch project details");
+                    showError("Failed to fetch property details");
                 }
             });
 
             // Image Gallery Section
-            function renderImageGallery(project) {
+            function renderImageGallery(property) {
                 const mainImage1 = document.getElementById('mainImage1');
                 const mainImage2 = document.getElementById('mainImage2');
                 const thumbnailsContainer = document.getElementById('thumbnailsContainer');
                 thumbnailsContainer.innerHTML = '';
 
-                if (project.images && project.images.length > 0) {
+                if (property.images && property.images.length > 0) {
                     // Initial setup
-                    mainImage1.src = `/storage/${project.images[0].image_path}`;
-                    mainImage2.src = project.images[1] ?
-                        `/storage/${project.images[1].image_path}` :
-                        `/storage/${project.images[0].image_path}`;
+                    mainImage1.src = `/storage/${property.images[0].image_path}`;
+                    mainImage2.src = property.images[1] ?
+                        `/storage/${property.images[1].image_path}` :
+                        `/storage/${property.images[0].image_path}`;
 
-                    project.images.forEach((img, index) => {
+                    property.images.forEach((img, index) => {
                         const thumb = document.createElement('img');
                         thumb.src = `/storage/${img.image_path}`;
                         thumb.className =
@@ -375,9 +355,9 @@
 
                         // On click → set main images
                         thumb.addEventListener('click', () => {
-                            const nextIndex = (index + 1) % project.images.length;
-                            mainImage1.src = `/storage/${project.images[index].image_path}`;
-                            mainImage2.src = `/storage/${project.images[nextIndex].image_path}`;
+                            const nextIndex = (index + 1) % property.images.length;
+                            mainImage1.src = `/storage/${property.images[index].image_path}`;
+                            mainImage2.src = `/storage/${property.images[nextIndex].image_path}`;
                         });
 
                         thumbnailsContainer.appendChild(thumb);
@@ -385,65 +365,70 @@
                 }
             }
 
-            // Project details 
-            function renderProjectDetails(project) {
-                const actionButton = document.getElementById('buyProjectButton');
+            // Property Details Section
+            function renderPropertyDetails(property) {
+                document.getElementById('propertyName').textContent = property.property_name || '';
+                document.getElementById('location').textContent = property.location || '';
+                document.getElementById('price').textContent = `RS ${formatPrice(property.price)}`;
+                document.getElementById('bedrooms').textContent = `${property.bedrooms} Bedrooms`;
+                document.getElementById('bathrooms').textContent = `${property.bathrooms} Bathrooms`;
+                document.getElementById('floors').textContent = `${property.floors} Floor(s)`;
+                document.getElementById('perches').textContent = `${property.perches} Perches`;
+                document.getElementById('measurement').textContent = `${property.measurement} Sq.Ft.`;
+                document.getElementById("propertyType").textContent = capitalizeFirstLetter(property.property_type);
 
-                document.getElementById('projectName').textContent = project.project_name;
-                document.getElementById('projectLocation').textContent = project.location;
-                document.getElementById('price').textContent = `RS ${formatPrice(project.price)}`;
-                document.getElementById('projectType').textContent = capitalizeFirstLetter(project.property_type);
-                document.getElementById('totalUnits').textContent = `Total Units: ${project.total_units}`;
-                document.getElementById('availableUnits').textContent = `Available Units: ${project.available_units}`;
-                document.getElementById('measurement').textContent = `${project.measurement} Sq.Ft.`;
-                document.getElementById('parkingSpaces').textContent = `Parking Spaces: ${project.parking_spaces}`;
-                document.getElementById('projectStatus').textContent = capitalizeFirstLetter(
-                    project.project_status
-                );
+                const propertyTypeValue = document.getElementById("propertyType").innerText;
+                updatePropertyFeatures(propertyTypeValue);
 
-                // Show/hide action button
-                if (["complete", "pending", "reject"].includes(project.status.toLowerCase())) {
+                // Handle Buy/Rent button
+                const actionButton = document.getElementById("actionButton");
+                const actionButtonText = document.getElementById("actionButtonText");
+
+                // Hide button if status is "complete"
+                if (property.status === "complete" || property.status === "pending" || property.status === "reject") {
                     actionButton.style.display = "none";
-                } else {
-                    actionButton.style.display = "inline-flex";
+                    return;
                 }
 
-                // Update feature visibility
-                updateProjectFeatures(project.property_type, project.project_status);
-
-                // Set bedrooms, bathrooms, and completion date
-                document.getElementById('bedrooms').textContent = `${project.bedrooms || 'N/A'} Bedrooms`;
-                document.getElementById('bathrooms').textContent = `${project.bathrooms || 'N/A'} Bathrooms`;
-                document.getElementById('completionDate').textContent = `${project.completion_date || 'N/A'}`;
+                if (property.post_type === "sale") {
+                    actionButtonText.textContent = "Buy Now";
+                    actionButton.style.display = "inline-flex";
+                } else if (property.post_type === "rent") {
+                    actionButtonText.textContent = "Rent Now";
+                    actionButton.style.display = "inline-flex";
+                } else {
+                    actionButton.style.display = "none";
+                }
             }
 
-            // Show/hide bedrooms, bathrooms, and completion date based on project type and status
-            function updateProjectFeatures(propertyType, status) {
-                const bedroomContainer = document.getElementById('bedroomContainer');
-                const bathroomContainer = document.getElementById('bathroomContainer');
-                const completionContainer = document.getElementById('completionContainer');
+            function updatePropertyFeatures(propertyType) {
+                const bedrooms = document.getElementById("bedrooms").parentElement;
+                const bathrooms = document.getElementById("bathrooms").parentElement;
+                const floors = document.getElementById("floors").parentElement;
+                const purchase = document.getElementById("perches").parentElement;
 
-                // Bedrooms & bathrooms visible only for apartments
-                if (propertyType.toLowerCase() === "apartment") {
-                    bedroomContainer.style.display = "flex";
-                    bathroomContainer.style.display = "flex";
-                } else {
-                    bedroomContainer.style.display = "none";
-                    bathroomContainer.style.display = "none";
-                }
+                // Reset visibility
+                bedrooms.style.display = "flex";
+                bathrooms.style.display = "flex";
+                floors.style.display = "flex";
+                purchase.style.display = "flex";
 
-                // Completion date visible only for ongoing or upcoming projects
-                if (["ongoing", "upcoming"].includes(status.toLowerCase())) {
-                    completionContainer.style.display = "flex";
-                } else {
-                    completionContainer.style.display = "none";
+                // Hide features based on property type
+                if (propertyType.toLowerCase() === "commercial") {
+                    bedrooms.style.display = "none";
+                    bathrooms.style.display = "none";
+                    purchase.style.display = "none";
+                } else if (propertyType.toLowerCase() === "land") {
+                    bedrooms.style.display = "none";
+                    bathrooms.style.display = "none";
+                    floors.style.display = "none";
                 }
             }
 
             // Map Section
-            function renderMap(project) {
+            function renderMap(property) {
                 const mapIframe = document.getElementById('googleMap');
-                mapIframe.src = `https://www.google.com/maps?q=${encodeURIComponent(project.location)}&output=embed`;
+                mapIframe.src = `https://www.google.com/maps?q=${encodeURIComponent(property.location)}&output=embed`;
             }
 
             // Fetch Agent Details
@@ -501,7 +486,7 @@
                 // Chat Button
                 const chatButton = document.getElementById('chatButton');
                 chatButton.addEventListener('click', () => {
-                    window.location.href = `/member/messages/${agent.id}`;
+                    window.location.href = `/agent/messages/${agent.id}`;
                 });
             }
 
@@ -527,7 +512,7 @@
                 // Chat Button
                 const chatAdminButton = document.getElementById('chatAdminButton');
                 chatAdminButton.addEventListener('click', () => {
-                    window.location.href = `/member/messages/${admin.id}`;
+                    window.location.href = `/agent/messages/${admin.id}`;
                 });
             }
 
@@ -565,91 +550,137 @@
                 return canvas.toDataURL();
             }
 
-            document.getElementById('buyProjectButton').addEventListener('click', () => {
-                openProjectModal(currentProject);
+            function capitalizeFirstLetter(str) {
+                if (!str) return '';
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            }
+
+            // Attach Buy/Rent button click
+            document.getElementById('actionButton').addEventListener('click', function() {
+                const actionText = document.getElementById('actionButtonText').textContent.toLowerCase();
+                if (actionText.includes('buy')) openPropertyModal('buy');
+                else if (actionText.includes('rent')) openPropertyModal('rent');
             });
 
-            // Open modal
-            function openProjectModal(project) {
-                currentProject = project;
-                document.getElementById('projectPaymentModal').classList.remove('hidden');
-                document.getElementById('projectPaymentModal').classList.add('flex');
+            // Open modal for Buy or Rent
+            function openPropertyModal(type) {
+                document.getElementById('propertyPaymentModal').classList.remove('hidden');
+                document.getElementById('propertyPaymentModal').classList.add('flex');
 
-                // Set down payment
-                const downPayment = (project.price * 0.02).toFixed(2);
-                document.getElementById('paymentAmount').value = formatPrice(downPayment);
-                document.getElementById('numericPaymentAmount').value = downPayment;
+                const modalTitle = document.getElementById('modalTitle');
+                const modalDesc = document.getElementById('modalDescription');
+                const modalAgreement = document.getElementById('modalAgreement');
+                const paymentAmountField = document.getElementById('paymentAmount');
+                const numericAmountField = document.getElementById("numericPaymentAmount");
 
-                highlightProjectStep(1);
+                if (type === 'buy') {
+                    modalTitle.textContent = 'Buy Property';
+                    modalDesc.textContent =
+                        `You are about to proceed with the purchase of this property. 
+                        As per our policy, a 2% down payment is required to secure your interest. 
+                        Please review the agreement terms carefully before continuing.`;
+                    modalAgreement.innerHTML =
+                        `The initial down payment of 2% is <strong>non-refundable</strong> once the transaction is confirmed.`;
+
+                    const downPayment = (currentProperty.price * 0.02).toFixed(2);
+                    paymentAmountField.value = `${downPayment} M`;
+                    numericAmountField.value = downPayment;
+
+                } else {
+                    modalTitle.textContent = 'Rent Property';
+                    modalDesc.textContent =
+                        `You are about to proceed with renting this property. 
+                        To confirm your reservation, the first month’s payment is required in advance. 
+                        Please review the agreement terms carefully before continuing.`;
+                    modalAgreement.innerHTML =
+                        `The first month’s payment is <strong>non-refundable</strong> once the transaction is confirmed.`;
+
+                    const firstMonth = (currentProperty.price / 12).toFixed(2);
+                    paymentAmountField.value = `${firstMonth} M`;
+                    numericAmountField.value = firstMonth;
+                }
+
+                highlightPropertyStep(1);
             }
 
             // Close modal
-            function closeProjectModal() {
-                document.getElementById('projectPaymentModal').classList.add('hidden');
-                document.getElementById('projectPaymentModal').classList.remove('flex');
-                document.getElementById('project-info-section').classList.remove('hidden');
-                document.getElementById('project-payment-section').classList.add('hidden');
+            function closePropertyModal() {
+                document.getElementById('propertyPaymentModal').classList.add('hidden');
+                document.getElementById('propertyPaymentModal').classList.remove('flex');
+                document.getElementById('property-info-section').classList.remove('hidden');
+                document.getElementById('property-payment-section').classList.add('hidden');
                 document.getElementById('agreeTerms').checked = false;
-                document.getElementById('projectPaymentForm').reset();
-                resetProjectSteps();
+                document.getElementById('propertyPaymentForm').reset();
+                resetPropertySteps();
             }
 
-            // Next & Previous steps
-            function nextProjectStep() {
-                if (!document.getElementById('agreeTerms').checked) {
+            // Next step
+            function nextPropertyStep() {
+                const agree = document.getElementById('agreeTerms').checked;
+                if (!agree) {
                     showError("You must agree to the terms before proceeding");
                     return;
                 }
-                document.getElementById('project-info-section').classList.add('hidden');
-                document.getElementById('project-payment-section').classList.remove('hidden');
-                highlightProjectStep(2);
+                document.getElementById('property-info-section').classList.add('hidden');
+                document.getElementById('property-payment-section').classList.remove('hidden');
+                highlightPropertyStep(2);
             }
 
-            function prevProjectStep() {
-                document.getElementById('project-payment-section').classList.add('hidden');
-                document.getElementById('project-info-section').classList.remove('hidden');
-                highlightProjectStep(1);
+            // Previous step
+            function prevPropertyStep() {
+                document.getElementById('property-payment-section').classList.add('hidden');
+                document.getElementById('property-info-section').classList.remove('hidden');
+                highlightPropertyStep(1);
             }
 
-            // Step highlighting
-            function highlightProjectStep(step) {
+            // Step highlight
+            function highlightPropertyStep(step) {
                 const step1 = document.getElementById('step1');
                 const step2 = document.getElementById('step2');
                 const line = document.getElementById('line');
 
-                step1.className = 'w-10 h-10 rounded-full flex items-center justify-center text-white step bg-gray-300';
-                step2.className = 'w-10 h-10 rounded-full flex items-center justify-center text-white step bg-gray-300';
-                line.className = 'flex-1 h-1 bg-gray-300';
+                step1.classList.remove('bg-blue-500');
+                step1.classList.add('bg-gray-300');
+                step2.classList.remove('bg-blue-500');
+                step2.classList.add('bg-gray-300');
+                line.classList.remove('bg-blue-500');
+                line.classList.add('bg-gray-300');
 
-                if (step === 1) step1.classList.replace('bg-gray-300', 'bg-blue-500');
-                if (step === 2) {
-                    step1.classList.replace('bg-gray-300', 'bg-blue-500');
-                    step2.classList.replace('bg-gray-300', 'bg-blue-500');
-                    line.classList.replace('bg-gray-300', 'bg-blue-500');
+                if (step === 1) {
+                    step1.classList.remove('bg-gray-300');
+                    step1.classList.add('bg-blue-500');
+                } else if (step === 2) {
+                    step1.classList.remove('bg-gray-300');
+                    step2.classList.remove('bg-gray-300');
+                    line.classList.remove('bg-gray-300');
+                    step1.classList.add('bg-blue-500');
+                    step2.classList.add('bg-blue-500');
+                    line.classList.add('bg-blue-500');
                 }
             }
 
-            function resetProjectSteps() {
-                highlightProjectStep(0);
+            // Reset steps
+            function resetPropertySteps() {
+                highlightPropertyStep(0);
             }
 
             // Handle payment
-            document.getElementById("projectPaymentForm").addEventListener("submit", async function(e) {
+            document.getElementById("propertyPaymentForm").addEventListener("submit", async function(e) {
                 e.preventDefault();
 
-                if (!currentProject || !currentProject.project_id) {
-                    showError("Project ID not available");
+                if (!currentProperty || !currentProperty.property_id) {
+                    showError("Property ID not available");
                     return;
                 }
 
                 const payload = {
-                    project_id: currentProject.project_id,
+                    property_id: currentProperty.property_id,
                     amount: parseFloat(document.getElementById("paymentAmount").value.replace(/[^0-9.]/g,
                         '')),
                 };
 
                 try {
-                    const response = await fetch("/api/projectAd/payment", {
+                    const response = await fetch("/api/propertyAd/payment", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -663,8 +694,8 @@
                     console.log("Payment response:", result);
 
                     if (response.ok) {
-                        showSuccess(result.success || "Payment successful and Project status updated!");
-                        closeProjectModal();
+                        showSuccess(result.success || "Payment successful and property status updated!");
+                        closePropertyModal();
 
                         setTimeout(() => {
                             location.reload();
@@ -678,11 +709,6 @@
                     showError("Payment failed: " + err.message);
                 }
             });
-
-            function capitalizeFirstLetter(str) {
-                if (!str) return '';
-                return str.charAt(0).toUpperCase() + str.slice(1);
-            }
 
             // Price formatting
             function formatPrice(price) {
@@ -727,4 +753,4 @@
         </script>
     @endpush
 
-</x-app-layout>
+</x-agent-layout>

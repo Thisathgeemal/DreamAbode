@@ -20,22 +20,64 @@
                 </a>
             </li>
 
-            <!-- Property -->
-            <li>
-                <a href="{{ route('agent.property') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('agent.property') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
-                    <i class="fas fa-building"></i> Property
-                </a>
+            <!-- Manage Property Dropdown -->
+            <li x-data="{ open: {{ request()->routeIs('agent.property.*') ? 'true' : 'false' }} }">
+                <button @click="open = !open"
+                    class="flex items-center justify-between w-full px-3 py-2 rounded-md 
+                {{ request()->routeIs('agent.property.*') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    <span class="flex items-center gap-3">
+                        <i class="fas fa-building"></i> Manage Property
+                    </span>
+                    <i :class="open ? 'fa fa-chevron-circle-up' : 'fa fa-chevron-circle-down'"></i>
+                </button>
+                <ul x-show="open" x-transition class="mt-2 space-y-2 pl-7">
+                    <li>
+                        <a href="{{ route('agent.property.assigned') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('agent.property.assigned') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-check-circle pr-1"></i> Assigned Property
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('agent.property.completed') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('agent.property.completed')
+                        ? 'bg-[#5CFFAB] text-black font-semibold'
+                        : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-handshake pr-1"></i> Completed Deals
+                        </a>
+                    </li>
+                </ul>
             </li>
 
-            <!-- Project -->
-            <li>
-                <a href="{{ route('agent.project') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md
-                  {{ request()->routeIs('agent.project') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
-                    <i class="fas fa-project-diagram"></i> Project
-                </a>
+            <!-- Manage Project Dropdown -->
+            <li x-data="{ open: {{ request()->routeIs('agent.project.*') ? 'true' : 'false' }} }">
+                <button @click="open = !open"
+                    class="flex items-center justify-between w-full px-3 py-2 rounded-md 
+                {{ request()->routeIs('agent.project.*') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                    <span class="flex items-center gap-3">
+                        <i class="fas fa-project-diagram"></i> Manage Project
+                    </span>
+                    <i :class="open ? 'fa fa-chevron-circle-up' : 'fa fa-chevron-circle-down'"></i>
+                </button>
+                <ul x-show="open" x-transition class="mt-2 space-y-2 pl-7">
+                    <li>
+                        <a href="{{ route('agent.project.assigned') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('agent.project.assigned') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-check-circle pr-1"></i> Assigned Project
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('agent.project.completed') }}"
+                            class="block px-3 py-2 rounded-md 
+                    {{ request()->routeIs('agent.project.completed')
+                        ? 'bg-[#5CFFAB] text-black font-semibold'
+                        : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-handshake pr-1"></i> Completed Deals
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <!-- Messages -->

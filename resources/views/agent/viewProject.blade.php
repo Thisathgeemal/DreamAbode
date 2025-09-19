@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-agent-layout>
 
     <!-- Header -->
     <div class="w-full px-8 py-6 bg-[#161616] rounded-lg text-left mx-auto shadow-md mb-6">
@@ -9,7 +9,7 @@
                 </p>
             </div>
 
-            <a href="{{ url()->previous() ?? route('member.project.accepted') }}"
+            <a href="{{ url()->previous() ?? route('agent.project.accepted') }}"
                 class="flex items-center gap-2 px-5 py-2.5 bg-[#5CFFAB] text-black rounded-xl font-medium shadow-md 
                 hover:bg-[#35db88] hover:shadow-lg transition-all duration-200 ease-in-out">
                 <i class="fas fa-arrow-left inline sm:hidden"></i>
@@ -501,7 +501,7 @@
                 // Chat Button
                 const chatButton = document.getElementById('chatButton');
                 chatButton.addEventListener('click', () => {
-                    window.location.href = `/member/messages/${agent.id}`;
+                    window.location.href = `/agent/messages/${agent.id}`;
                 });
             }
 
@@ -527,7 +527,7 @@
                 // Chat Button
                 const chatAdminButton = document.getElementById('chatAdminButton');
                 chatAdminButton.addEventListener('click', () => {
-                    window.location.href = `/member/messages/${admin.id}`;
+                    window.location.href = `/agent/messages/${admin.id}`;
                 });
             }
 
@@ -727,4 +727,4 @@
         </script>
     @endpush
 
-</x-app-layout>
+</x-agent-layout>
