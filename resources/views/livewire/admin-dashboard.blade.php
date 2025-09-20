@@ -1,5 +1,5 @@
 <div>
-    <div wire:poll.10s="loadDashboardData" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <div wire:poll.2s="loadDashboardData" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <!-- Card 1 -->
         <div
             class="bg-white shadow-md rounded-lg p-5 transform transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-green-50">
@@ -59,15 +59,15 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <!-- Graph 1 -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div wire:ignore class="bg-white rounded-lg shadow p-6">
             <h3 class="text-xl text-center font-semibold mb-6">Sales & Rentals Overview</h3>
             <canvas id="salesChart" class="w-full h-64"></canvas>
         </div>
 
         <!-- Graph 2 -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div wire:ignore class="bg-white rounded-lg shadow p-6">
             <h3 class="text-xl text-center font-semibold mb-6">Revenue Over Time</h3>
-            <canvas id="revenueChart" class="w-full h-64"></canvas>
+            <canvas id="revenueChart" class="w-full h-64 "></canvas>
         </div>
 
         <!-- Graph 3 -->
