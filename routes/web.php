@@ -99,6 +99,9 @@ Route::middleware([
     // Feedback
     Route::get('/admin/feedback', fn() => view('admin.feedback'))->name('admin.feedback');
 
+    // Profile
+    Route::get('/admin/profile', fn() => view('admin.profile'))->name('admin.profile');
+
 });
 
 // Authenticated Agent Routes
@@ -129,6 +132,9 @@ Route::middleware([
     Route::get('/agent/messages/{userId?}', function ($userId = null) {
         return view('agent.messages', ['userId' => $userId]);
     })->name('agent.messages');
+
+    // Profile
+    Route::get('/agent/profile', fn() => view('agent.profile'))->name('agent.profile');
 
 });
 
@@ -177,4 +183,6 @@ Route::middleware([
     // Feedback / Review
     Route::get('/member/feedback', fn() => view('member.feedback'))->name('member.feedback');
 
+    // Profile
+    Route::get('/member/profile', fn() => view('member.profile'))->name('member.profile');
 });
