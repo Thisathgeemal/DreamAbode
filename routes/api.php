@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProjectAdController;
 use App\Http\Controllers\PropertyAdController;
@@ -23,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('payments', PaymentController::class);
     Route::apiResource('reports', ReportController::class);
     Route::apiResource('reviews', ReviewController::class);
+    Route::apiResource('notification', NotificationController::class);
 
     Route::post('/propertyAd/payment', [PropertyAdController::class, 'payment'])->name('property.payment');
     Route::put('/propertyAd/accept/{property}', [PropertyAdController::class, 'accept'])->name('property.accept');

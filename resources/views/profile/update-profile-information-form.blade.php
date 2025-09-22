@@ -62,7 +62,7 @@
                 <!-- Mobile -->
                 <div>
                     <x-label for="mobile_number" value="{{ __('Mobile Number') }}" />
-                    <x-input id="mobile_number" type="text"
+                    <x-input id="mobile_number" type="tel"
                         class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm" wire:model="state.mobile_number"
                         required />
                     <x-input-error for="mobile_number" class="mt-2" />

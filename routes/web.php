@@ -54,17 +54,12 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
-    // Dashboard
-    Route::get('/admin/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
-
-    // Manage Users
     Route::prefix('admin/users')->name('admin.users.')->group(function () {
         Route::get('/admin', fn() => view('admin.usersAdmin'))->name('admin');
         Route::get('/agents', fn() => view('admin.usersAgents'))->name('agents');
         Route::get('/members', fn() => view('admin.usersMembers'))->name('members');
     });
 
-    // Manage Property
     Route::prefix('admin/property')->name('admin.property.')->group(function () {
         Route::get('/pending', fn() => view('admin.propertyPending'))->name('pending');
         Route::get('/accepted', fn() => view('admin.propertyAccepted'))->name('accepted');
@@ -73,7 +68,6 @@ Route::middleware([
         Route::get('/viewAd/{id}', fn($id) => view('admin.viewProperty', ['propertyId' => $id]))->name('viewAd');
     });
 
-    // Manage Project
     Route::prefix('admin/project')->name('admin.project.')->group(function () {
         Route::get('/pending', fn() => view('admin.projectPending'))->name('pending');
         Route::get('/accepted', fn() => view('admin.projectAccepted'))->name('accepted');
@@ -82,25 +76,20 @@ Route::middleware([
         Route::get('/viewAd/{id}', fn($id) => view('admin.viewProject', ['projectId' => $id]))->name('viewAd');
     });
 
-    // Manage Membership
     Route::prefix('admin/membership')->name('admin.membership.')->group(function () {
         Route::get('/type', fn() => view('admin.membershipType'))->name('type');
         Route::get('/subscriptions', fn() => view('admin.membership'))->name('subscriptions');
     });
 
-    // Payment
-    Route::get('/admin/payment', fn() => view('admin.payment'))->name('admin.payment');
-
-    // Messages
     Route::get('/admin/messages/{userId?}', function ($userId = null) {
         return view('admin.messages', ['userId' => $userId]);
     })->name('admin.messages');
 
-    // Feedback
+    Route::get('/admin/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+    Route::get('/admin/payment', fn() => view('admin.payment'))->name('admin.payment');
     Route::get('/admin/feedback', fn() => view('admin.feedback'))->name('admin.feedback');
-
-    // Profile
     Route::get('/admin/profile', fn() => view('admin.profile'))->name('admin.profile');
+    Route::get('/admin/notification', fn() => view('admin.notification'))->name('admin.notification');
 
 });
 
@@ -111,30 +100,25 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
-    // Dashboard
-    Route::get('/agent/dashboard', fn() => view('agent.dashboard'))->name('agent.dashboard');
-
-    // Manage Property
     Route::prefix('agent/property')->name('agent.property.')->group(function () {
         Route::get('/assigned', fn() => view('agent.propertyAssigned'))->name('assigned');
         Route::get('/completed', fn() => view('agent.propertyCompleted'))->name('completed');
         Route::get('/viewAd/{id}', fn($id) => view('agent.viewProperty', ['propertyId' => $id]))->name('viewAd');
     });
 
-    // Manage Project
     Route::prefix('agent/project')->name('agent.project.')->group(function () {
         Route::get('/assigned', fn() => view('agent.projectAssigned'))->name('assigned');
         Route::get('/completed', fn() => view('agent.projectCompleted'))->name('completed');
         Route::get('/viewAd/{id}', fn($id) => view('agent.viewProject', ['projectId' => $id]))->name('viewAd');
     });
 
-    // Messages
     Route::get('/agent/messages/{userId?}', function ($userId = null) {
         return view('agent.messages', ['userId' => $userId]);
     })->name('agent.messages');
 
-    // Profile
+    Route::get('/agent/dashboard', fn() => view('agent.dashboard'))->name('agent.dashboard');
     Route::get('/agent/profile', fn() => view('agent.profile'))->name('agent.profile');
+    Route::get('/agent/notification', fn() => view('agent.notification'))->name('agent.notification');
 
 });
 
@@ -144,10 +128,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    // Dashboard
-    Route::get('/member/dashboard', fn() => view('member.dashboard'))->name('member.dashboard');
 
-    // Manage Property Routes
     Route::prefix('member/property')->name('member.property.')->group(function () {
         Route::get('/pending', fn() => view('member.propertyPending'))->name('pending');
         Route::get('/accepted', fn() => view('member.propertyAccepted'))->name('accepted');
@@ -158,7 +139,6 @@ Route::middleware([
         Route::get('/viewAd/{id}', fn($id) => view('member.viewProperty', ['propertyId' => $id]))->name('viewAd');
     });
 
-    // Manage Project Routes
     Route::prefix('member/project')->name('member.project.')->group(function () {
         Route::get('/pending', fn() => view('member.projectPending'))->name('pending');
         Route::get('/accepted', fn() => view('member.projectAccepted'))->name('accepted');
@@ -169,20 +149,14 @@ Route::middleware([
         Route::get('/viewAd/{id}', fn($id) => view('member.viewProject', ['projectId' => $id]))->name('viewAd');
     });
 
-    // Membership
-    Route::get('/member/membership', fn() => view('member.membership'))->name('member.membership');
-
-    // Payment
-    Route::get('/member/payment', fn() => view('member.payment'))->name('member.payment');
-
-    // Messages
     Route::get('/member/messages/{userId?}', function ($userId = null) {
         return view('member.messages', ['userId' => $userId]);
     })->name('member.messages');
 
-    // Feedback / Review
+    Route::get('/member/dashboard', fn() => view('member.dashboard'))->name('member.dashboard');
+    Route::get('/member/membership', fn() => view('member.membership'))->name('member.membership');
+    Route::get('/member/payment', fn() => view('member.payment'))->name('member.payment');
     Route::get('/member/feedback', fn() => view('member.feedback'))->name('member.feedback');
-
-    // Profile
     Route::get('/member/profile', fn() => view('member.profile'))->name('member.profile');
+    Route::get('/member/notification', fn() => view('member.notification'))->name('member.notification');
 });

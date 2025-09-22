@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Actions\Fortify;
 
 use App\Models\User;
@@ -18,9 +17,13 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     public function update(User $user, array $input): void
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'name'          => ['required', 'string', 'max:255'],
+            'email'         => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'photo'         => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'mobile_number' => ['nullable', 'string', 'max:15'],
+            'address'       => ['nullable', 'string', 'max:255'],
+            'gender'        => ['nullable', 'in:male,female,other'],
+            'dob'           => ['nullable', 'date'],
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
@@ -32,8 +35,12 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
-                'name' => $input['name'],
-                'email' => $input['email'],
+                'name'          => $input['name'],
+                'email'         => $input['email'],
+                'mobile_number' => $input['mobile_number'] ?? $user->mobile_number,
+                'address'       => $input['address'] ?? $user->address,
+                'gender'        => $input['gender'] ?? $user->gender,
+                'dob'           => $input['dob'] ?? $user->dob,
             ])->save();
         }
     }
@@ -46,10 +53,14 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     protected function updateVerifiedUser(User $user, array $input): void
     {
         $user->forceFill([
-            'name' => $input['name'],
-            'email' => $input['email'],
+            'name'              => $input['name'],
+            'email'             => $input['email'],
             'email_verified_at' => null,
-        ])->save();
+            'mobile_number'     => $input['mobile_number'] ?? $user->mobile_number,
+            'address'           => $input['address'] ?? $user->address,
+            'gender'            => $input['gender'] ?? $user->gender,
+            'dob'               => $input['dob'] ?? $user->dob,
+        ])->saveOrFail();
 
         $user->sendEmailVerificationNotification();
     }

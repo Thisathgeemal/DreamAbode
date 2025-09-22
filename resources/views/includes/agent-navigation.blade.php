@@ -126,14 +126,17 @@
 
             <div class="flex items-center space-x-4">
                 <!-- Notification -->
-                <button class="relative p-2 rounded-full hover:bg-gray-800 focus:outline-none">
+                <a href="{{ route('agent.notification') }}"
+                    class="relative p-2 rounded-full hover:bg-gray-800 focus:outline-none">
                     <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-9.33-5.032M9 21h6" />
                     </svg>
                     <span
-                        class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">3</span>
-                </button>
+                        class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                        {{ $unreadNotificationCount ?? 0 }}
+                    </span>
+                </a>
 
                 <!-- Profile Dropdown -->
                 <x-dropdown align="right" width="48">
