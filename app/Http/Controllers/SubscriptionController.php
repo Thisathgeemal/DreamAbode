@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
@@ -130,6 +131,14 @@ class SubscriptionController extends Controller
                 'description' => 'Payment for subscription type: ' . $type->type_name,
             ]);
 
+            Notification::create([
+                'user_id' => $user->id,
+                'title'   => 'Payment Successful',
+                'message' => 'Your payment for buy Subscription was processed successfully.',
+                'type'    => 'payment',
+                'is_read' => false,
+            ]);
+
             // Default: new subscription starts today
             $startDate = now()->startOfDay();
             $endDate   = $startDate->copy()->addDays($type->duration_days - 1)->endOfDay();
@@ -182,6 +191,14 @@ class SubscriptionController extends Controller
                 'status'     => $status,
             ]);
 
+            Notification::create([
+                'user_id' => $user->id,
+                'title'   => 'Subscription Activated',
+                'message' => 'Your subscription has been activated successfully.',
+                'type'    => 'membership',
+                'is_read' => false,
+            ]);
+
             DB::commit();
 
             return response()->json([
@@ -225,9 +242,21 @@ class SubscriptionController extends Controller
             ], 422);
         }
 
+        $subscriptions = Subscription::whereIn('subscription_id', $subscriptionIds)->get();
+
         Subscription::whereIn('subscription_id', $subscriptionIds)->update([
             'status' => 'canceled',
         ]);
+
+        foreach ($subscriptions as $subscription) {
+            Notification::create([
+                'user_id' => $subscription->member_id,
+                'title'   => 'Subscription Cancelled',
+                'message' => 'Your subscription has been cancelled successfully.',
+                'type'    => 'membership',
+                'is_read' => false,
+            ]);
+        }
 
         return response()->json([
             'success' => 'Subscription(s) cancelled successfully.',

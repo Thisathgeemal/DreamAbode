@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\BuyerProjectMail;
 use App\Mail\ProjectOwnerMail;
 use App\Models\Image;
+use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\ProjectAd;
 use App\Models\User;
@@ -152,6 +153,14 @@ class ProjectAdController extends Controller
                 }
             }
 
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title'   => 'Project Created',
+                'message' => 'Your project "' . $project->project_name . '" has been created successfully and is pending approval.',
+                'type'    => 'project',
+                'is_read' => false,
+            ]);
+
             DB::commit();
 
             return response()->json([
@@ -239,6 +248,14 @@ class ProjectAdController extends Controller
                 }
             }
 
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title'   => 'Project Updated',
+                'message' => 'Your project "' . $project->project_name . '" has been updated successfully.',
+                'type'    => 'project',
+                'is_read' => false,
+            ]);
+
             DB::commit();
 
             return response()->json([
@@ -273,6 +290,14 @@ class ProjectAdController extends Controller
 
             $project->delete();
 
+            Notification::create([
+                'user_id' => $project->member_id,
+                'title'   => 'Project Deleted',
+                'message' => 'Your project "' . $project->project_name . '" has been deleted successfully.',
+                'type'    => 'project',
+                'is_read' => false,
+            ]);
+
             return response()->json([
                 'success' => 'Project and related images deleted successfully.',
             ], 200);
@@ -298,6 +323,22 @@ class ProjectAdController extends Controller
                 $this->assignAgentWithLeastProjects($project);
             });
 
+            Notification::create([
+                'user_id' => $project->member_id,
+                'title'   => 'Project Accepted',
+                'message' => 'Your project "' . $project->project_name . '" has been accepted and is now live.',
+                'type'    => 'project',
+                'is_read' => false,
+            ]);
+
+            Notification::create([
+                'user_id' => $project->agent_id,
+                'title'   => 'New Project Assigned',
+                'message' => 'You have been assigned to manage the project "' . $project->project_name . '".',
+                'type'    => 'project',
+                'is_read' => false,
+            ]);
+
             return response()->json(['success' => 'Project approved successfully.']);
         } catch (\Exception $e) {
             \Log::error('Accept Project Error: ' . $e->getMessage());
@@ -318,6 +359,14 @@ class ProjectAdController extends Controller
                 $project->admin_id = auth()->user()->id;
                 $project->save();
             });
+
+            Notification::create([
+                'user_id' => $project->member_id,
+                'title'   => 'Project Rejected',
+                'message' => 'Your project "' . $project->project_name . '" has been rejected. Please review and resubmit.',
+                'type'    => 'project',
+                'is_read' => false,
+            ]);
 
             return response()->json([
                 'success' => 'Project rejected successfully.',
@@ -403,6 +452,38 @@ class ProjectAdController extends Controller
             $buyer  = User::findOrFail($userId);
             $member = User::findOrFail($project->member_id);
             $agent  = $project->agent_id ? User::findOrFail($project->agent_id) : null;
+
+            Notification::create([
+                'user_id' => $userId,
+                'title'   => 'Payment Successful',
+                'message' => 'Your payment for "' . $project->project_name . '" was processed successfully.',
+                'type'    => 'payment',
+                'is_read' => false,
+            ]);
+
+            Notification::create([
+                'user_id' => $project->member_id,
+                'title'   => 'Project Deal Completed',
+                'message' => 'Congratulations! The deal for the project "' . $project->project_name . '" has been successfully completed.',
+                'type'    => 'project',
+                'is_read' => false,
+            ]);
+
+            Notification::create([
+                'user_id' => $project->agent_id,
+                'title'   => 'Project Deal Completed',
+                'message' => 'Congratulations! The deal for the project "' . $project->project_name . '" has been successfully completed.',
+                'type'    => 'project',
+                'is_read' => false,
+            ]);
+
+            Notification::create([
+                'user_id' => $project->admin_id,
+                'title'   => 'Project Deal Completed',
+                'message' => 'Congratulations! The deal for the project "' . $project->project_name . '" has been successfully completed.',
+                'type'    => 'project',
+                'is_read' => false,
+            ]);
 
             // Send email to Buyer (with Member details)
             Mail::to($buyer->email)->send(new BuyerProjectMail($buyer, $member, $agent, $project));

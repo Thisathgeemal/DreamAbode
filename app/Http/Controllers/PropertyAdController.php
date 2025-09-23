@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\BuyerMail;
 use App\Mail\PropertyOwnerMail;
 use App\Models\Image;
+use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\PropertyAd;
 use App\Models\User;
@@ -138,6 +139,14 @@ class PropertyAdController extends Controller
                 }
             }
 
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title'   => 'Property Created',
+                'message' => 'Your property "' . $property->property_name . '" has been created successfully and is pending approval.',
+                'type'    => 'property',
+                'is_read' => false,
+            ]);
+
             DB::commit();
 
             return response()->json([
@@ -220,6 +229,14 @@ class PropertyAdController extends Controller
                 }
             }
 
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title'   => 'Property Updated',
+                'message' => 'Your property "' . $property->property_name . '" has been updated successfully.',
+                'type'    => 'property',
+                'is_read' => false,
+            ]);
+
             DB::commit();
 
             return response()->json([
@@ -255,6 +272,14 @@ class PropertyAdController extends Controller
 
             $property->delete();
 
+            Notification::create([
+                'user_id' => $property->member_id,
+                'title'   => 'Property Deleted',
+                'message' => 'Your property "' . $property->property_name . '" has been deleted successfully.',
+                'type'    => 'property',
+                'is_read' => false,
+            ]);
+
             return response()->json([
                 'success' => 'Property and related images deleted successfully.',
             ], 200);
@@ -280,6 +305,22 @@ class PropertyAdController extends Controller
                 $this->assignAgentWithLeastProperties($property);
             });
 
+            Notification::create([
+                'user_id' => $property->member_id,
+                'title'   => 'Property Accepted',
+                'message' => 'Your property "' . $property->property_name . '" has been accepted and is now live.',
+                'type'    => 'property',
+                'is_read' => false,
+            ]);
+
+            Notification::create([
+                'user_id' => $property->agent_id,
+                'title'   => 'New Property Assigned',
+                'message' => 'You have been assigned to manage the property "' . $property->property_name . '".',
+                'type'    => 'property',
+                'is_read' => false,
+            ]);
+
             return response()->json(['success' => 'Property approved and assigned successfully.']);
         } catch (\Exception $e) {
             \Log::error('Accept Property Error: ' . $e->getMessage());
@@ -300,6 +341,14 @@ class PropertyAdController extends Controller
                 $property->admin_id = auth()->user()->id;
                 $property->save();
             });
+
+            Notification::create([
+                'user_id' => $property->member_id,
+                'title'   => 'Property Rejected',
+                'message' => 'Your property "' . $property->property_name . '" has been rejected. Please review and resubmit.',
+                'type'    => 'property',
+                'is_read' => false,
+            ]);
 
             return response()->json([
                 'success' => 'Property rejected successfully.',
@@ -378,6 +427,38 @@ class PropertyAdController extends Controller
             $buyer  = User::findOrFail($property->buyer_id);
             $member = User::findOrFail($property->member_id);
             $agent  = User::findOrFail($property->agent_id);
+
+            Notification::create([
+                'user_id' => $userId,
+                'title'   => 'Payment Successful',
+                'message' => 'Your payment for "' . $property->property_name . '" was processed successfully.',
+                'type'    => 'payment',
+                'is_read' => false,
+            ]);
+
+            Notification::create([
+                'user_id' => $property->member_id,
+                'title'   => 'Property Deal Completed',
+                'message' => 'Congratulations! The deal for the property "' . $property->property_name . '" has been successfully completed.',
+                'type'    => 'property',
+                'is_read' => false,
+            ]);
+
+            Notification::create([
+                'user_id' => $property->agent_id,
+                'title'   => 'Property Deal Completed',
+                'message' => 'Congratulations! The deal for the property "' . $property->property_name . '" has been successfully completed.',
+                'type'    => 'property',
+                'is_read' => false,
+            ]);
+
+            Notification::create([
+                'user_id' => $property->admin_id,
+                'title'   => 'Property Deal Completed',
+                'message' => 'Congratulations! The deal for the property "' . $property->property_name . '" has been successfully completed.',
+                'type'    => 'property',
+                'is_read' => false,
+            ]);
 
             // Send email to Buyer (with Member details)
             Mail::to($buyer->email)->send(new BuyerMail($buyer, $member, $agent, $property));

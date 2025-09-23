@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -81,6 +82,14 @@ class ReviewController extends Controller
             'visibility'  => true,
         ]);
 
+        Notification::create([
+            'user_id' => Auth::id(),
+            'title'   => 'Feedback  Submitted',
+            'message' => 'Your feedback has been submitted successfully.',
+            'type'    => 'review',
+            'is_read' => false,
+        ]);
+
         return response()->json(['review' => $review], 201);
     }
 
@@ -118,6 +127,14 @@ class ReviewController extends Controller
         $review->visibility = false;
         $review->save();
 
+        Notification::create([
+            'user_id' => Auth::id(),
+            'title'   => 'Feedback Hidden',
+            'message' => 'You have hidden a feedback. Its visibility is now set to "hidden".',
+            'type'    => 'review',
+            'is_read' => false,
+        ]);
+
         return response()->json(['message' => 'Review hidden successfully']);
     }
 
@@ -139,6 +156,14 @@ class ReviewController extends Controller
         $review->visibility = true;
         $review->save();
 
+        Notification::create([
+            'user_id' => Auth::id(),
+            'title'   => 'Feedback Visible',
+            'message' => 'You have made a feedback visible. Its visibility is now set to "shown".',
+            'type'    => 'review',
+            'is_read' => false,
+        ]);
+
         return response()->json(['message' => 'Review is now visible']);
     }
 
@@ -151,6 +176,14 @@ class ReviewController extends Controller
         if (! $review) {
             return response()->json(['message' => 'Review not found'], 404);
         }
+
+        Notification::create([
+            'user_id' => $review->member_id,
+            'title'   => 'Feedback Deleted',
+            'message' => 'A feedback you submitted has been removed from the system.',
+            'type'    => 'review',
+            'is_read' => false,
+        ]);
 
         $review->delete();
         return response()->json(['message' => 'Review deleted successfully']);
