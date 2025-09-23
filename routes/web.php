@@ -52,6 +52,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    'admin',
 ])->group(function () {
 
     Route::prefix('admin/users')->name('admin.users.')->group(function () {
@@ -98,6 +99,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    'agent',
 ])->group(function () {
 
     Route::prefix('agent/property')->name('agent.property.')->group(function () {
@@ -127,6 +129,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    'member',
 ])->group(function () {
 
     Route::prefix('member/property')->name('member.property.')->group(function () {
