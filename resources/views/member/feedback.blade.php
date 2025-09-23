@@ -54,7 +54,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
             let selectedRating = 0;
 
             document.addEventListener('DOMContentLoaded', () => {
@@ -125,7 +124,7 @@
                     description,
                 }, {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer {{ session('auth_token') }}`
                     }
                 });
             }
@@ -147,7 +146,7 @@
                 try {
                     const response = await axios.get('/api/reviews', {
                         headers: {
-                            Authorization: `Bearer ${token}`
+                            Authorization: `Bearer {{ session('auth_token') }}`
                         }
                     });
                     renderReviews(container, response.data.user_reviews);
@@ -219,7 +218,7 @@
                         try {
                             await axios.delete(`/api/reviews/${reviewId}`, {
                                 headers: {
-                                    Authorization: `Bearer ${token}`
+                                    Authorization: `Bearer {{ session('auth_token') }}`
                                 }
                             });
                             showSuccess('Review deleted successfully!');

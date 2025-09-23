@@ -63,7 +63,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
             let currentPaymentPage = 1;
             let lastPaymentSearch = '';
 
@@ -82,7 +81,7 @@
 
                 axios.get(`/api/payments?page=${page}&search=${search}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/json'
                         }
                     })
@@ -150,7 +149,7 @@
                         type: 'memberpayment'
                     }, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/pdf',
                             'Content-Type': 'application/json'
                         },

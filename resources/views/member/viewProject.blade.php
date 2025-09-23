@@ -315,7 +315,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
             let currentProject = null;
 
             // Load project details
@@ -326,7 +325,7 @@
                 try {
                     const response = await axios.get(`/api/projectAd/${projectId}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer {{ session('auth_token') }}`
                         }
                     });
 
@@ -451,7 +450,7 @@
                 try {
                     const response = await axios.get(`/api/agents/${agentId}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer {{ session('auth_token') }}`
                         }
                     });
 
@@ -468,7 +467,7 @@
                 try {
                     const response = await axios.get(`/api/admins/${adminId}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer {{ session('auth_token') }}`
                         }
                     });
                     const admin = response.data;
@@ -654,7 +653,7 @@
                         headers: {
                             "Content-Type": "application/json",
                             "Accept": "application/json",
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer {{ session('auth_token') }}`
                         },
                         body: JSON.stringify(payload)
                     });

@@ -151,8 +151,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
-
             // Load property data
             document.addEventListener("DOMContentLoaded", function() {
                 const propertyId = document.getElementById('editAdForm').dataset.id;
@@ -162,7 +160,7 @@
                 // Fetch property details
                 axios.get(`/api/propertyAd/${propertyId}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer {{ session('auth_token') }}`
                         }
                     })
                     .then(response => {
@@ -262,13 +260,13 @@
                 e.preventDefault();
 
                 const propertyId = this.dataset.id;
-                const formData = new FormData(this); // Collect all inputs including files
+                const formData = new FormData(this);
 
                 try {
                     const response = await fetch(`/api/propertyAd/${propertyId}`, {
                         method: 'PUT',
                         headers: {
-                            'Authorization': `Bearer {{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}`
+                            'Authorization': `Bearer {{ session('auth_token') }}`
                         },
                         body: formData
                     });

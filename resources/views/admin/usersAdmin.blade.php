@@ -124,7 +124,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
             let currentPage = 1;
             let lastSearch = '';
 
@@ -143,7 +142,7 @@
 
                 axios.get(`/api/admins?page=${page}&search=${search}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/json'
                         }
                     })
@@ -212,7 +211,7 @@
             function openEditModal(id) {
                 axios.get(`/api/admins/${id}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer {{ session('auth_token') }}`
                         }
                     })
                     .then(res => {
@@ -243,7 +242,7 @@
                     formData.append('_method', 'PUT');
                     axios.post(`/api/admins/${id}`, formData, {
                             headers: {
-                                'Authorization': `Bearer ${token}`,
+                                'Authorization': `Bearer {{ session('auth_token') }}`,
                                 'Accept': 'application/json',
                                 'Content-Type': 'multipart/form-data'
                             }
@@ -270,7 +269,7 @@
                 } else {
                     axios.post('/api/admins', formData, {
                             headers: {
-                                'Authorization': `Bearer ${token}`,
+                                'Authorization': `Bearer {{ session('auth_token') }}`,
                                 'Accept': 'application/json'
                             }
                         })
@@ -321,7 +320,7 @@
                             try {
                                 await axios.delete(`/api/admins/${id}`, {
                                     headers: {
-                                        'Authorization': `Bearer ${token}`
+                                        'Authorization': `Bearer {{ session('auth_token') }}`
                                     }
                                 });
                             } catch (err) {
@@ -353,7 +352,7 @@
                         role: role
                     }, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/pdf'
                         },
                         responseType: 'blob'

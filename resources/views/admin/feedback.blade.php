@@ -18,8 +18,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
-
             document.addEventListener('DOMContentLoaded', () => {
                 fetchAllReviews();
             });
@@ -33,7 +31,7 @@
                 try {
                     const response = await axios.get('/api/reviews', {
                         headers: {
-                            Authorization: `Bearer ${token}`
+                            Authorization: `Bearer {{ session('auth_token') }}`
                         }
                     });
                     renderReviews(container, response.data.all_reviews);
@@ -130,7 +128,7 @@
                     const url = makeVisible ? `/api/reviews/${reviewId}/show` : `/api/reviews/${reviewId}/hide`;
                     await axios.put(url, {}, {
                         headers: {
-                            Authorization: `Bearer ${token}`
+                            Authorization: `Bearer {{ session('auth_token') }}`
                         }
                     });
                     showSuccess(makeVisible ? 'Review is now visible.' : 'Review is now hidden.');

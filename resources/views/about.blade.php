@@ -232,8 +232,6 @@
 
         @push('scripts')
             <script>
-                const token = "{{ auth()->user()->createToken('authToken')->plainTextToken }}";
-
                 document.addEventListener('DOMContentLoaded', () => {
                     fetchMemberReviews();
                 });
@@ -247,7 +245,7 @@
                     try {
                         const response = await axios.get('/api/reviews', {
                             headers: {
-                                Authorization: `Bearer ${token}`
+                                Authorization: `Bearer {{ session('auth_token') }}`
                             }
                         });
                         renderReviews(container, response.data.visible_reviews);

@@ -149,7 +149,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
             let currentPage = 1;
             let lastSearch = '';
 
@@ -169,7 +168,7 @@
 
                 axios.get(`/api/subscription?page=${page}&search=${search}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/json'
                         }
                     })
@@ -254,7 +253,7 @@
 
                 axios.get(`/api/subscriptionType?page=${page}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/json'
                         }
                     })
@@ -341,7 +340,7 @@
                         type: 'membersubscription'
                     }, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/pdf',
                             'Content-Type': 'application/json'
                         },
@@ -383,7 +382,7 @@
                             try {
                                 await axios.put(`/api/subscription/${id}`, {}, {
                                     headers: {
-                                        'Authorization': `Bearer ${token}`
+                                        'Authorization': `Bearer {{ session('auth_token') }}`
                                     }
                                 });
                             } catch (err) {
@@ -413,7 +412,7 @@
 
                 const headers = {
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer {{ session('auth_token') }}`
                 };
 
                 const payload = {

@@ -135,7 +135,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
             let currentPage = 1;
             let lastSearch = '';
 
@@ -158,7 +157,7 @@
 
                 axios.get(`/api/subscriptionType?page=${page}&search=${search}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/json'
                         }
                     })
@@ -235,7 +234,7 @@
             function openEditModal(id) {
                 axios.get(`/api/subscriptionType/${id}`, {
                         headers: {
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer {{ session('auth_token') }}`
                         }
                     })
                     .then(res => {
@@ -269,7 +268,7 @@
                     formData.append('_method', 'PUT');
                     axios.post(`/api/subscriptionType/${id}`, formData, {
                             headers: {
-                                'Authorization': `Bearer ${token}`,
+                                'Authorization': `Bearer {{ session('auth_token') }}`,
                                 'Accept': 'application/json',
                                 'Content-Type': 'multipart/form-data'
                             }
@@ -295,7 +294,7 @@
                 } else {
                     axios.post('/api/subscriptionType', formData, {
                             headers: {
-                                'Authorization': `Bearer ${token}`,
+                                'Authorization': `Bearer {{ session('auth_token') }}`,
                                 'Accept': 'application/json'
                             }
                         })
@@ -343,7 +342,7 @@
                             try {
                                 await axios.delete(`/api/subscriptionType/${id}`, {
                                     headers: {
-                                        'Authorization': `Bearer ${token}`
+                                        'Authorization': `Bearer {{ session('auth_token') }}`
                                     }
                                 });
                             } catch (err) {
@@ -371,7 +370,7 @@
                         type: 'subscriptionType'
                     }, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/pdf',
                             'Content-Type': 'application/json'
                         },

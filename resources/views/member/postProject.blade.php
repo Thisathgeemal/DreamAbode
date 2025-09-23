@@ -160,8 +160,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
-
             // Image uploader
             function handleImageUpload(event) {
                 const files = event.target.files;
@@ -237,7 +235,7 @@
                 try {
                     const response = await axios.post(`/api/projectAd`, formData, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Content-Type': 'multipart/form-data',
                         }
                     });

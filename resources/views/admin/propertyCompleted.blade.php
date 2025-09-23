@@ -17,8 +17,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
-
             document.addEventListener('DOMContentLoaded', () => {
                 fetchCompletedProperties();
             });
@@ -35,7 +33,7 @@
                 try {
                     const response = await axios.get('/api/propertyAd', {
                         headers: {
-                            Authorization: `Bearer ${token}`
+                            Authorization: `Bearer {{ session('auth_token') }}`
                         }
                     });
 

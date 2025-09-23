@@ -160,8 +160,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
-
             document.addEventListener("DOMContentLoaded", function() {
                 const projectId = document.getElementById('editProjectForm').dataset.id;
 
@@ -169,7 +167,7 @@
 
                 axios.get(`/api/projectAd/${projectId}`, {
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer {{ session('auth_token') }}`
                     }
                 }).then(response => {
                     const project = response.data.project;
@@ -274,7 +272,7 @@
                     const response = await fetch(`/api/projectAd/${projectId}`, {
                         method: 'POST',
                         headers: {
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer {{ session('auth_token') }}`
                         },
                         body: formData
                     });

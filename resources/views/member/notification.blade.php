@@ -26,8 +26,6 @@
 
     @push('scripts')
         <script>
-            const token = "{{ auth()->user()->createToken('authToken')->plainTextToken ?? '' }}";
-
             const typeIcons = {
                 property: {
                     icon: 'fa-home',
@@ -78,7 +76,7 @@
             function fetchNotifications() {
                 axios.get('/api/notification', {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/json'
                         }
                     })
@@ -152,7 +150,7 @@
             function markAsRead(id) {
                 axios.put(`/api/notification/${id}`, {}, {
                         headers: {
-                            'Authorization': `Bearer ${token}`,
+                            'Authorization': `Bearer {{ session('auth_token') }}`,
                             'Accept': 'application/json'
                         }
                     })
@@ -173,7 +171,7 @@
                     if (result.isConfirmed) {
                         axios.delete(`/api/notification/${id}`, {
                                 headers: {
-                                    'Authorization': `Bearer ${token}`,
+                                    'Authorization': `Bearer {{ session('auth_token') }}`,
                                     'Accept': 'application/json'
                                 }
                             })
