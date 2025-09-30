@@ -393,6 +393,17 @@ class PropertyAdController extends Controller
         $request->validate([
             'property_id' => 'required|exists:property_ads,property_id',
             'amount'      => 'required|numeric|min:1',
+            'card_type'   => 'required|in:visa,mastercard,amex,discover',
+            'card_name'   => 'required|string|max:255',
+            'card_number' => 'required|digits:16',
+            'cvv'         => 'required|digits:3',
+            'expiry_date' => ['required', 'date_format:Y-m', function ($attribute, $value, $fail) {
+                [$year, $month] = explode('-', $value);
+                $expiry         = \Carbon\Carbon::create($year, $month, 1)->endOfMonth();
+                if ($expiry < now()) {
+                    $fail('The expiry date must be today or in the future.');
+                }
+            }],
         ]);
 
         try {

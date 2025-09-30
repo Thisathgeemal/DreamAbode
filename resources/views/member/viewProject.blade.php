@@ -259,7 +259,7 @@
                     <!-- Card Type -->
                     <div class="mb-2">
                         <label class="block text-sm font-medium">Card Type</label>
-                        <select id="cardType" required
+                        <select id="card_type" required
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
                             <option value="">Select Card Type</option>
                             <option value="visa">Visa</option>
@@ -272,30 +272,30 @@
                     <!-- Name on Card -->
                     <div class="mb-2">
                         <label class="block text-sm font-medium">Name on Card</label>
-                        <input type="text" id="cardName" required placeholder="Full Name"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                        <input type="text" id="card_name" required placeholder="Full Name"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
 
                     <!-- Card Number -->
-                    <div class="mb-2">
+                    <div class="mb-4">
                         <label class="block text-sm font-medium">Card Number</label>
-                        <input type="text" id="cardNumber" required maxlength="16"
+                        <input type="text" id="card_number" required maxlength="16"
                             placeholder="1234 5678 9012 3456"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
 
-                    <!-- Expiry + CVV -->
-                    <div class="mb-4 flex gap-2">
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium">Expiry Date</label>
-                            <input type="month" id="expiryDate" required
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
-                        </div>
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium">CVV</label>
-                            <input type="text" id="cvv" required maxlength="3" placeholder="CVV"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
-                        </div>
+                    <!-- Expiry -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium">CVV</label>
+                        <input type="text" id="cvv" required maxlength="3" placeholder="CVV"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                    </div>
+
+                    <!-- CVV -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium">Expiry Date</label>
+                        <input type="month" id="expiry_date" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                     </div>
 
                     <input type="hidden" id="numericPaymentAmount" name="amount">
@@ -643,8 +643,12 @@
 
                 const payload = {
                     project_id: currentProject.project_id,
-                    amount: parseFloat(document.getElementById("paymentAmount").value.replace(/[^0-9.]/g,
-                        '')),
+                    amount: parseFloat(document.getElementById("paymentAmount").value.replace(/[^0-9.]/g, '')),
+                    card_type: document.getElementById("card_type").value,
+                    card_name: document.getElementById("card_name").value,
+                    card_number: document.getElementById("card_number").value,
+                    cvv: document.getElementById("cvv").value,
+                    expiry_date: document.getElementById("expiry_date").value
                 };
 
                 try {
@@ -670,7 +674,15 @@
                         }, 1000);
                     } else {
                         console.error("Payment error:", result);
-                        showError("Payment failed: " + (result.error || "Unknown error"));
+                        if (result.errors) {
+                            let messages = [];
+                            for (const field in result.errors) {
+                                messages.push(result.errors[field].join(", "));
+                            }
+                            showError(messages.join("\n"));
+                        } else {
+                            showError("Payment failed: " + (result.error || result.message || "Unknown error"));
+                        }
                     }
                 } catch (err) {
                     console.error("Request failed:", err);

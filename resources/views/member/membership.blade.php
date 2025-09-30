@@ -122,18 +122,18 @@
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 </div>
 
-                <!-- Expiry + CVV -->
-                <div class="mb-4 flex gap-2">
-                    <div class="flex-1">
-                        <label class="block text-sm font-medium">CVV</label>
-                        <input type="text" id="cvv" required maxlength="3" placeholder="CVV"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-                    </div>
-                    <div class="flex-1">
-                        <label class="block text-sm font-medium">Expiry Date</label>
-                        <input type="month" id="expiry_date" required
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-                    </div>
+                <!-- Expiry -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium">CVV</label>
+                    <input type="text" id="cvv" required maxlength="3" placeholder="CVV"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                </div>
+
+                <!-- CVV -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium">Expiry Date</label>
+                    <input type="month" id="expiry_date" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 </div>
 
                 <!-- Buttons -->
@@ -474,9 +474,21 @@
                             showError(err.response?.data?.error || 'Failed to create subscription after action.');
                         }
                     } else {
-                        showError(error.response?.data?.error ||
-                            'Something went wrong while creating subscription check your input are valid.');
+                        if (error.response?.status === 422 && error.response?.data?.errors) {
+                            let messages = [];
+                            for (const field in error.response.data.errors) {
+                                messages.push(error.response.data.errors[field].join(", "));
+                            }
+                            showError(messages.join("\n"));
+                        } else {
+                            showError(
+                                error.response?.data?.error ||
+                                error.response?.data?.message ||
+                                'Something went wrong while creating subscription check your input are valid.'
+                            );
+                        }
                     }
+
                 }
             });
 
