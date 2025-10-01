@@ -73,8 +73,7 @@
                         <div
                             class="w-12 h-12 rounded-full flex items-center justify-center select-none overflow-hidden">
                             @if (!empty($user->profile_photo_path))
-                                <!-- Show profile_image -->
-                                <img src="{{ asset($user->profile_photo_path) }}?v={{ time() }}"
+                                <img src="{{ asset('storage/' . $user->profile_photo_path) }}?v={{ time() }}"
                                     alt="{{ $user->name }}" class="w-full h-full object-cover" />
                             @else
                                 <!-- Show first letter fallback -->
@@ -121,7 +120,7 @@
                             class="w-12 h-12 rounded-full flex items-center justify-center select-none overflow-hidden">
                             @if (!empty($selectedUser->profile_photo_path))
                                 <!-- Show profile_image -->
-                                <img src="{{ asset($selectedUser->profile_photo_path) }}?v={{ time() }}"
+                                <img src="{{ asset('storage/' . $selectedUser->profile_photo_path) }}?v={{ time() }}"
                                     alt="{{ $selectedUser->name }}" class="w-full h-full object-cover" />
                             @else
                                 <!-- Show first letter fallback -->

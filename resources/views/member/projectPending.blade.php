@@ -12,7 +12,7 @@
                 class="flex items-center gap-2 px-5 py-2.5 bg-[#5CFFAB] text-black rounded-xl font-medium shadow-md 
                 hover:bg-[#35db88] hover:shadow-lg transition-all duration-200 ease-in-out">
                 <i class="fas fa-plus inline sm:hidden"></i>
-                <span class="hidden sm:inline">Post Your Ad</span>
+                <span class="hidden sm:inline">Post Your Project</span>
             </a>
         </div>
     </div>
