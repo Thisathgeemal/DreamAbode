@@ -200,7 +200,7 @@
                 <!-- Profile Dropdown -->
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button
+                        <button 
                             class="flex items-center text-sm border-2 border-transparent rounded-full bg-[#5CFFAB] focus:outline-none focus:border-[#4de79a] transition">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 @if (Auth::user()->profile_photo_path)

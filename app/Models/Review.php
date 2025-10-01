@@ -26,9 +26,4 @@ class Review extends Model
 
     public $timestamps = true;
 
-    //  Get the member (user) that this review belongs to.
-    public function member()
-    {
-        return $this->belongsTo(User::class, 'member_id', 'id');
-    }
 }

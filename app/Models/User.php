@@ -93,10 +93,10 @@ class User extends Authenticatable
         return $this->hasMany(Subscription::class, 'member_id', 'id');
     }
 
-    public function reviews()
-    {
-        return $this->hasMany(Review::class, 'member_id', 'id');
-    }
+    // public function reviews()
+    // {
+    //     return $this->hasMany(Review::class, 'member_id', 'id');
+    // }
 
     public function propertyAds()
     {
