@@ -180,11 +180,11 @@ class PropertyAdController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-
             DB::beginTransaction();
             $property = PropertyAd::findOrFail($id);
 
-            $request->validate([
+            // Validate request
+            $validated = $request->validate([
                 'propertyName'  => 'required|string|max:255',
                 'propertyType'  => 'required|string',
                 'location'      => 'required|string|max:255',
@@ -194,34 +194,40 @@ class PropertyAdController extends Controller
                 'bedroomCount'  => 'nullable|integer|min:0',
                 'bathroomCount' => 'nullable|integer|min:0',
                 'floorCount'    => 'nullable|integer|min:0',
-                'measurement'   => 'nullable|numeric|min:0',
+                'measurement'   => 'required|numeric|min:0',
                 'perches'       => 'nullable|numeric|min:0',
 
+                'images'        => 'nullable',
                 'images.*'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
+            // Update property using validated data
             $property->update([
-                'property_name' => $request->propertyName,
-                'price'         => $request->price,
-                'post_type'     => $request->postType,
-                'location'      => $request->location,
-                'property_type' => $request->propertyType,
-                'bedrooms'      => $request->bedroomCount,
-                'bathrooms'     => $request->bathroomCount,
-                'floors'        => $request->floorCount,
-                'perches'       => $request->perches,
-                'measurement'   => $request->measurement,
+                'property_name' => $validated['propertyName'],
+                'property_type' => $validated['propertyType'],
+                'location'      => $validated['location'],
+                'price'         => $validated['price'],
+                'post_type'     => $validated['postType'],
+                'bedrooms'      => $validated['bedroomCount'] ?? null,
+                'bathrooms'     => $validated['bathroomCount'] ?? null,
+                'floors'        => $validated['floorCount'] ?? null,
+                'measurement'   => $validated['measurement'],
+                'perches'       => $validated['perches'] ?? null,
             ]);
 
+            // Only update images if new images are uploaded
             if ($request->hasFile('images')) {
+                // Delete old images
                 foreach ($property->images as $img) {
-                    Storage::delete($img->image_path);
+                    if (Storage::disk('public')->exists($img->image_path)) {
+                        Storage::disk('public')->delete($img->image_path);
+                    }
                     $img->delete();
                 }
 
+                // Save new images
                 foreach ($request->file('images') as $imageFile) {
                     $path = $imageFile->store('property_images', 'public');
-
                     Image::create([
                         'property_id' => $property->property_id,
                         'image_path'  => $path,
@@ -229,6 +235,7 @@ class PropertyAdController extends Controller
                 }
             }
 
+            // Create notification
             Notification::create([
                 'user_id' => Auth::id(),
                 'title'   => 'Property Updated',
@@ -240,8 +247,9 @@ class PropertyAdController extends Controller
             DB::commit();
 
             return response()->json([
-                'success'  => 'Property updated successfully',
-                'property' => $property->load('images'),
+                'success'      => 'Property updated successfully',
+                'property'     => $property->load('images'),
+                'redirect_url' => route('member.property.pending'),
             ]);
 
         } catch (\Exception $e) {

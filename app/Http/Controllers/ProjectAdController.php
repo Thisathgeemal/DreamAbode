@@ -196,7 +196,6 @@ class ProjectAdController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $project = ProjectAd::findOrFail($id);
 
             $validated = $request->validate([

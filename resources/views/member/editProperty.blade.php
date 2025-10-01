@@ -219,6 +219,34 @@
                     });
             });
 
+            // Image Upload
+            function handleImageUpload(event) {
+                const files = event.target.files;
+                const previewContainer = document.getElementById('imagePreviewContainer');
+                const placeholderText = document.getElementById('placeholderText');
+
+                previewContainer.innerHTML = '';
+                if (files.length > 6) {
+                    showInfo('You can upload up to 6 images only.');
+                    event.target.value = '';
+                    if (placeholderText) placeholderText.style.display = "block";
+                    return;
+                }
+                if (placeholderText) placeholderText.style.display = "none";
+
+                for (let i = 0; i < files.length; i++) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = "Preview";
+                        img.classList.add('w-32', 'h-32', 'object-cover', 'rounded-lg', 'border', 'shadow');
+                        previewContainer.appendChild(img);
+                    };
+                    reader.readAsDataURL(files[i]);
+                }
+            }
+
             // Input field visibility
             function toggleFields() {
                 const type = document.getElementById("propertyType").value;
@@ -258,26 +286,26 @@
             // // Update post
             document.getElementById('editAdForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
-
                 const propertyId = this.dataset.id;
                 const formData = new FormData(this);
+                formData.append('_method', 'PUT');
 
                 try {
                     const response = await fetch(`/api/propertyAd/${propertyId}`, {
-                        method: 'PUT',
+                        method: 'POST',
                         headers: {
                             'Authorization': `Bearer {{ session('auth_token') }}`
                         },
                         body: formData
                     });
-
                     const data = await response.json();
-
                     if (response.ok && data.success) {
                         showSuccess(data.success);
+                        setTimeout(() => {
+                            window.location.href = "{{ route('member.property.pending') }}";
+                        }, 1500);
                     } else {
-                        const message = data.error || 'Failed to update property.';
-                        showError(message);
+                        showError(data.error || 'Failed to update property.');
                     }
                 } catch (err) {
                     console.error(err);
