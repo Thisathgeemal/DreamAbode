@@ -31,13 +31,16 @@
                     <i :class="open ? 'fa fa-chevron-circle-up' : 'fa fa-chevron-circle-down'"></i>
                 </button>
                 <ul x-show="open" x-transition class="mt-2 space-y-2 pl-7">
-                    <li>
-                        <a href="{{ route('admin.users.admin') }}"
-                            class="block px-3 py-2 rounded-md 
-                    {{ request()->routeIs('admin.users.admin') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
-                            <i class="fas fa-user-tie pr-1"></i> Admin
-                        </a>
-                    </li>
+                    <!-- Only visible for Super Admins -->
+                    @if (in_array('super_admin', Auth::user()->user_roles ?? []))
+                        <li>
+                            <a href="{{ route('admin.users.admin') }}"
+                                class="block px-3 py-2 rounded-md 
+                                {{ request()->routeIs('admin.users.admin') ? 'bg-[#5CFFAB] text-black font-semibold' : 'hover:bg-gray-100' }}">
+                                <i class="fas fa-user-tie pr-1"></i> Admin
+                            </a>
+                        </li>
+                    @endif
                     <li>
                         <a href="{{ route('admin.users.agents') }}"
                             class="block px-3 py-2 rounded-md 
