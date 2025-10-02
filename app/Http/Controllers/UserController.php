@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         $search = $request->query('search');
 
-        $query = User::whereJsonContains('user_roles', 'member');
+        $query = User::role('member');
 
         if ($search) {
             $query->where(function ($q) use ($search) {

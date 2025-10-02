@@ -36,5 +36,9 @@ class AppServiceProvider extends ServiceProvider
             }
             $view->with('unreadNotificationCount', $count);
         });
+
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }

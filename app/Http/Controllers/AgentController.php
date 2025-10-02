@@ -19,7 +19,7 @@ class AgentController extends Controller
     {
         $search = $request->query('search');
 
-        $query = User::whereJsonContains('user_roles', 'agent');
+        $query = User::role('agent');
 
         if ($search) {
             $query->where(function ($q) use ($search) {

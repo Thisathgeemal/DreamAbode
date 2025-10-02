@@ -66,7 +66,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password'          => 'hashed',
         'dob'               => 'date',
         'is_active'         => 'boolean',
         'user_roles'        => 'array',
@@ -88,15 +87,18 @@ class User extends Authenticatable
         );
     }
 
+    /**
+    * Query Scopes to dealing with roles and active status
+    */
+    public function scopeRole($query, $role)
+    {
+        return $query->whereJsonContains('user_roles', $role);
+    }
+
     public function subscriptions()
     {
         return $this->hasMany(Subscription::class, 'member_id', 'id');
     }
-
-    // public function reviews()
-    // {
-    //     return $this->hasMany(Review::class, 'member_id', 'id');
-    // }
 
     public function propertyAds()
     {

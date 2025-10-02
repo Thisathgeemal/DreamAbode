@@ -9,7 +9,7 @@
     <!-- Main Card -->
     <div class="w-full p-8 bg-white rounded-lg text-left mx-auto shadow-md mb-6">
         <form id="postAdForm" class="space-y-8" enctype="multipart/form-data">
-
+            @csrf
             <!-- Image Upload Section -->
             <div>
                 <label class="block text-lg font-medium text-gray-700 mb-3 text-center">Property Images</label>
