@@ -23,6 +23,13 @@ return new class extends Migration
 
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
+
+            // Indexes
+            $table->index('sender_id');
+            $table->index('receiver_id');
+            $table->index(['sender_id', 'receiver_id']);
+            $table->index('is_read');
+            $table->index('created_at');
         });
     }
 

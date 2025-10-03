@@ -79,6 +79,9 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
+    /**
+     * Mutator for 'dob' attribute
+     */
     protected function dob(): Attribute
     {
         return Attribute::make(
@@ -88,8 +91,8 @@ class User extends Authenticatable
     }
 
     /**
-    * Query Scopes to dealing with roles and active status
-    */
+     * Query Scopes to dealing with roles
+     */
     public function scopeRole($query, $role)
     {
         return $query->whereJsonContains('user_roles', $role);

@@ -1,4 +1,11 @@
 @if ($errors->any())
+    @php
+        \Illuminate\Support\Facades\Log::warning('Validation errors', [
+            'errors' => $errors->all(),
+            'ip' => request()->ip(),
+        ]);
+    @endphp
+
     <div {{ $attributes }}>
         <div class="font-medium text-red-600">{{ __('Whoops! Something went wrong.') }}</div>
 
